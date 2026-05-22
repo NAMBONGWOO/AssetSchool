@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../icons/icon-180x180.png">
+<link rel="manifest" href="../manifest.json">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AssetSchool">
+<meta name="theme-color" content="#1e1e72">
+<title>AssetSchool — 피노라(Finora) 거래소 가이드</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+:root {
+  --indigo-deep:#1e1e72; --indigo:#2d2d9f; --indigo-mid:#3d3dbb;
+  --indigo-lt:#f0f0ff; --indigo-bg:#f4f4ff;
+  --mint:#00938a; --mint-lt:#e0f5f4; --mint-dk:#006b63;
+  --gold:#FFD700; --gold-muted:#c9a84c; --gold-lt:#fdf3dc;
+  --finora:#0d3d6e; --finora-lt:#e8f0f8; --finora-mid:#1a5a9a;
+  --red:#d93025; --gray:#5a6a7a; --gray-lt:#f4f7f9;
+  --white:#ffffff; --border:#e0e0f4; --text-sub:#8888bb; --text-main:#1e1e72;
+}
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{ font-family:'Pretendard',sans-serif; background:var(--indigo-bg); color:var(--indigo-deep); line-height:1.7; padding-bottom:80px; }
+
+/* ── 헤더 ── */
+.hero{
+  background:linear-gradient(160deg,#0a1f35 0%,#0d3d6e 50%,#1a5a9a 100%);
+  color:white; padding:40px 24px 32px; text-align:center; position:relative; overflow:hidden;
+}
+.hero::before{
+  content:''; position:absolute; top:-80px; left:-80px;
+  width:400px; height:400px;
+  background:radial-gradient(circle,rgba(29,108,196,0.25) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero::after{
+  content:''; position:absolute; bottom:-60px; right:-60px;
+  width:300px; height:300px;
+  background:radial-gradient(circle,rgba(201,168,76,0.15) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-badge{
+  display:inline-block; background:rgba(255,215,0,0.18); color:var(--gold);
+  border:1px solid rgba(255,215,0,0.35); font-size:0.65rem; font-weight:700;
+  padding:4px 14px; border-radius:20px; margin-bottom:14px; letter-spacing:0.1em;
+  position:relative; z-index:1;
+}
+.hero h1{
+  font-size:clamp(1.5rem,4.5vw,2.2rem); font-weight:900; line-height:1.25;
+  margin-bottom:10px; letter-spacing:-0.02em; position:relative; z-index:1;
+}
+.hero h1 em{ color:var(--gold); font-style:normal; }
+.hero-sub{ font-size:0.86rem; color:rgba(255,255,255,0.62); position:relative; z-index:1; line-height:1.6; }
+.hero-tags{ display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-top:14px; position:relative; z-index:1; }
+.hero-tag{
+  font-size:0.62rem; font-weight:700; padding:3px 10px; border-radius:20px;
+  background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.8);
+  border:1px solid rgba(255,255,255,0.2);
+}
+
+/* ── 탭 네비게이션 ── */
+.stage-nav-wrap{
+  position:sticky; top:0; z-index:500;
+  background:white; border-bottom:1px solid var(--border);
+  padding:10px 16px; box-shadow:0 2px 12px rgba(30,30,114,0.10); text-align:center;
+}
+.stage-nav-label{ font-size:0.65rem; font-weight:700; letter-spacing:0.1em; color:var(--text-sub); margin-bottom:6px; }
+.stage-chips-wrap{ position:relative; width:100%; }
+.stage-chips-wrap::after{
+  content:''; position:absolute; top:0; right:0;
+  width:48px; height:100%; background:linear-gradient(to right,transparent,white);
+  pointer-events:none; z-index:1;
+}
+.stage-chips{
+  display:flex; gap:6px; overflow-x:auto; -webkit-overflow-scrolling:touch;
+  width:100%; padding-bottom:2px; padding-right:36px;
+  scrollbar-width:none; justify-content:safe center;
+}
+.stage-chips::-webkit-scrollbar{ display:none; }
+.stage-chip{
+  display:inline-flex; align-items:center;
+  font-size:0.62rem; font-weight:700; letter-spacing:0.03em;
+  padding:5px 12px; border-radius:20px; cursor:pointer;
+  white-space:nowrap; border:1px solid transparent; outline:none;
+  background:var(--indigo-lt); color:var(--text-sub);
+  transition:all 0.18s; flex-shrink:0; font-family:inherit;
+}
+.stage-chip.active{ background:var(--finora); color:white; box-shadow:0 2px 8px rgba(13,61,110,0.3); }
+.stage-chip:hover:not(.active){ background:#e4e4ff; color:var(--indigo); }
+
+/* ── 탭 패널 ── */
+.tab-panel{ display:none; }
+.tab-panel.active{ display:block; }
+
+/* ── 레이아웃 ── */
+.container{ max-width:860px; margin:0 auto; padding:0 16px 32px; }
+
+/* ── 단계 헤더 ── */
+.stage-header-block{
+  background:linear-gradient(135deg,#0a1f35 0%,#0d3d6e 100%);
+  border-radius:16px; padding:16px 20px; margin-top:24px; margin-bottom:4px;
+  display:flex; align-items:center; gap:12px;
+  box-shadow:0 4px 16px rgba(13,61,110,0.22);
+}
+.stage-badge{
+  display:inline-flex; align-items:center;
+  font-size:0.65rem; font-weight:700; letter-spacing:0.1em;
+  padding:4px 12px; border-radius:20px;
+  background:rgba(255,255,255,0.15); color:var(--gold);
+  border:1px solid rgba(255,215,0,0.35); white-space:nowrap;
+}
+.stage-title-txt{ font-size:1.05rem; font-weight:900; color:white; letter-spacing:-0.02em; }
+.stage-sub-txt{ font-size:0.78rem; color:rgba(255,255,255,0.6); font-weight:500; }
+
+/* ── 섹션 카드 ── */
+.section{
+  background:white; border-radius:20px; padding:28px 24px; margin-top:12px;
+  box-shadow:0 2px 16px rgba(15,31,53,0.06); border:1px solid var(--border);
+}
+.section-header{
+  display:flex; align-items:center; gap:12px; margin-bottom:18px;
+  padding-bottom:14px; border-bottom:1px solid var(--border);
+}
+.section-num{
+  width:32px; height:32px; min-width:32px;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--finora); color:white;
+  border-radius:50%; font-size:0.8rem; font-weight:900; flex-shrink:0;
+}
+.section-num.mint-num{ background:var(--mint); }
+.section-num.gold-num{ background:var(--gold-muted); }
+.section-title{ font-size:1.05rem; font-weight:700; color:var(--indigo-deep); letter-spacing:-0.02em; line-height:1.3; }
+
+p{ font-size:0.92rem; color:#3a4a5c; line-height:1.8; margin-bottom:12px; }
+p:last-child{ margin-bottom:0; }
+
+/* ── 강조 박스 ── */
+.highlight-box{
+  background:var(--finora-lt); border-left:4px solid var(--finora);
+  border-radius:0 12px 12px 0; padding:16px 20px; margin:16px 0;
+  font-size:0.9rem; color:var(--finora); font-weight:500; line-height:1.7;
+}
+.gold-box{
+  background:var(--gold-lt); border-left:4px solid var(--gold-muted);
+  border-radius:0 12px 12px 0; padding:16px 20px; margin:16px 0;
+  font-size:0.9rem; color:#7a5a10; font-weight:500; line-height:1.7;
+}
+.mint-box{
+  background:var(--mint-lt); border-left:4px solid var(--mint);
+  border-radius:0 12px 12px 0; padding:16px 20px; margin:16px 0;
+  font-size:0.9rem; color:var(--mint-dk); font-weight:500; line-height:1.7;
+}
+.navy-box{
+  background:linear-gradient(160deg,#0a1f35 0%,#0d3d6e 55%,#0a1f35 100%);
+  border-radius:14px; padding:20px 24px; margin:16px 0;
+  color:rgba(255,255,255,0.9); font-size:0.88rem; line-height:1.8;
+}
+.navy-box strong{ color:var(--gold); }
+.warn-box{
+  background:#fff8f0; border-left:4px solid #e67e22;
+  border-radius:0 12px 12px 0; padding:16px 20px; margin:16px 0;
+  font-size:0.88rem; color:#7a4a10; line-height:1.7;
+}
+.warn-box strong{ color:#e67e22; }
+
+/* ── 구조도 카드 ── */
+.struct-grid{ display:grid; grid-template-columns:1fr; gap:10px; margin:16px 0; }
+.struct-card{
+  border:1px solid var(--border); border-radius:14px; padding:16px 18px;
+  background:var(--gray-lt); position:relative; overflow:hidden;
+}
+.struct-card::before{ content:''; position:absolute; top:0; left:0; right:0; height:4px; background:var(--finora); }
+.struct-card.gold-top::before{ background:var(--gold-muted); }
+.struct-card.mint-top::before{ background:var(--mint); }
+.struct-label{ font-size:0.65rem; font-weight:700; letter-spacing:0.08em; color:var(--gray); margin-bottom:6px; text-transform:uppercase; }
+.struct-name{ font-size:1rem; font-weight:900; color:var(--indigo-deep); margin-bottom:4px; }
+.struct-sub{ font-size:0.8rem; color:var(--gray); line-height:1.6; }
+.struct-tags{ display:flex; gap:5px; flex-wrap:wrap; margin-top:8px; }
+.stag{ font-size:0.6rem; font-weight:700; padding:2px 8px; border-radius:6px; background:var(--indigo-lt); color:var(--indigo); }
+.stag.gold{ background:var(--gold-lt); color:var(--gold-muted); }
+.stag.mint{ background:var(--mint-lt); color:var(--mint-dk); }
+.stag.blue{ background:var(--finora-lt); color:var(--finora); }
+
+/* ── 라이선스 카드 ── */
+.license-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:16px 0; }
+@media(max-width:480px){ .license-grid{ grid-template-columns:1fr; } }
+.license-card{
+  border-radius:16px; padding:20px 18px; position:relative; overflow:hidden;
+  border:1px solid var(--border);
+}
+.license-card.cls1{ background:linear-gradient(135deg,#e8f0f8,#d0e4f4); }
+.license-card.cls2{ background:linear-gradient(135deg,#fdf3dc,#f5e6c0); }
+.license-num{ font-size:0.65rem; font-weight:700; letter-spacing:0.1em; color:var(--gray); margin-bottom:6px; text-transform:uppercase; }
+.license-title{ font-size:1rem; font-weight:900; color:var(--indigo-deep); margin-bottom:10px; line-height:1.3; }
+.license-items{ display:flex; flex-direction:column; gap:6px; }
+.license-item{ font-size:0.78rem; color:#3a4a5c; display:flex; align-items:flex-start; gap:6px; line-height:1.5; }
+.license-item::before{ content:'✓'; color:var(--mint); font-weight:900; flex-shrink:0; font-size:0.8rem; }
+
+/* ── 흐름도 ── */
+.flow{ display:flex; flex-direction:column; gap:0; margin:20px 0; }
+.flow-item{ display:flex; gap:16px; align-items:flex-start; position:relative; }
+.flow-item:not(:last-child)::after{
+  content:''; position:absolute; left:19px; top:42px;
+  width:2px; height:calc(100% - 10px);
+  background:linear-gradient(to bottom,var(--finora),transparent);
+}
+.flow-dot{
+  width:40px; height:40px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:900; font-size:0.82rem; flex-shrink:0; position:relative; z-index:1;
+}
+.dot-blue{ background:var(--finora); color:white; }
+.dot-gold{ background:var(--gold-muted); color:white; }
+.dot-mint{ background:var(--mint); color:white; }
+.flow-content{
+  flex:1; background:var(--gray-lt); border-radius:12px;
+  padding:14px 18px; margin-bottom:12px;
+}
+.flow-content h4{ font-size:0.88rem; font-weight:700; color:var(--indigo-deep); margin-bottom:4px; }
+.flow-content p{ font-size:0.82rem; color:var(--gray); margin:0; line-height:1.6; }
+
+/* ── 스펙 수치 카드 ── */
+.spec-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin:16px 0; }
+.spec-card{
+  border:1px solid var(--border); border-radius:14px; padding:14px 16px;
+  position:relative; overflow:hidden; background:white; text-align:center;
+}
+.spec-card::before{ content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--finora); }
+.spec-card.gold::before{ background:var(--gold-muted); }
+.spec-card.mint::before{ background:var(--mint); }
+.spec-icon{ font-size:1.4rem; margin-bottom:6px; }
+.spec-value{ font-size:1.1rem; font-weight:900; color:var(--finora); margin-bottom:3px; }
+.spec-card.gold .spec-value{ color:var(--gold-muted); }
+.spec-card.mint .spec-value{ color:var(--mint); }
+.spec-label{ font-size:0.68rem; color:var(--gray); font-weight:600; line-height:1.4; }
+
+/* ── 하단 네비 ── */
+.bottom-nav{
+  position:fixed; bottom:0; left:0; right:0; z-index:9999;
+  background:white; border-top:1px solid var(--border);
+  display:flex; height:60px; box-shadow:0 -4px 20px rgba(30,30,114,0.08);
+}
+@supports(padding-bottom:env(safe-area-inset-bottom)){
+  .bottom-nav{ padding-bottom:min(env(safe-area-inset-bottom),12px); height:calc(60px + min(env(safe-area-inset-bottom),12px)); }
+}
+.nav-item{
+  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:3px; text-decoration:none; color:#bbbbdd; font-size:0.63rem; font-weight:700;
+  transition:color 0.15s; padding:0 4px;
+}
+.nav-item.active{ color:var(--finora); }
+.nav-icon{ font-size:1.1rem; line-height:1; }
+.nav-label{ line-height:1; }
+
+/* ── 외부 링크 버튼 ── */
+.ext-btn{
+  display:inline-flex; align-items:center; gap:8px;
+  background:linear-gradient(135deg,#0a1f35,#0d3d6e);
+  color:white; text-decoration:none;
+  font-size:0.82rem; font-weight:700;
+  padding:10px 20px; border-radius:12px;
+  box-shadow:0 4px 12px rgba(13,61,110,0.25);
+  transition:all 0.15s; margin-top:12px;
+}
+.ext-btn:active{ transform:scale(0.97); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">🏦 FINORA EXCHANGE GUIDE</div>
+  <h1><em>피노라(Finora)</em> 거래소</h1>
+  <p class="hero-sub">규제 기반 글로벌 디지털 자산 거래소<br>RWA 토큰화 & STO 발행 플랫폼</p>
+  <div class="hero-tags">
+    <span class="hero-tag">필리핀 AFAB 라이선스</span>
+    <span class="hero-tag">RWA · STO</span>
+    <span class="hero-tag">한국 지주회사</span>
+    <span class="hero-tag">오프쇼어 구조</span>
+  </div>
+</div>
+
+<div class="stage-nav-wrap">
+  <div class="stage-nav-label">가이드 목차</div>
+  <div class="stage-chips-wrap">
+    <div class="stage-chips">
+      <button class="stage-chip active" onclick="showTab('tab1',this)">1 · 개요</button>
+      <button class="stage-chip" onclick="showTab('tab2',this)">2 · 그룹 구조</button>
+      <button class="stage-chip" onclick="showTab('tab3',this)">3 · 라이선스</button>
+      <button class="stage-chip" onclick="showTab('tab4',this)">4 · 서비스</button>
+      <button class="stage-chip" onclick="showTab('tab5',this)">5 · 시작하기</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ══ TAB 1 : 개요 ══ -->
+  <div class="tab-panel active" id="tab1">
+
+    <div class="stage-header-block">
+      <div>
+        <div class="stage-badge">STAGE 1</div>
+        <div class="stage-title-txt">피노라 거래소란?</div>
+        <div class="stage-sub-txt">Finora Exchange 핵심 개념</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div class="section-title">피노라(Finora)는 어떤 거래소인가요?</div>
+      </div>
+      <p>피노라(Finora)는 <strong>단순한 암호화폐 거래소를 넘어</strong>, 실물 자산(RWA) 토큰화와 증권형 토큰 발행(STO)을 제도권 안에서 처리할 수 있도록 설계된 <strong>글로벌 디지털 자산 금융 인프라 플랫폼</strong>입니다.</p>
+      <p>필리핀 바탄 자유항만청(AFAB)의 공식 라이선스를 기반으로 운영되며, 대한민국 법인인 <strong>피노라 글로벌(Finora Global, Inc.)</strong>이 전략 지주회사 역할을 합니다.</p>
+      <div class="highlight-box">
+        💡 <strong>한 줄 요약:</strong> 규제 완비된 환경에서 현물 거래 + 실물자산(RWA) + STO 발행까지 한 플랫폼에서 처리 가능한 글로벌 거래소
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <div class="section-title">왜 피노라인가? — 차별점</div>
+      </div>
+      <div class="spec-grid">
+        <div class="spec-card">
+          <div class="spec-icon">🏛️</div>
+          <div class="spec-value">ODAL</div>
+          <div class="spec-label">필리핀 AFAB<br>공식 라이선스</div>
+        </div>
+        <div class="spec-card gold">
+          <div class="spec-icon">⚡</div>
+          <div class="spec-value">100K/s</div>
+          <div class="spec-label">초당 주문 처리<br>매칭 엔진</div>
+        </div>
+        <div class="spec-card mint">
+          <div class="spec-icon">🔒</div>
+          <div class="spec-value">100%</div>
+          <div class="spec-label">자산 1:1 보유<br>콜드월렛 보관</div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-icon">🌏</div>
+          <div class="spec-value">오프쇼어</div>
+          <div class="spec-label">글로벌 투자자<br>합법 참여 구조</div>
+        </div>
+      </div>
+      <div class="mint-box">
+        ✅ <strong>매칭 엔진 성능:</strong> 초당 10만 건 이상 처리, 지연시간 1ms 미만의 기관급 인프라를 갖추고 있습니다.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num mint-num">3</div>
+        <div class="section-title">투자자 보호 원칙</div>
+      </div>
+      <div class="flow">
+        <div class="flow-item">
+          <div class="flow-dot dot-blue">01</div>
+          <div class="flow-content">
+            <h4>자산 분리(Asset Segregation)</h4>
+            <p>고객 자산과 회사 운영 자산을 엄격히 분리. 고객 자금은 운영 비용으로 절대 사용하지 않습니다.</p>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-dot dot-blue">02</div>
+          <div class="flow-content">
+            <h4>글로벌 AML 기준 준수</h4>
+            <p>필리핀 AMLA 및 국제 FATF 가이드라인에 따른 KYC/KYB 절차를 운영합니다.</p>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-dot dot-gold">03</div>
+          <div class="flow-content">
+            <h4>독립 리스크 위원회</h4>
+            <p>영업 부서와 독립적으로 운영되는 별도 리스크 관리 위원회가 감독합니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tab1 -->
+
+  <!-- ══ TAB 2 : 그룹 구조 ══ -->
+  <div class="tab-panel" id="tab2">
+
+    <div class="stage-header-block">
+      <div>
+        <div class="stage-badge">STAGE 2</div>
+        <div class="stage-title-txt">피노라 그룹 구조</div>
+        <div class="stage-sub-txt">지주회사 · 운영법인 · 관계사</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div class="section-title">그룹 지배 구조</div>
+      </div>
+      <div class="navy-box">
+        <strong>Finora Global, Inc.</strong> (대한민국 서울 강남구)<br>
+        전략 지주회사 — 자회사 경영 방향 결정, IP 및 핵심 기술 소유, 그룹 전체 AML/CTF 기준 수립
+      </div>
+      <p style="text-align:center; color:var(--gray); font-size:0.82rem; margin:4px 0;">▼ 60% 지분 보유 · 경영권 행사 · 약 80억 원 투자</p>
+      <div class="navy-box">
+        <strong>Finora Technology, Inc.</strong> (필리핀 바탄 자유항만청 AFAB)<br>
+        운영 자회사 — 디지털 자산 거래소 및 STO 사업 실제 운영
+      </div>
+
+      <div class="struct-grid" style="margin-top:20px;">
+        <div class="struct-card">
+          <div class="struct-label">지주회사 (전략)</div>
+          <div class="struct-name">Finora Global, Inc.</div>
+          <div class="struct-sub">📍 서울특별시 강남구 학동로30길 34, 1층<br>대표: 최인선</div>
+          <div class="struct-tags">
+            <span class="stag blue">한국 법인</span>
+            <span class="stag">IP 소유</span>
+            <span class="stag">기술 자산</span>
+          </div>
+        </div>
+        <div class="struct-card gold-top">
+          <div class="struct-label">운영 자회사 (실행)</div>
+          <div class="struct-name">Finora Technology, Inc.</div>
+          <div class="struct-sub">📍 필리핀 바탄 자유무역지구(AFAB)<br>대표: 오영오</div>
+          <div class="struct-tags">
+            <span class="stag gold">필리핀 법인</span>
+            <span class="stag gold">ODAL 라이선스</span>
+          </div>
+        </div>
+        <div class="struct-card mint-top">
+          <div class="struct-label">대주주 · 기술협력</div>
+          <div class="struct-name">엠스퀘어 글로벌 (MSQUARE Global)</div>
+          <div class="struct-sub">대표: 최병호<br>유틸리티 코인 개발 및 거래소 운영 전문</div>
+          <div class="struct-tags">
+            <span class="stag mint">기술 파트너</span>
+            <span class="stag mint">대주주</span>
+          </div>
+        </div>
+        <div class="struct-card mint-top">
+          <div class="struct-label">대주주 · 기술협력</div>
+          <div class="struct-name">슈퍼트러스트 (SuperTrust)</div>
+          <div class="struct-sub">대표: 김학응<br>글로벌 거래소 운영 경험 보유</div>
+          <div class="struct-tags">
+            <span class="stag mint">기술 파트너</span>
+            <span class="stag mint">대주주</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <div class="section-title">오프쇼어(Offshore) 구조란?</div>
+      </div>
+      <p>피노라는 필리핀 AFAB 라이선스를 기반으로 운영되는 <strong>오프쇼어 구조</strong>를 채택하고 있습니다. 이는 특정 국가의 내부 자본시장 규제와 직접 충돌하지 않으면서 미국, 중동, 아세안 등 글로벌 투자자들이 합법적으로 참여할 수 있는 기반을 제공합니다.</p>
+      <div class="warn-box">
+        ⚠️ <strong>국내 투자자 유의사항:</strong> 오프쇼어 거래소 이용 시 국내 특금법, 외환 거래 규정 등 관련 법령을 먼저 확인하시고 이용하시기 바랍니다.
+      </div>
+    </div>
+
+  </div><!-- /tab2 -->
+
+  <!-- ══ TAB 3 : 라이선스 ══ -->
+  <div class="tab-panel" id="tab3">
+
+    <div class="stage-header-block">
+      <div>
+        <div class="stage-badge">STAGE 3</div>
+        <div class="stage-title-txt">AFAB ODAL 라이선스</div>
+        <div class="stage-sub-txt">필리핀 바탄 자유항만청 공인 규제 체계</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div class="section-title">AFAB & ODAL이란?</div>
+      </div>
+      <p><strong>AFAB(Authority of the Freeport Area of Bataan)</strong>는 필리핀 바탄 자유항만청으로, 디지털 자산 사업에 대한 공식 라이선스(ODAL)를 발급하는 규제 기관입니다.</p>
+      <p><strong>ODAL(On-Demand Asset License)</strong>은 단순한 규제 샌드박스를 넘어, 법률과 규제 체계 안에서 완결된 정식 라이선스로 클래스 1(거래소)과 클래스 2(STO) 두 종류로 구분됩니다.</p>
+      <div class="highlight-box">
+        🏛️ 피노라는 2026년 초 AFAB 청장단의 직접 현지 실사를 거쳐 라이선스 취득 절차를 완료했습니다.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <div class="section-title">라이선스 종류와 허용 범위</div>
+      </div>
+      <div class="license-grid">
+        <div class="license-card cls1">
+          <div class="license-num">ODAL Class 1</div>
+          <div class="license-title">디지털 자산<br>거래소</div>
+          <div class="license-items">
+            <div class="license-item">블록체인 기반 디지털 자산 거래</div>
+            <div class="license-item">외환 거래</div>
+            <div class="license-item">상장 · 교환 · 보관 · 이전</div>
+            <div class="license-item">국제 수준 유틸리티 코인 거래</div>
+          </div>
+        </div>
+        <div class="license-card cls2">
+          <div class="license-num">ODAL Class 2</div>
+          <div class="license-title">STO · 토큰<br>발행 플랫폼</div>
+          <div class="license-items">
+            <div class="license-item">STO 증권형 토큰 발행</div>
+            <div class="license-item">TGE · ICO · IEO</div>
+            <div class="license-item">NFT 발행</div>
+            <div class="license-item">조각투자형 증권 플랫폼</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num mint-num">3</div>
+        <div class="section-title">규제 준수 체계</div>
+      </div>
+      <div class="flow">
+        <div class="flow-item">
+          <div class="flow-dot dot-blue">①</div>
+          <div class="flow-content">
+            <h4>필리핀 AMLA 준수</h4>
+            <p>필리핀 자금세탁방지법(Anti-Money Laundering Act)에 따른 의무 이행</p>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-dot dot-blue">②</div>
+          <div class="flow-content">
+            <h4>FATF 국제 기준</h4>
+            <p>금융행동기구(FATF) 권고 기준에 맞춘 그룹 전체 AML/CTF 프레임워크 운영</p>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-dot dot-gold">③</div>
+          <div class="flow-content">
+            <h4>KYC / KYB</h4>
+            <p>개인 투자자(KYC) 및 법인 고객(KYB) 모두 고급 신원 확인 절차 적용</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tab3 -->
+
+  <!-- ══ TAB 4 : 서비스 ══ -->
+  <div class="tab-panel" id="tab4">
+
+    <div class="stage-header-block">
+      <div>
+        <div class="stage-badge">STAGE 4</div>
+        <div class="stage-title-txt">주요 서비스</div>
+        <div class="stage-sub-txt">거래소 · RWA · STO · 보관</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div class="section-title">현물 거래 (Spot Trading)</div>
+      </div>
+      <p>투자자들이 암호화폐를 실시간 시장 가격으로 즉시 매수·매도할 수 있는 현물 거래 마켓입니다. 현재 MATIC, SUT 등이 상장되어 있으며 신규 상장이 계속 확대될 예정입니다.</p>
+      <div class="spec-grid">
+        <div class="spec-card gold">
+          <div class="spec-icon">📊</div>
+          <div class="spec-value">실시간</div>
+          <div class="spec-label">가격 발견<br>투명 마켓</div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-icon">⚡</div>
+          <div class="spec-value">&lt;1ms</div>
+          <div class="spec-label">주문 체결<br>지연시간</div>
+        </div>
+        <div class="spec-card mint">
+          <div class="spec-icon">📱</div>
+          <div class="spec-value">앱 지원</div>
+          <div class="spec-label">iOS · Android<br>API 연동</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <div class="section-title">RWA 토큰화 (Real World Asset)</div>
+      </div>
+      <p>부동산, 인프라, 지식재산권(IP) 등 실물 자산을 블록체인 기반의 디지털 토큰으로 전환하는 서비스입니다. 기존에는 대규모 자본이 필요했던 자산에 소액으로도 투자할 수 있게 됩니다.</p>
+      <div class="gold-box">
+        💎 <strong>토큰화 대상 자산 예시:</strong> 부동산(Real Estate), 인프라 시설(Infrastructure), 지식재산권(IP), 광물 자원 등
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <div class="section-title">STO 발행 플랫폼</div>
+      </div>
+      <p>증권형 토큰 공개(Security Token Offering)의 발행부터 유통까지 전 주기를 관리하는 플랫폼입니다. ODAL Class 2 라이선스를 기반으로 법적 테두리 안에서 운영됩니다.</p>
+      <div class="flow">
+        <div class="flow-item">
+          <div class="flow-dot dot-gold">1</div>
+          <div class="flow-content">
+            <h4>발행 기획</h4>
+            <p>자산 실사, 법적 구조화, 토큰 설계</p>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-dot dot-gold">2</div>
+          <div class="flow-content">
+            <h4>토큰 발행(TGE)</h4>
+            <p>스마트컨트랙트 기반 토큰 생성 및 배포</p>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-dot dot-gold">3</div>
+          <div class="flow-content">
+            <h4>상장 및 유통</h4>
+            <p>피노라 거래소 내 2차 시장 유통 관리</p>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-dot dot-mint">4</div>
+          <div class="flow-content">
+            <h4>사후 관리</h4>
+            <p>배당, 보고, 규제 보고 등 전주기 운영</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num mint-num">4</div>
+        <div class="section-title">기관급 수탁(Custody) 서비스</div>
+      </div>
+      <p>모든 고객 자산은 100% 1:1 비율로 보유하며, 대부분을 오프라인 콜드월렛에 보관합니다. 멀티시그(Multi-signature) 기술로 무단 인출을 원천 차단합니다.</p>
+      <div class="mint-box">
+        🔐 <strong>콜드월렛 + 멀티시그:</strong> 해킹 위협에서 가장 안전한 자산 보관 방식으로, 기관 수준의 보안 인프라를 개인 투자자에게 제공합니다.
+      </div>
+    </div>
+
+  </div><!-- /tab4 -->
+
+  <!-- ══ TAB 5 : 시작하기 ══ -->
+  <div class="tab-panel" id="tab5">
+
+    <div class="stage-header-block">
+      <div>
+        <div class="stage-badge">STAGE 5</div>
+        <div class="stage-title-txt">거래 시작하기</div>
+        <div class="stage-sub-txt">가입 · 입금 · 거래 3단계</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div class="section-title">3단계 시작 방법</div>
+      </div>
+      <div class="flow">
+        <div class="flow-item">
+          <div class="flow-dot dot-blue">1</div>
+          <div class="flow-content">
+            <h4>계정 생성 (Create Account)</h4>
+            <p>이메일로 회원가입 후 KYC 신원 인증을 완료하면 신규 가입 혜택을 받을 수 있습니다.</p>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-dot dot-blue">2</div>
+          <div class="flow-content">
+            <h4>입금 (Deposit)</h4>
+            <p>은행 이체 · 신용카드 · 암호화폐 입금 세 가지 방법으로 빠르게 충전 가능합니다.</p>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-dot dot-mint">3</div>
+          <div class="flow-content">
+            <h4>거래 시작 (Start Trading)</h4>
+            <p>고속 매칭 엔진으로 암호화폐를 즉시 매수·매도할 수 있습니다. 앱(iOS/Android)에서도 동일하게 이용 가능합니다.</p>
+          </div>
+        </div>
+      </div>
+      <a class="ext-btn" href="https://www.finora.exchange/" target="_blank" rel="noopener">
+        🏦 피노라 거래소 바로가기 ↗
+      </a>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <div class="section-title">이용 전 확인사항</div>
+      </div>
+      <div class="warn-box">
+        ⚠️ <strong>국내 투자자 유의:</strong> 피노라는 필리핀 AFAB 라이선스 기반의 오프쇼어 거래소입니다. 국내 특금법, 외환 거래 관련 법령을 반드시 사전에 확인하신 후 이용하시기 바랍니다.
+      </div>
+      <div class="gold-box">
+        📋 <strong>지원 채널:</strong> 24시간 다국어 고객지원 운영 · iOS/Android 앱 · API 문서 제공
+      </div>
+      <p style="font-size:0.8rem; color:var(--text-sub); margin-top:12px;">※ 본 가이드는 공개된 정보를 기반으로 작성되었으며, 추후 내용이 지속 보완됩니다.</p>
+    </div>
+
+  </div><!-- /tab5 -->
+
+</div><!-- /container -->
+
+<!-- 하단 네비게이션 -->
+<nav class="bottom-nav">
+  <a class="nav-item active" href="#">
+    <span class="nav-icon">🏦</span>
+    <span class="nav-label">피노라</span>
+  </a>
+  <a class="nav-item" href="../index.html">
+    <span class="nav-icon">🏫</span>
+    <span class="nav-label">홈</span>
+  </a>
+  <a class="nav-item" href="guide.html">
+    <span class="nav-icon">📖</span>
+    <span class="nav-label">가이드</span>
+  </a>
+  <a class="nav-item" href="mpc_guide.html">
+    <span class="nav-icon">⛏️</span>
+    <span class="nav-label">MPC</span>
+  </a>
+</nav>
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.stage-chip').forEach(c => c.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  btn.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
