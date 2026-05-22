@@ -80,40 +80,67 @@ body{font-family:'Pretendard',sans-serif;background:var(--indigo-bg);min-height:
 .tag.gold{background:var(--gold-lt);color:var(--gold-muted);}
 .guide-card-arrow{color:var(--text-sub);font-size:1.2rem;flex-shrink:0;}
 
-/* ── 비활성화 존 ── */
-.inactive-section{margin-top:28px;}
-.inactive-label{
-  font-size:0.65rem;font-weight:700;
-  color:#aaa;
+/* ── 비활성화 존 공통 ── */
+.section-inactive{margin-top:28px;}
+.section-upcoming{margin-top:16px;}
+
+.zone-label{
+  font-size:0.63rem;font-weight:700;
   letter-spacing:0.1em;text-transform:uppercase;
-  margin-bottom:10px;padding-left:4px;
+  margin-bottom:10px;padding-left:2px;
   display:flex;align-items:center;gap:8px;
 }
-.inactive-label::before{
-  content:'';width:10px;height:10px;border-radius:50%;
-  background:#ddd;flex-shrink:0;
-}
-.inactive-label::after{content:'';flex:1;height:1px;background:#e8e8e8;}
+.zone-label::after{content:'';flex:1;height:1px;}
 
+/* 비활성화 라벨 */
+.zone-label.inactive{color:#b0b0cc;}
+.zone-label.inactive::before{
+  content:'';width:8px;height:8px;border-radius:50%;
+  background:#c8c8e0;flex-shrink:0;
+}
+.zone-label.inactive::after{background:#e4e4f0;}
+
+/* 업로드 예정 라벨 */
+.zone-label.upcoming{color:#a0a8b8;}
+.zone-label.upcoming::before{
+  content:'';width:8px;height:8px;border-radius:50%;
+  background:#c0ccd8;flex-shrink:0;
+}
+.zone-label.upcoming::after{background:#dde4ec;}
+
+/* 비활성화 카드 */
 .guide-card.disabled{
-  background:#f9f9fc;
-  border-color:#eaeaf0;
+  background:#f7f7fb;
+  border-color:#eaeaf2;
   box-shadow:none;
   pointer-events:none;
-  opacity:0.55;
+  opacity:0.52;
 }
-.guide-card.disabled .guide-card-name{color:#9999bb;}
-.guide-card.disabled .guide-card-arrow{opacity:0.3;}
-.guide-card.disabled .guide-card-icon{filter:grayscale(0.5);}
+.guide-card.disabled .guide-card-name{color:#9494bb;}
+.guide-card.disabled .guide-card-arrow{opacity:0.25;}
+.guide-card.disabled .guide-card-icon{filter:grayscale(0.6);}
 
-/* ── 업로드 예정 배지 ── */
-.badge-soon{
-  display:inline-flex;align-items:center;gap:4px;
-  font-size:0.6rem;font-weight:700;
-  padding:2px 8px;border-radius:8px;
-  background:#f0f0f8;color:#aaa;
-  border:1px solid #e0e0ee;
+/* 업로드 예정 카드 */
+.guide-card.upcoming{
+  background:#f4f6f9;
+  border-color:#e2e8f0;
+  border-style:dashed;
+  box-shadow:none;
+  pointer-events:none;
+  opacity:0.6;
 }
+.guide-card.upcoming .guide-card-name{color:#7a8898;}
+.guide-card.upcoming .guide-card-arrow{opacity:0.2;}
+.guide-card.upcoming .guide-card-icon{filter:grayscale(0.7);}
+
+/* 배지 */
+.badge{
+  display:inline-flex;align-items:center;gap:3px;
+  font-size:0.58rem;font-weight:700;
+  padding:2px 7px;border-radius:7px;
+}
+.badge.soon{background:#eef0f5;color:#9aa0b0;border:1px solid #dde0ec;}
+.badge.prep{background:#edf1f5;color:#8a96a8;border:1px dashed #c8d0dc;}
 </style>
 </head>
 <body>
@@ -130,7 +157,7 @@ body{font-family:'Pretendard',sans-serif;background:var(--indigo-bg);min-height:
 
 <div class="container">
 
-  <!-- 블록체인 · 디지털 자산 (기초학습 흡수) -->
+  <!-- 블록체인 · 디지털 자산 -->
   <div class="cat-label">블록체인 · 디지털 자산</div>
 
   <a class="guide-card" href="guides/token_rwa_basic_guide.html">
@@ -214,8 +241,8 @@ body{font-family:'Pretendard',sans-serif;background:var(--indigo-bg);min-height:
   </a>
 
   <!-- 비활성화 존 -->
-  <div class="inactive-section">
-    <div class="inactive-label">업로드 예정</div>
+  <div class="section-inactive">
+    <div class="zone-label inactive">비활성화</div>
 
     <div class="guide-card disabled">
       <div class="guide-card-icon" style="background:linear-gradient(135deg,#1b0036,#4a148c);">🔐</div>
@@ -225,7 +252,25 @@ body{font-family:'Pretendard',sans-serif;background:var(--indigo-bg);min-height:
           <span class="tag">STO</span>
           <span class="tag">증권형토큰</span>
           <span class="tag">5단계</span>
-          <span class="badge-soon">🕐 준비중</span>
+          <span class="badge soon">● 비활성</span>
+        </div>
+      </div>
+      <div class="guide-card-arrow">›</div>
+    </div>
+  </div>
+
+  <!-- 업로드 예정 존 -->
+  <div class="section-upcoming">
+    <div class="zone-label upcoming">업로드 예정</div>
+
+    <div class="guide-card upcoming">
+      <div class="guide-card-icon" style="background:linear-gradient(135deg,#0d1f35,#1a3a5c);">🏦</div>
+      <div class="guide-card-text">
+        <div class="guide-card-name">피노라(Finora) 거래소</div>
+        <div class="guide-card-tags">
+          <span class="tag">거래소</span>
+          <span class="tag">Finora</span>
+          <span class="badge prep">🕐 준비중</span>
         </div>
       </div>
       <div class="guide-card-arrow">›</div>
