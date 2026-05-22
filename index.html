@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1e1e72">
+<title>학습 가이드 센터</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+:root{
+  --indigo-deep:#1e1e72;--indigo:#2d2d9f;--indigo-lt:#f0f0ff;--indigo-bg:#f4f4ff;
+  --mint:#00938a;--mint-lt:#e0f5f4;
+  --gold:#FFD700;--gold-muted:#c9a84c;--gold-lt:#fdf3dc;
+  --border:#e0e0f4;--gray:#5a6a7a;--gray-lt:#f4f7f9;--text-sub:#8888bb;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Pretendard',sans-serif;background:var(--indigo-bg);min-height:100vh;padding-bottom:30px;}
+
+/* 헤더 */
+.hero{background:linear-gradient(160deg,#1e1e72 0%,#2d2d9f 55%,#1e1e72 100%);color:white;padding:44px 20px 28px;text-align:center;}
+.hero-icon{width:64px;height:64px;border-radius:18px;background:white;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;box-shadow:0 4px 16px rgba(0,0,0,0.2);}
+.hero-title{font-size:1.3rem;font-weight:900;letter-spacing:-0.02em;margin-bottom:6px;}
+.hero-title em{color:var(--gold);font-style:normal;}
+.hero-sub{font-size:0.78rem;color:rgba(255,255,255,0.65);line-height:1.6;}
+
+/* 컨테이너 */
+.container{max-width:640px;margin:0 auto;padding:20px 16px;}
+
+/* 카테고리 라벨 */
+.cat-label{font-size:0.7rem;font-weight:700;color:var(--text-sub);letter-spacing:0.1em;text-transform:uppercase;margin:20px 0 10px;padding-left:4px;display:flex;align-items:center;gap:8px;}
+.cat-label::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* 가이드 카드 */
+.guide-card{display:flex;align-items:center;gap:14px;background:white;border-radius:16px;padding:14px 16px;margin-bottom:10px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(30,30,114,0.05);text-decoration:none;transition:all 0.15s;}
+.guide-card:active{transform:scale(0.98);background:var(--indigo-lt);}
+.guide-card-icon{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.guide-card-text{flex:1;min-width:0;}
+.guide-card-name{font-size:0.92rem;font-weight:800;color:var(--indigo-deep);margin-bottom:5px;line-height:1.3;}
+.guide-card-tags{display:flex;gap:5px;flex-wrap:wrap;}
+.tag{font-size:0.62rem;font-weight:700;padding:2px 7px;border-radius:8px;background:var(--indigo-lt);color:var(--indigo);}
+.tag.mint{background:var(--mint-lt);color:var(--mint);}
+.tag.gold{background:var(--gold-lt);color:var(--gold-muted);}
+.guide-card-arrow{color:var(--text-sub);font-size:1.2rem;flex-shrink:0;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-icon">📚</div>
+  <h1 class="hero-title">학습 <em>가이드</em> 센터</h1>
+  <p class="hero-sub">금융·블록체인·실물 자산까지<br>알아야 할 것들을 차근차근 학습하세요</p>
+</div>
+
+<div class="container">
+
+  <div class="cat-label">기초 학습</div>
+
+  <a class="guide-card" href="guides/token_rwa_basic_guide.html">
+    <div class="guide-card-icon" style="background:linear-gradient(135deg,#1e1e72,#2d2d9f);">📘</div>
+    <div class="guide-card-text">
+      <div class="guide-card-name">토큰 & RWA 기초 가이드</div>
+      <div class="guide-card-tags">
+        <span class="tag">기초</span>
+        <span class="tag">토큰</span>
+        <span class="tag">RWA</span>
+        <span class="tag">5단계</span>
+      </div>
+    </div>
+    <div class="guide-card-arrow">›</div>
+  </a>
+
+  <div class="cat-label">블록체인 · 디지털 자산</div>
+
+  <a class="guide-card" href="guides/blockchain_guide.html">
+    <div class="guide-card-icon" style="background:linear-gradient(135deg,#0d2137,#1a3a5c);">🌐</div>
+    <div class="guide-card-text">
+      <div class="guide-card-name">블록체인 입문 가이드</div>
+      <div class="guide-card-tags">
+        <span class="tag">블록체인</span>
+        <span class="tag">스마트컨트랙트</span>
+        <span class="tag">4단계</span>
+      </div>
+    </div>
+    <div class="guide-card-arrow">›</div>
+  </a>
+
+  <a class="guide-card" href="guides/digital_asset_guide.html">
+    <div class="guide-card-icon" style="background:linear-gradient(135deg,#1a237e,#283593);">🪙</div>
+    <div class="guide-card-text">
+      <div class="guide-card-name">디지털 자산의 구조와 이코노미</div>
+      <div class="guide-card-tags">
+        <span class="tag">디지털자산</span>
+        <span class="tag">이코노미</span>
+        <span class="tag">5단계</span>
+      </div>
+    </div>
+    <div class="guide-card-arrow">›</div>
+  </a>
+
+  <a class="guide-card" href="guides/sto_guide.html">
+    <div class="guide-card-icon" style="background:linear-gradient(135deg,#1b0036,#4a148c);">🔐</div>
+    <div class="guide-card-text">
+      <div class="guide-card-name">STO 증권형 토큰 가이드</div>
+      <div class="guide-card-tags">
+        <span class="tag">STO</span>
+        <span class="tag">증권형토큰</span>
+        <span class="tag">5단계</span>
+      </div>
+    </div>
+    <div class="guide-card-arrow">›</div>
+  </a>
+
+  <div class="cat-label">프로젝트 가이드</div>
+
+  <a class="guide-card" href="guides/guide.html">
+    <div class="guide-card-icon" style="background:linear-gradient(135deg,#004d40,#00695c);">📖</div>
+    <div class="guide-card-text">
+      <div class="guide-card-name">슈퍼세이브 가이드</div>
+      <div class="guide-card-tags">
+        <span class="tag mint">슈퍼세이브</span>
+        <span class="tag mint">운영가이드</span>
+      </div>
+    </div>
+    <div class="guide-card-arrow">›</div>
+  </a>
+
+  <a class="guide-card" href="guides/mpc_guide.html">
+    <div class="guide-card-icon" style="background:linear-gradient(135deg,#0a1a12,#0f6e56);">⛏️</div>
+    <div class="guide-card-text">
+      <div class="guide-card-name">Mineral Project Coin (MPC)</div>
+      <div class="guide-card-tags">
+        <span class="tag mint">광산 RWA</span>
+        <span class="tag mint">ERC-3643</span>
+        <span class="tag mint">5단계</span>
+      </div>
+    </div>
+    <div class="guide-card-arrow">›</div>
+  </a>
+
+  <a class="guide-card" href="guides/mineral_guide.html">
+    <div class="guide-card-icon" style="background:linear-gradient(135deg,#1a0a00,#5d3a1a);">⛰️</div>
+    <div class="guide-card-text">
+      <div class="guide-card-name">차간 톨고이 광산 프로젝트</div>
+      <div class="guide-card-tags">
+        <span class="tag gold">몽골광산</span>
+        <span class="tag gold">전략광물</span>
+      </div>
+    </div>
+    <div class="guide-card-arrow">›</div>
+  </a>
+
+</div>
+
+</body>
+</html>
