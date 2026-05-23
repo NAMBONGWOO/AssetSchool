@@ -23,7 +23,7 @@
   --white:#ffffff; --border:#e0e0f4; --text-sub:#8888bb;
 }
 *{ box-sizing:border-box; margin:0; padding:0; }
-body{ font-family:'Pretendard',sans-serif; background:var(--indigo-bg); color:var(--indigo-deep); line-height:1.7; padding-bottom:80px; }
+body{ font-family:'Pretendard',sans-serif; background:var(--indigo-bg); color:var(--indigo-deep); line-height:1.7; padding-bottom:40px; }
 
 /* ── 헤더 ── */
 .hero{
@@ -271,24 +271,6 @@ strong{ color:var(--indigo-deep); }
 .flow-content h4{ font-size:0.88rem; font-weight:700; color:var(--indigo-deep); margin-bottom:4px; }
 .flow-content p{ font-size:0.82rem; color:var(--gray); margin:0; line-height:1.6; }
 
-/* ── 하단 네비 ── */
-.bottom-nav{
-  position:fixed; bottom:0; left:0; right:0; z-index:9999;
-  background:white; border-top:1px solid var(--border);
-  display:flex; height:60px; box-shadow:0 -4px 20px rgba(30,30,114,0.08);
-}
-@supports(padding-bottom:env(safe-area-inset-bottom)){
-  .bottom-nav{ padding-bottom:min(env(safe-area-inset-bottom),12px); height:calc(60px + min(env(safe-area-inset-bottom),12px)); }
-}
-.nav-item{
-  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:3px; text-decoration:none; color:#bbbbdd; font-size:0.63rem; font-weight:700;
-  transition:color 0.15s;
-}
-.nav-item.active{ color:var(--kpop); }
-.nav-icon{ font-size:1.1rem; line-height:1; }
-
-@media(max-width:600px){ .section{ padding:22px 16px; } }
 </style>
 </head>
 <body>
@@ -646,24 +628,6 @@ strong{ color:var(--indigo-deep); }
 
 </div><!-- /container -->
 
-<nav class="bottom-nav">
-  <a class="nav-item active" href="#">
-    <span class="nav-icon">🎤</span>
-    <span>콘서트</span>
-  </a>
-  <a class="nav-item" href="../index.html">
-    <span class="nav-icon">🏫</span>
-    <span>홈</span>
-  </a>
-  <a class="nav-item" href="finora_guide.html">
-    <span class="nav-icon">🏦</span>
-    <span>피노라</span>
-  </a>
-  <a class="nav-item" href="guide.html">
-    <span class="nav-icon">📖</span>
-    <span>가이드</span>
-  </a>
-</nav>
 
 <script>
 function showTab(id, btn) {

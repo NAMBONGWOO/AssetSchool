@@ -41,7 +41,7 @@ body {
   background: var(--indigo-bg);
   color: var(--indigo-deep);
   line-height: 1.7;
-  padding-bottom: 80px;
+  padding-bottom:40px;
 }
 
 /* ── 헤더 ── */
@@ -335,31 +335,6 @@ p:last-child { margin-bottom: 0; }
   line-height: 1.8;
 }
 
-/* ── 하단 네비게이션 ── */
-.bottom-nav {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
-  background: white; border-top: 1px solid var(--border);
-  display: flex; height: 60px;
-  box-shadow: 0 -4px 20px rgba(30,30,114,0.08);
-  max-width: 100%;
-}
-@supports (padding-bottom: env(safe-area-inset-bottom)) {
-  .bottom-nav { padding-bottom: min(env(safe-area-inset-bottom), 12px); height: calc(60px + min(env(safe-area-inset-bottom), 12px)); }
-}
-.nav-item {
-  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 3px; text-decoration: none; color: #bbbbdd;
-  font-size: 0.63rem; font-weight: 700; transition: color 0.15s;
-}
-.nav-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; }
-.nav-item.active { color: var(--indigo); }
-
-@media (max-width: 600px) {
-  .section { padding: 22px 16px; }
-  .compare-grid { grid-template-columns: 1fr 1fr; }
-}
-
-
 /* ── 탭 패널 ── */
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
@@ -470,11 +445,11 @@ p:last-child { margin-bottom: 0; }
 
 
 /* ── 탭바 ── */
-.bottom-nav{position:fixed!important;bottom:0!important;left:0!important;right:0!important;z-index:9999!important;background:white!important;border-top:1px solid #e0e0f4!important;display:flex!important;height:60px!important;box-shadow:0 -4px 20px rgba(30,30,114,0.08)!important;will-change:transform;-webkit-backface-backface-transform:translate3d(0,0,0);-webkit-transform:translate3d(0,0,0);}
-@supports (padding-bottom:env(safe-area-inset-bottom)){.bottom-nav{padding-bottom:min(env(safe-area-inset-bottom), 12px)!important;height:calc(60px + min(env(safe-area-inset-bottom), 12px))!important;}}
-.nav-item{flex:1!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:3px!important;text-decoration:none!important;color:#bbbbdd!important;font-size:0.63rem!important;font-weight:700!important;}
-.nav-item svg{width:22px!important;height:22px!important;stroke:currentColor;fill:none;stroke-width:2;}
-.nav-item.active{color:#2d2d9f!important;}
+
+@supports (padding-bottom:env(safe-area-inset-bottom)){}
+
+
+
 
 </style>
 <script>
@@ -1596,17 +1571,11 @@ p:last-child { margin-bottom: 0; }
 
 </div><!-- /container -->
 
-<!-- ── 하단 네비게이션 ── -->
-<nav class="bottom-nav">
-  <a class="nav-item active" href="../index.html">
-    <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>가이드
-  </a>
-</nav>
+
 <script>
 (function(){
   var nav=null;
   function fixNav(){
-    if(!nav) nav=document.querySelector('.bottom-nav');
     if(!nav) return;
     nav.style.position='fixed';
     nav.style.bottom='0px';

@@ -23,7 +23,7 @@
   --white:#ffffff; --border:#e0e0f4; --text-sub:#8888bb; --text-main:#1e1e72;
 }
 *{ box-sizing:border-box; margin:0; padding:0; }
-body{ font-family:'Pretendard',sans-serif; background:var(--indigo-bg); color:var(--indigo-deep); line-height:1.7; padding-bottom:80px; }
+body{ font-family:'Pretendard',sans-serif; background:var(--indigo-bg); color:var(--indigo-deep); line-height:1.7; padding-bottom:40px; }
 
 /* ── 헤더 ── */
 .hero{
@@ -236,24 +236,6 @@ p:last-child{ margin-bottom:0; }
 .spec-card.gold .spec-value{ color:var(--gold-muted); }
 .spec-card.mint .spec-value{ color:var(--mint); }
 .spec-label{ font-size:0.68rem; color:var(--gray); font-weight:600; line-height:1.4; }
-
-/* ── 하단 네비 ── */
-.bottom-nav{
-  position:fixed; bottom:0; left:0; right:0; z-index:9999;
-  background:white; border-top:1px solid var(--border);
-  display:flex; height:60px; box-shadow:0 -4px 20px rgba(30,30,114,0.08);
-}
-@supports(padding-bottom:env(safe-area-inset-bottom)){
-  .bottom-nav{ padding-bottom:min(env(safe-area-inset-bottom),12px); height:calc(60px + min(env(safe-area-inset-bottom),12px)); }
-}
-.nav-item{
-  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:3px; text-decoration:none; color:#bbbbdd; font-size:0.63rem; font-weight:700;
-  transition:color 0.15s; padding:0 4px;
-}
-.nav-item.active{ color:var(--finora); }
-.nav-icon{ font-size:1.1rem; line-height:1; }
-.nav-label{ line-height:1; }
 
 /* ── 외부 링크 버튼 ── */
 .ext-btn{
@@ -708,25 +690,6 @@ p:last-child{ margin-bottom:0; }
 
 </div><!-- /container -->
 
-<!-- 하단 네비게이션 -->
-<nav class="bottom-nav">
-  <a class="nav-item active" href="#">
-    <span class="nav-icon">🏦</span>
-    <span class="nav-label">피노라</span>
-  </a>
-  <a class="nav-item" href="../index.html">
-    <span class="nav-icon">🏫</span>
-    <span class="nav-label">홈</span>
-  </a>
-  <a class="nav-item" href="guide.html">
-    <span class="nav-icon">📖</span>
-    <span class="nav-label">가이드</span>
-  </a>
-  <a class="nav-item" href="mpc_guide.html">
-    <span class="nav-icon">⛏️</span>
-    <span class="nav-label">MPC</span>
-  </a>
-</nav>
 
 <script>
 function showTab(id, btn) {
