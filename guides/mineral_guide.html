@@ -483,7 +483,25 @@ p:last-child { margin-bottom: 0; }
 </head>
 <body>
 
-<div class="hero">
+<div class="hero" style="position:relative;">
+<a href="../index.html" style="
+  position:absolute;top:14px;left:14px;
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,0.15);
+  color:rgba(255,255,255,0.9);
+  text-decoration:none;
+  font-size:0.72rem;font-weight:700;
+  padding:5px 12px 5px 8px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,0.25);
+  backdrop-filter:blur(4px);
+  transition:background 0.15s;
+  font-family:inherit;
+  z-index:10;
+" onmouseover="this.style.background='rgba(255,255,255,0.25)'"
+   onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+  &#8592; 홈
+</a>
   <div class="hero-badge">⛏️ SUPERTRUST RWA PROJECT #1</div>
   <h1 class="hero-title">차간 톨고이 광구<br><em>Tsagaan Tolgoi · Mongolia</em></h1>
 </div>

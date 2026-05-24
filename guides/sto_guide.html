@@ -498,7 +498,25 @@ p:last-child { margin-bottom: 0; }
 <body>
 <!-- Firebase 로그인 상태 체크 -->
 <!-- ── 헤더 ── -->
-<div class="hero">
+<div class="hero" style="position:relative;">
+<a href="../index.html" style="
+  position:absolute;top:14px;left:14px;
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,0.15);
+  color:rgba(255,255,255,0.9);
+  text-decoration:none;
+  font-size:0.72rem;font-weight:700;
+  padding:5px 12px 5px 8px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,0.25);
+  backdrop-filter:blur(4px);
+  transition:background 0.15s;
+  font-family:inherit;
+  z-index:10;
+" onmouseover="this.style.background='rgba(255,255,255,0.25)'"
+   onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+  &#8592; 홈
+</a>
   <h1>STO <em>증권형 토큰</em><br>단계별 가이드</h1>
   <p class="hero-sub">기초 개념부터 실전 적용까지 — 5단계 빌드업 커리큘럼으로 토큰증권을 마스터하세요.</p>
 </div>

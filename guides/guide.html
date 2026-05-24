@@ -333,7 +333,25 @@ p:last-child { margin-bottom: 0; }
 <body>
 <!-- Firebase 로그인 상태 체크 -->
 <!-- 헤더 -->
-<div class="hero">
+<div class="hero" style="position:relative;">
+<a href="../index.html" style="
+  position:absolute;top:14px;left:14px;
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,0.15);
+  color:rgba(255,255,255,0.9);
+  text-decoration:none;
+  font-size:0.72rem;font-weight:700;
+  padding:5px 12px 5px 8px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,0.25);
+  backdrop-filter:blur(4px);
+  transition:background 0.15s;
+  font-family:inherit;
+  z-index:10;
+" onmouseover="this.style.background='rgba(255,255,255,0.25)'"
+   onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+  &#8592; 홈
+</a>
   
   <h1>SuperSave <em>가이드</em></h1>
   <p class="hero-sub">DeCT 신용거래 구조부터 Right 보상, 복리 재참여까지 — 슈퍼세이버가 알아야 할 모든 것.</p>
