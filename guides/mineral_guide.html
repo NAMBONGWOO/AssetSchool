@@ -105,6 +105,7 @@ body {
 }
 .stage-chips-wrap {
   position: relative; width: 100%;
+  max-width: 860px; margin: 0 auto;
 }
 .stage-chips-wrap::after {
   content: '';
@@ -345,8 +346,8 @@ p:last-child { margin-bottom: 0; }
 }
 
 /* ── 탭 패널 ── */
-.tab-panel { display: none; }
-.tab-panel.active { display: block; }
+.tab-panel { display: none; max-width: 860px; margin: 0 auto; width: 100%; }
+.tab-panel.active { display: block; max-width: 860px; margin: 0 auto; width: 100%; }
 
 /* ── 상단 칩 탭 버튼 ── */
 
@@ -506,7 +507,7 @@ p:last-child { margin-bottom: 0; }
   <h1 class="hero-title">차간 톨고이 광구<br><em>Tsagaan Tolgoi · Mongolia</em></h1>
 </div>
 
-<div class="stage-chips-wrap">
+<div style="padding:0 16px;"><div class="stage-chips-wrap">
   <div class="stage-chips">
     <button class="stage-chip active" onclick="showTab('tab1', this)">1 · 프로젝트 개요</button>
     <button class="stage-chip" onclick="showTab('tab2', this)">2 · 왜 이 광구인가</button>
@@ -516,7 +517,7 @@ p:last-child { margin-bottom: 0; }
     <button class="stage-chip" onclick="showTab('tab6', this)">6 · 검증 체크리스트</button>
     <button class="stage-chip" onclick="showTab('tab7', this)">7 · 업계 비교 분석</button>
   </div>
-</div>
+</div></div>
 
 <div class="container">
 
