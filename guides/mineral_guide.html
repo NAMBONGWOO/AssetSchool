@@ -348,11 +348,13 @@ p:last-child { margin-bottom: 0; }
 
   /* 결론 카드 균일화 */
   .result-card-grid > div { min-height: 0 !important; }
-  .result-card-grid { grid-template-columns: 1fr 1fr !important; }
-  .result-card-grid > div[style*="grid-column:span 2"] { grid-column: span 2 !important; }
-  .result-card-grid > div > span { font-size: 1rem !important; flex-shrink: 0; }
+  /* 결론 카드 — 모바일 균일화 */
+  .result-card-grid { grid-template-columns: 1fr 1fr !important; align-items: stretch; }
+  .result-card-grid > div { flex-direction: column !important; align-items: flex-start !important; gap: 6px !important; padding: 10px !important; }
+  .result-card-grid > div > span { font-size: 1.1rem !important; }
   .result-card-grid > div > div > div:first-child { font-size: 0.7rem !important; margin-bottom: 2px !important; }
-  .result-card-grid > div > div > div:last-child { font-size: 0.68rem !important; }
+  .result-card-grid > div > div > div:last-child { font-size: 0.68rem !important; line-height: 1.4 !important; }
+  .result-card-grid > div[style*="grid-column:span 2"] { grid-column: span 2 !important; flex-direction: row !important; }
 }
 
 /* ── 흐름도 ── */
@@ -550,6 +552,12 @@ p:last-child { margin-bottom: 0; }
 
 
 
+
+/* ── result-card-grid 기본 (데스크탑) ── */
+.result-card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+/* ── jorc-grid 기본 (데스크탑) ── */
+.jorc-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 
 /* ── KV 테이블 (thead 없는 key-value) ── */
 .kv-key {
@@ -863,7 +871,7 @@ p:last-child { margin-bottom: 0; }
       <p>광역 탐사(지질 조사·지구물리탐사)는 일반적으로 $10만~$100만, 수개월이 소요되는 단계입니다. 차간 톨고이는 <strong>소련 시대 탐사 데이터 + 기존 조사 결과</strong>로 이 단계를 대부분 생략할 수 있습니다.</p>
       <div style="margin-top:14px;">
         <div style="font-size:0.68rem;font-weight:700;color:var(--text-sub);letter-spacing:0.1em;margin-bottom:10px;">✦ 결론 — 왜 이 광구인가</div>
-        <div class="result-card-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div class="result-card-grid" style="display:grid;gap:8px;">
           <div style="border-radius:12px;background:var(--indigo-lt);border:1px solid var(--border);padding:12px 14px;display:flex;align-items:flex-start;gap:10px;">
             <span style="font-size:1.3rem;flex-shrink:0;">📂</span>
             <div><div style="font-size:0.72rem;font-weight:800;color:var(--indigo-deep);margin-bottom:3px;">기존 탐사 데이터</div><div style="font-size:0.72rem;color:var(--gray);line-height:1.5;">광역 탐사 단계 생략 가능</div></div>
@@ -1023,7 +1031,7 @@ p:last-child { margin-bottom: 0; }
           <div style="flex:1;height:6px;border-radius:4px;background:#e0e0f4;"></div>
         </div>
         <!-- 3단계 카드 -->
-        <div class="jorc-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+        <div class="jorc-grid" style="display:grid;gap:8px;">
 
           <!-- Inferred — 현재 목표 강조 -->
           <div style="border-radius:14px;border:2px solid var(--indigo);background:linear-gradient(160deg,#1e1e72,#2d2d9f);padding:16px;color:white;position:relative;">
