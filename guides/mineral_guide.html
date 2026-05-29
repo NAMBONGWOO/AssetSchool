@@ -612,9 +612,12 @@ p:last-child { margin-bottom: 0; }
   .hero h1 { font-size: 1.25rem !important; margin-bottom: 8px !important; }
   .hero h1 em { font-size: 0.72em !important; }
 
-  /* 5가지 근거 카드 — 1열 전환 */
-  .ability-grid { grid-template-columns: 1fr !important; }
-  .ability-grid > div { flex-direction: row !important; }
+  /* 5가지 근거 카드 — 2열 유지, 내부 폰트 축소 */
+  .ability-grid { grid-template-columns: 1fr 1fr !important; }
+  .ability-grid > div { padding: 10px 10px !important; }
+  .ability-grid > div > div > div:first-child { font-size: 0.72rem !important; }
+  .ability-grid > div > div > div:last-child { font-size: 0.68rem !important; line-height: 1.45 !important; }
+  .ability-grid > div[style*="grid-column:span 2"] { grid-column: span 2 !important; }
 
   /* 검증 카드 내부 — 1열 전환 */
   .verify-inner-grid { grid-template-columns: 1fr !important; padding: 10px 12px !important; gap: 6px !important; }
