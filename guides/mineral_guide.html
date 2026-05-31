@@ -1716,12 +1716,7 @@ p:last-child { margin-bottom: 0; }
 
 
 (function() {
-  function goTab(n) {
-  var chips = document.querySelectorAll('.stage-chip');
-  showTab('tab' + n, chips[n - 1]);
-  window.scrollTo({top:0, behavior:'smooth'});
-}
-function showTab(panelId, btn) {
+  function showTab(panelId, btn) {
     var allPanels = document.querySelectorAll('.tab-panel');
     var allChips  = document.querySelectorAll('.stage-chip');
     for (var i = 0; i < allPanels.length; i++) {
@@ -1738,6 +1733,11 @@ function showTab(panelId, btn) {
     window.scrollTo({top: 0, behavior: 'smooth'});
   }
   window.showTab = showTab;
+
+  window.goTab = function(n) {
+    var chips = document.querySelectorAll('.stage-chip');
+    showTab('tab' + n, chips[n - 1]);
+  };
 
   function initTabs() {
     var allPanels = document.querySelectorAll('.tab-panel');
