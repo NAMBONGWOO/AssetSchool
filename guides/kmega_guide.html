@@ -24,8 +24,6 @@
 }
 *{ box-sizing:border-box; margin:0; padding:0; }
 body{ font-family:'Pretendard',sans-serif; background:var(--indigo-bg); color:var(--indigo-deep); line-height:1.7; padding-bottom:40px; }
-
-/* ── 헤더 ── */
 .hero{
   background:linear-gradient(160deg,#1a0a2e 0%,#3d1a6e 45%,#8b1a6b 100%);
   color:white; padding:40px 24px 32px; text-align:center;
@@ -64,8 +62,6 @@ body{ font-family:'Pretendard',sans-serif; background:var(--indigo-bg); color:va
   background:rgba(255,255,255,0.12); color:rgba(255,255,255,0.85);
   border:1px solid rgba(255,255,255,0.2);
 }
-
-/* ── 탭 네비게이션 ── */
 .stage-nav-wrap{
   position:sticky; top:0; z-index:500;
   background:white; border-bottom:1px solid var(--border);
@@ -92,15 +88,9 @@ body{ font-family:'Pretendard',sans-serif; background:var(--indigo-bg); color:va
 }
 .stage-chip.active{ background:var(--kpop); color:white; box-shadow:0 2px 8px rgba(139,26,107,0.3); }
 .stage-chip:hover:not(.active){ background:#f0e4f0; color:var(--kpop); }
-
-/* ── 탭 패널 ── */
 .tab-panel{ display:none; }
 .tab-panel.active{ display:block; }
-
-/* ── 레이아웃 ── */
 .container{ max-width:860px; margin:0 auto; padding:0 16px 32px; }
-
-/* ── 단계 헤더 ── */
 .stage-header-block{
   background:linear-gradient(135deg,#1a0a2e 0%,#8b1a6b 100%);
   border-radius:16px; padding:16px 20px; margin-top:24px; margin-bottom:4px;
@@ -115,8 +105,6 @@ body{ font-family:'Pretendard',sans-serif; background:var(--indigo-bg); color:va
 }
 .stage-title-txt{ font-size:1.05rem; font-weight:900; color:white; letter-spacing:-0.02em; }
 .stage-sub-txt{ font-size:0.78rem; color:rgba(255,255,255,0.6); font-weight:500; }
-
-/* ── 섹션 카드 ── */
 .section{
   background:white; border-radius:20px; padding:28px 24px; margin-top:12px;
   box-shadow:0 2px 16px rgba(15,31,53,0.06); border:1px solid var(--border);
@@ -134,12 +122,9 @@ body{ font-family:'Pretendard',sans-serif; background:var(--indigo-bg); color:va
 .section-num.mint{ background:var(--mint); }
 .section-num.gold{ background:var(--gold-muted); }
 .section-title{ font-size:1.05rem; font-weight:700; color:var(--indigo-deep); letter-spacing:-0.02em; line-height:1.3; }
-
 p{ font-size:0.92rem; color:#3a4a5c; line-height:1.8; margin-bottom:12px; }
 p:last-child{ margin-bottom:0; }
 strong{ color:var(--indigo-deep); }
-
-/* ── 강조 박스 ── */
 .highlight-box{
   background:var(--kpop-lt); border-left:4px solid var(--kpop);
   border-radius:0 12px 12px 0; padding:16px 20px; margin:16px 0;
@@ -180,8 +165,6 @@ strong{ color:var(--indigo-deep); }
   font-size:0.65rem; font-weight:700; letter-spacing:0.1em;
   color:#9060c0; margin-bottom:8px; display:flex; align-items:center; gap:6px;
 }
-
-/* ── 공연 정보 테이블 ── */
 .info-table{ width:100%; border-collapse:collapse; font-size:0.88rem; margin:16px 0; }
 .info-table tr{ border-bottom:1px solid var(--border); }
 .info-table tr:last-child{ border-bottom:none; }
@@ -192,8 +175,6 @@ strong{ color:var(--indigo-deep); }
   width:90px; padding-right:8px;
 }
 .info-table td:last-child{ color:#3a4a5c; }
-
-/* ── 아티스트 카드 ── */
 .artist-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:16px 0; }
 @media(max-width:480px){ .artist-grid{ grid-template-columns:1fr; } }
 .artist-card{
@@ -203,17 +184,12 @@ strong{ color:var(--indigo-deep); }
 .artist-card::before{ content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--kpop); }
 .artist-card.head::before{ background:linear-gradient(90deg,var(--kpop),var(--gold-muted)); }
 .artist-card.rookie::before{ background:var(--mint); }
-.artist-pos{
-  font-size:0.6rem; font-weight:700; letter-spacing:0.08em;
-  margin-bottom:5px; text-transform:uppercase;
-}
+.artist-pos{ font-size:0.6rem; font-weight:700; letter-spacing:0.08em; margin-bottom:5px; text-transform:uppercase; }
 .pos-head{ color:var(--kpop); }
 .pos-rookie{ color:var(--mint-dk); }
 .artist-name{ font-size:0.95rem; font-weight:900; color:var(--indigo-deep); margin-bottom:6px; }
 .artist-name span{ font-size:0.78rem; font-weight:500; color:var(--text-sub); }
 .artist-desc{ font-size:0.78rem; color:var(--gray); line-height:1.55; }
-
-/* ── SUT 활용 테이블 ── */
 .sut-table{ width:100%; border-collapse:collapse; font-size:0.85rem; margin:16px 0; border-radius:12px; overflow:hidden; }
 .sut-table thead tr{ background:linear-gradient(135deg,#1a0a2e,#3d1a6e); }
 .sut-table thead td{ color:white; padding:10px 14px; font-weight:700; font-size:0.78rem; }
@@ -221,8 +197,6 @@ strong{ color:var(--indigo-deep); }
 .sut-table tbody tr:last-child{ border-bottom:none; }
 .sut-table tbody td{ padding:12px 14px; color:#3a4a5c; vertical-align:top; line-height:1.55; }
 .sut-table tbody td:first-child{ font-weight:700; color:var(--indigo-deep); white-space:nowrap; }
-
-/* ── 구조도 ── */
 .struct-wrap{ margin:20px 0; }
 .struct-top{
   background:linear-gradient(135deg,#1a0a2e,#8b1a6b);
@@ -232,22 +206,15 @@ strong{ color:var(--indigo-deep); }
 .struct-top em{ color:var(--gold); font-style:normal; display:block; font-size:1rem; font-weight:900; margin-bottom:4px; }
 .struct-cols{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 @media(max-width:480px){ .struct-cols{ grid-template-columns:1fr; } }
-.struct-col{
-  border-radius:14px; padding:16px; border:1px solid var(--border);
-}
+.struct-col{ border-radius:14px; padding:16px; border:1px solid var(--border); }
 .struct-col.left{ background:var(--sut-lt); border-color:#b8d0ec; }
 .struct-col.right{ background:var(--kpop-lt); border-color:#e0b8d8; }
-.struct-col-title{
-  font-size:0.72rem; font-weight:700; letter-spacing:0.08em;
-  margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid rgba(0,0,0,0.08);
-}
+.struct-col-title{ font-size:0.72rem; font-weight:700; letter-spacing:0.08em; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid rgba(0,0,0,0.08); }
 .struct-col.left .struct-col-title{ color:var(--sut); }
 .struct-col.right .struct-col-title{ color:var(--kpop); }
 .struct-items{ display:flex; flex-direction:column; gap:6px; }
 .struct-item{ font-size:0.8rem; color:#3a4a5c; display:flex; align-items:flex-start; gap:6px; line-height:1.5; }
 .struct-item::before{ content:'·'; font-weight:900; flex-shrink:0; }
-
-/* ── 흐름도 ── */
 .flow{ display:flex; flex-direction:column; gap:0; margin:20px 0; }
 .flow-item{ display:flex; gap:16px; align-items:flex-start; position:relative; }
 .flow-item:not(:last-child)::after{
@@ -270,7 +237,10 @@ strong{ color:var(--indigo-deep); }
 }
 .flow-content h4{ font-size:0.88rem; font-weight:700; color:var(--indigo-deep); margin-bottom:4px; }
 .flow-content p{ font-size:0.82rem; color:var(--gray); margin:0; line-height:1.6; }
-
+@media(max-width:480px){
+  .struct-cols{ grid-template-columns:1fr; }
+  .artist-grid{ grid-template-columns:1fr; }
+}
 </style>
 </head>
 <body>
@@ -322,7 +292,6 @@ strong{ color:var(--indigo-deep); }
 
   <!-- ══ TAB 1 : 공연 개요 ══ -->
   <div class="tab-panel active" id="tab1">
-
     <div class="stage-header-block">
       <div>
         <div class="stage-badge">STAGE 1</div>
@@ -330,7 +299,6 @@ strong{ color:var(--indigo-deep); }
         <div class="stage-sub-txt">공연 개요 및 제작사</div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-header">
         <div class="section-num">1</div>
@@ -339,7 +307,7 @@ strong{ color:var(--indigo-deep); }
       <p><strong>K-MEGA CONCERT WORLD TOUR</strong>는 매년 세계 주요 도시를 순회하는 K-POP 대형 합동 콘서트 시리즈입니다. 단 하루에 베테랑 아티스트와 라이징 루키가 한 무대에 서는 옴니버스 형식으로, 매 회차마다 현지 팬들에게 압축된 에너지를 전달합니다.</p>
       <table class="info-table">
         <tr><td>일시</td><td>2026년 6월 26일(금) 오후 6:30 (현지시간)</td></tr>
-        <tr><td>장소</td><td>쿠도스 뱅크 아레나, 시드니 올림픽 파크<br><span style="font-size:0.78rem;color:var(--text-sub);">호주 최대 규모 실내 공연장</span></td></tr>
+        <tr><td>장소</td><td>쿠도스 뱅크 아레나, 시드니 올림픽 파크<br><span style="font-size:0.78rem;color:var(--text-sub);">호주 최대 규모 실내공연장 (수용 최대 21,000명)</span></td></tr>
         <tr><td>주관</td><td>KBS Media</td></tr>
         <tr><td>티켓 예매</td><td>Ticketek Australia (공식)</td></tr>
         <tr><td>결제 방식</td><td>카드·모바일 전용 (현금 불가)</td></tr>
@@ -349,7 +317,6 @@ strong{ color:var(--indigo-deep); }
         🌏 시드니는 전 세계 주요 도시를 순회하는 <strong>K-MEGA CONCERT WORLD TOUR</strong> 시리즈의 일환입니다. 매년 개최되는 검증된 시리즈의 연장선 위에서, 이번에는 SUT 토큰 생태계를 처음으로 결합한 회차입니다.
       </div>
     </div>
-
     <div class="section">
       <div class="section-header">
         <div class="section-num">2</div>
@@ -364,12 +331,10 @@ strong{ color:var(--indigo-deep); }
         ✅ 대중에게 낯설 수 있는 블록체인 기술이 <strong>공영방송 자회사의 공신력</strong>을 만나 글로벌 팬들에게 신뢰 기반의 접근성을 확보하는 것이 이번 협업의 핵심 전략입니다.
       </div>
     </div>
-
   </div><!-- /tab1 -->
 
   <!-- ══ TAB 2 : 라인업 ══ -->
   <div class="tab-panel" id="tab2">
-
     <div class="stage-header-block">
       <div>
         <div class="stage-badge">STAGE 2</div>
@@ -377,7 +342,6 @@ strong{ color:var(--indigo-deep); }
         <div class="stage-sub-txt">헤드라이너 2팀 + 글로벌 루키 4팀</div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-header">
         <div class="section-num">1</div>
@@ -387,16 +351,15 @@ strong{ color:var(--indigo-deep); }
         <div class="artist-card head">
           <div class="artist-pos pos-head">🔥 헤드라이너</div>
           <div class="artist-name">몬스타엑스 <span>(MONSTA X)</span></div>
-          <div class="artist-desc">선 굵고 파워풀한 퍼포먼스와 압도적인 라이브 역량. 강렬한 팀 아이덴티티로 무대를 완전히 장악하는 메인 헤드라이너</div>
+          <div class="artist-desc">선 굵고 파워풀한 퍼포먼스와 압도적인 라이브 역량. 강렬한 팀 아이덴티티로 무대를 완전히 장악하는 메인 헤드라이너. 2026년 북미 아레나 투어 진행 중으로 글로벌 팬덤 건재 확인.</div>
         </div>
         <div class="artist-card head">
           <div class="artist-pos pos-head">🔥 헤드라이너</div>
           <div class="artist-name">아이콘 <span>(iKON)</span></div>
-          <div class="artist-desc">특유의 자유분방한 힙합 에너지와 글로벌 히트곡 중심의 떼창 무대. K-POP 힙합의 정수를 선보이는 카리스마 그룹</div>
+          <div class="artist-desc">특유의 자유분방한 힙합 에너지와 글로벌 히트곡 중심의 떼창 무대. K-POP 힙합의 정수를 선보이는 카리스마 그룹. Bandsintown 팔로워 209,000명.</div>
         </div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-header">
         <div class="section-num mint">2</div>
@@ -428,20 +391,17 @@ strong{ color:var(--indigo-deep); }
         🎭 <strong>세대 융합형 라인업:</strong> 검증된 베테랑의 안정감 위에 차세대 루키들의 폭발적 에너지를 더한 구성으로, 단 하루 하나의 무대에서 K-POP의 과거·현재·미래를 모두 경험할 수 있습니다.
       </div>
     </div>
-
   </div><!-- /tab2 -->
 
   <!-- ══ TAB 3 : 비하인드 ══ -->
   <div class="tab-panel" id="tab3">
-
     <div class="stage-header-block">
       <div>
         <div class="stage-badge">STAGE 3</div>
         <div class="stage-title-txt">왜 시드니인가?</div>
-        <div class="stage-sub-txt">초반 구설수의 진짜 이유</div>
+        <div class="stage-sub-txt">초반 구설수의 진짜 이유 · 인지도 현황 분석</div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-header">
         <div class="section-num">1</div>
@@ -472,7 +432,6 @@ strong{ color:var(--indigo-deep); }
         </div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-header">
         <div class="section-num">2</div>
@@ -490,11 +449,46 @@ strong{ color:var(--indigo-deep); }
       </div>
     </div>
 
+    <!-- 🆕 2차 인지도 현황 분석 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num mint">3</div>
+        <div class="section-title">2차 인지도 현황 분석 <span style="font-size:0.78rem;color:var(--text-sub);font-weight:500;">· 2026년 6월 6일 기준</span></div>
+      </div>
+      <p>공연 20일 전 시점에서 K-MEGA CONCERT의 온라인 노출 현황을 점검했습니다. 1차 조사 대비 콘서트 자체 노출은 확산됐으나 SUT 연계 노출은 여전히 제한적입니다.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;">
+        <div style="border-radius:14px;border:2px solid #2e7d32;background:#f1f8f1;padding:14px;">
+          <div style="font-size:0.68rem;font-weight:700;color:#2e7d32;letter-spacing:0.08em;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #c8e6c9;">✅ K-MEGA 단독 노출 — 확산</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="font-size:0.75rem;color:#2e7d32;display:flex;gap:6px;align-items:flex-start;"><span style="flex-shrink:0;">🏟️</span>Qudos Bank Arena 공식 발표·페이지 등록</div>
+            <div style="font-size:0.75rem;color:#2e7d32;display:flex;gap:6px;align-items:flex-start;"><span style="flex-shrink:0;">🎟️</span>Ticketek + Ticket Merchant 등 복수 플랫폼</div>
+            <div style="font-size:0.75rem;color:#2e7d32;display:flex;gap:6px;align-items:flex-start;"><span style="flex-shrink:0;">📰</span>Volume Media (호주 음악 미디어) 보도</div>
+            <div style="font-size:0.75rem;color:#2e7d32;display:flex;gap:6px;align-items:flex-start;"><span style="flex-shrink:0;">🏨</span>Novotel Sydney Olympic Park 공식 연계</div>
+            <div style="font-size:0.75rem;color:#2e7d32;display:flex;gap:6px;align-items:flex-start;"><span style="flex-shrink:0;">🎪</span>Whatslively 등 이벤트 집계 다수 등재</div>
+            <div style="font-size:0.75rem;color:#2e7d32;display:flex;gap:6px;align-items:flex-start;"><span style="flex-shrink:0;">🔁</span>Tixel 재판매 티켓 유통 중 (수요 존재)</div>
+          </div>
+        </div>
+        <div style="border-radius:14px;border:2px solid #e67e22;background:#fff8f0;padding:14px;">
+          <div style="font-size:0.68rem;font-weight:700;color:#e67e22;letter-spacing:0.08em;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #f0d0b8;">⚠️ SUT 연계 노출 — 제한적</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="font-size:0.75rem;color:#7a4a10;display:flex;gap:6px;align-items:flex-start;"><span style="flex-shrink:0;">📌</span>Coinpedia · CoinReporter · ZyCrypto 3곳</div>
+            <div style="font-size:0.75rem;color:#7a4a10;display:flex;gap:6px;align-items:flex-start;"><span style="flex-shrink:0;">❌</span>CoinDesk·Cointelegraph 등 주류 크립토 미디어 미노출</div>
+            <div style="font-size:0.75rem;color:#7a4a10;display:flex;gap:6px;align-items:flex-start;"><span style="flex-shrink:0;">❌</span>K-POP 팬 커뮤니티 대상 노출 없음</div>
+            <div style="font-size:0.75rem;color:#7a4a10;display:flex;gap:6px;align-items:flex-start;"><span style="flex-shrink:0;">❌</span>호주 현지 미디어 SUT 언급 없음</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="warn-box">
+        🔑 <strong>핵심 관전 포인트:</strong> K-MEGA를 검색하는 K-POP 팬에게 SUT가 노출되지 않고, SUT 보유자에게만 크립토 채널로 소식이 전달되는 구조입니다. 공연까지 남은 20일 안에 <strong>두 채널의 교차 노출</strong>이 실제로 일어날지가 이번 프로모션의 성패를 가를 것입니다.
+      </div>
+    </div>
+
   </div><!-- /tab3 -->
 
   <!-- ══ TAB 4 : SUT 연동 ══ -->
   <div class="tab-panel" id="tab4">
-
     <div class="stage-header-block">
       <div>
         <div class="stage-badge">STAGE 4</div>
@@ -502,7 +496,6 @@ strong{ color:var(--indigo-deep); }
         <div class="stage-sub-txt">결제 · 락업 · 팬덤 보상 구조</div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-header">
         <div class="section-num sut">1</div>
@@ -536,7 +529,6 @@ strong{ color:var(--indigo-deep); }
         </div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-header">
         <div class="section-num sut">2</div>
@@ -544,31 +536,61 @@ strong{ color:var(--indigo-deep); }
       </div>
       <table class="sut-table">
         <thead>
-          <tr>
-            <td>구분</td>
-            <td>내용</td>
-          </tr>
+          <tr><td>구분</td><td>내용</td></tr>
         </thead>
         <tbody>
           <tr>
-            <td>🎟️ 티켓 할인</td>
-            <td>공식 앱을 통해 SUT 토큰으로 티켓 결제 시 <strong>10~20% 특별 할인</strong> 적용. 첫 사용자 경험 유도</td>
+            <td>🎟️ Live Pass</td>
+            <td>공연 관람 혜택이 담긴 디지털 패스. 취득 과정에서 <strong>일부 할인 혜택</strong> 적용. 플랫폼에서 보유 현황·사용 내역 확인 가능.</td>
           </tr>
           <tr>
             <td>👑 VIP 응모</td>
-            <td>공식 앱 가입 후 <strong>50 SUT 락업</strong> 시 VIP 응모권 발행.<br>당첨자에게 항공권 + 호텔 숙박 + VIP 티켓 포함 <strong>약 300만 원 상당 풀 패키지</strong> 제공</td>
+            <td>일정 금액의 SUT를 일정 기간 <strong>락업(예치)</strong> 시 VIP 패키지 추첨 응모권 발행.<br>당첨자에게 <strong>시드니 왕복 항공권 + 숙박 포함 VIP 패키지</strong> 제공</td>
           </tr>
           <tr>
-            <td>🎁 무료 티켓</td>
-            <td>토큰 홀딩 및 생태계 참여도 기반, 총 <strong>1,000명 대상 무료 티켓 추첨</strong></td>
+            <td>🌐 디지털-실물 연결</td>
+            <td>디지털 자산 기반 서비스와 공연 콘텐츠를 연결하는 구조. 콘서트 참관·여행 지원·디지털 패스 운영을 하나의 프로그램으로 통합.</td>
           </tr>
         </tbody>
       </table>
       <div class="warn-box">
-        ⚠️ VIP 락업·무료 티켓 세부 수치는 내부 공지 기반 정보입니다. 참여 전 슈퍼트러스트 공식 채널을 통한 최종 확인을 권장합니다.
+        ⚠️ VIP 락업·패키지 세부 수치는 공식 채널 공지 기반입니다. 참여 전 슈퍼트러스트 공식 채널을 통한 최종 확인을 권장합니다.
       </div>
       <div class="sut-box">
-        💡 <strong>토큰 이코노미 핵심 원리:</strong> 팬들이 돈을 쓰고 끝나는 기존 소비 구조에서 벗어나, SUT를 <strong>락업하거나 생태계에 참여함으로써</strong> 티켓·굿즈·여행 패키지 등 실물 혜택에 응모할 수 있는 권리를 얻는 쌍방향 구조입니다.
+        💡 <strong>토큰 이코노미 핵심 원리:</strong> 팬들이 돈을 쓰고 끝나는 기존 소비 구조에서 벗어나, SUT를 <strong>락업하거나 생태계에 참여함으로써</strong> 티켓·여행 패키지 등 실물 혜택에 응모할 수 있는 권리를 얻는 쌍방향 구조입니다.
+      </div>
+    </div>
+
+    <!-- 🆕 SUT 시장 현황 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num sut">3</div>
+        <div class="section-title">SUT 토큰 시장 현황 <span style="font-size:0.78rem;color:var(--text-sub);font-weight:500;">· 2026년 6월 기준</span></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0;">
+        <div style="border-radius:12px;background:var(--sut-lt);border:1px solid #b8d0ec;padding:12px;text-align:center;">
+          <div style="font-size:0.62rem;font-weight:700;color:var(--text-sub);margin-bottom:4px;">최대 공급량</div>
+          <div style="font-size:0.95rem;font-weight:900;color:var(--sut);">~2억 3,840만</div>
+          <div style="font-size:0.65rem;color:var(--gray);">SUT</div>
+        </div>
+        <div style="border-radius:12px;background:var(--sut-lt);border:1px solid #b8d0ec;padding:12px;text-align:center;">
+          <div style="font-size:0.62rem;font-weight:700;color:var(--text-sub);margin-bottom:4px;">현재 유통량</div>
+          <div style="font-size:0.95rem;font-weight:900;color:var(--sut);">~1억 8,840만</div>
+          <div style="font-size:0.65rem;color:var(--gray);">SUT (소각 반영)</div>
+        </div>
+        <div style="border-radius:12px;background:var(--gold-lt);border:1px solid #e8d090;padding:12px;text-align:center;">
+          <div style="font-size:0.62rem;font-weight:700;color:var(--text-sub);margin-bottom:4px;">소각 + 락업</div>
+          <div style="font-size:0.95rem;font-weight:900;color:var(--gold-muted);">5천만 + 5천만</div>
+          <div style="font-size:0.65rem;color:var(--gray);">소각 · 20년 락업</div>
+        </div>
+      </div>
+
+      <div class="sut-box">
+        📋 <strong>컨트랙트 스왑 완료 (2026년 4월):</strong> BitMart가 SUT 스마트 컨트랙트 업그레이드를 지원했습니다. 일시적 출금 중단 후 현재는 KuCoin 등 복수 거래소에서 정상 거래 중입니다.
+      </div>
+      <div class="warn-box">
+        ⚠️ <strong>가격 현황:</strong> SUT 역대 최고가는 약 $14.10이며, 현재는 고점 대비 약 -98% 수준에서 거래 중입니다. K-MEGA 프로모션은 SUT 실물 활용의 첫 대규모 실증이지만, 가격 회복은 실물 프로젝트(MPC 광산 JORC 등) 성과에 달려 있습니다.
       </div>
     </div>
 
@@ -576,7 +598,6 @@ strong{ color:var(--indigo-deep); }
 
   <!-- ══ TAB 5 : 프로젝트 의의 ══ -->
   <div class="tab-panel" id="tab5">
-
     <div class="stage-header-block">
       <div>
         <div class="stage-badge">STAGE 5</div>
@@ -584,7 +605,6 @@ strong{ color:var(--indigo-deep); }
         <div class="stage-sub-txt">비즈니스 의의 및 관전 포인트</div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-header">
         <div class="section-num gold">1</div>
@@ -595,18 +615,17 @@ strong{ color:var(--indigo-deep); }
         🚀 <strong>핵심 명제:</strong> 이번 시드니 K-MEGA CONCERT는 SUT 토큰 기반의 순환 구조가 대규모 글로벌 엔터테인먼트 시장에서 안정적으로 작동하는지 검증하는 <strong>첫 번째 실제 시험대</strong>입니다.
       </div>
     </div>
-
     <div class="section">
       <div class="section-header">
         <div class="section-num gold">2</div>
-        <div class="section-title">세 가지 핵심 관전 포인트</div>
+        <div class="section-title">네 가지 핵심 관전 포인트</div>
       </div>
       <div class="flow">
         <div class="flow-item">
           <div class="flow-dot dot-gold">①</div>
           <div class="flow-content">
             <h4>실물 전환 성공 여부</h4>
-            <p>SUT 토큰이 실제 티켓 할인·VIP 패키지로 전환되는 과정이 매끄럽게 작동하는가. 이것이 증명되면 향후 전 세계 순회 공연으로 모델이 확장됩니다.</p>
+            <p>SUT 토큰이 실제 Live Pass·VIP 패키지로 전환되는 과정이 매끄럽게 작동하는가. 이것이 증명되면 향후 전 세계 순회 공연으로 모델이 확장됩니다.</p>
           </div>
         </div>
         <div class="flow-item">
@@ -623,9 +642,15 @@ strong{ color:var(--indigo-deep); }
             <p>매년 개최되는 K-MEGA CONCERT 시리즈의 다음 회차에서 이 모델이 어떻게 발전할지가 SUT 생태계 장기 로드맵의 핵심 관전 포인트입니다.</p>
           </div>
         </div>
+        <div class="flow-item">
+          <div class="flow-dot dot-sut">④</div>
+          <div class="flow-content">
+            <h4>두 채널의 교차 노출 여부 <span style="font-size:0.68rem;background:rgba(26,90,154,0.15);color:var(--sut);padding:1px 6px;border-radius:8px;margin-left:4px;">2차 분석 추가</span></h4>
+            <p>K-POP 팬층과 SUT 생태계가 이번 공연을 계기로 실제로 만나는지가 핵심입니다. K-MEGA 검색자가 SUT를 발견하고, SUT 홀더가 K-POP 팬층을 유입시키는 교차 노출이 일어난다면 이 모델의 확장성이 증명됩니다. 현재(6월 6일 기준)는 두 채널이 분리된 상태입니다.</p>
+          </div>
+        </div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-header">
         <div class="section-num mint">3</div>
@@ -637,15 +662,14 @@ strong{ color:var(--indigo-deep); }
         슈퍼트러스트(SUT 토큰 발행) →<br>
         피노라 거래소(SUT 상장·거래) →<br>
         K-MEGA CONCERT(SUT 실물 효용 실증) →<br>
-        <strong>슈퍼세이브 글로벌 서비스(DeCT 신용 생태계 확장)</strong>
+        <strong>슈퍼세이브 글로벌 서비스(DeCT 신용 생태계 확장)</strong><br><br>
+        <strong style="color:rgba(255,255,255,0.7);font-size:0.8rem;">+ MPC 토큰(차간 톨고이 광산 RWA) → JORC 완료 후 상장 연동 예정</strong>
       </div>
       <p style="font-size:0.8rem;color:var(--text-sub);margin-top:12px;">※ 본 가이드는 공개 자료 및 관계자 전언을 기반으로 작성되었으며, 추후 내용이 지속 보완됩니다.</p>
     </div>
-
   </div><!-- /tab5 -->
 
 </div><!-- /container -->
-
 
 <script>
 function showTab(id, btn) {
