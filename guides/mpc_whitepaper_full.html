@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MPC Whitepaper v1.7.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #04070F;
+  --surface: #0a0f1e;
+  --surface-el: #111827;
+  --border: rgba(255,255,255,0.08);
+  --border-strong: rgba(255,255,255,0.15);
+  --copper: #c87941;
+  --copper-lt: #e8a060;
+  --text: #e8eaf0;
+  --text-sub: #8a9ab5;
+  --text-muted: #4a5568;
+  --gold: #c9a84c;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.site-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(4,7,15,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  height: 56px;
+  display: flex; align-items: center;
+  padding: 0 20px;
+  gap: 16px;
+}
+.logo {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.9rem; font-weight: 600; color: var(--text);
+  text-decoration: none; flex-shrink: 0;
+}
+.logo-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.15em;
+  color: var(--text-sub); text-transform: uppercase;
+  border-left: 1px solid var(--border); padding-left: 10px; margin-left: 4px;
+}
+.header-center {
+  flex: 1; display: flex; justify-content: center;
+}
+.version-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; color: var(--copper);
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+
+/* ── LANG TOGGLE ── */
+.lang-toggle {
+  display: flex; align-items: center;
+  background: var(--surface-el);
+  border: 1px solid var(--border);
+  border-radius: 6px; overflow: hidden; flex-shrink: 0;
+}
+.lang-btn {
+  padding: 5px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  cursor: pointer; border: none; background: transparent;
+  color: var(--text-sub); transition: all 0.2s;
+}
+.lang-btn.active {
+  background: var(--copper);
+  color: #fff;
+}
+
+/* ── LAYOUT ── */
+.layout {
+  display: flex;
+  padding-top: 56px;
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 240px; flex-shrink: 0;
+  position: fixed; top: 56px; left: 0; bottom: 0;
+  overflow-y: auto; overflow-x: hidden;
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+  padding: 20px 0;
+}
+.sidebar::-webkit-scrollbar { width: 3px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); }
+.sidebar-section {
+  padding: 6px 16px 2px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.15em;
+  color: var(--copper); text-transform: uppercase;
+  margin-top: 12px;
+}
+.sidebar-section:first-child { margin-top: 0; }
+.sidebar-link {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 16px;
+  font-size: 0.78rem; color: var(--text-sub);
+  text-decoration: none; cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+}
+.sidebar-link:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+.sidebar-link.active {
+  color: var(--copper-lt);
+  border-left-color: var(--copper);
+  background: rgba(200,121,65,0.06);
+}
+.sidebar-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; color: var(--text-muted); width: 16px; flex-shrink: 0;
+}
+
+/* ── MAIN ── */
+.main {
+  margin-left: 240px;
+  flex: 1;
+  max-width: 820px;
+  padding: 48px 40px 80px;
+}
+
+/* ── CHAPTER ── */
+.chapter { display: none; }
+.chapter.active { display: block; }
+
+.chapter-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.15em;
+  color: var(--copper); text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.chapter-title {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 600; line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 36px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── SECTION ── */
+.section { margin-bottom: 40px; }
+.section-title {
+  font-size: 1.05rem; font-weight: 600;
+  margin-bottom: 12px; color: var(--text);
+}
+.section-sub {
+  font-size: 0.9rem; font-weight: 500;
+  margin-bottom: 8px; color: var(--text);
+  margin-top: 16px;
+}
+p { color: var(--text-sub); line-height: 1.8; margin-bottom: 12px; }
+p strong { color: var(--text); font-weight: 500; }
+
+/* ── CALLOUT ── */
+.callout {
+  border-left: 2px solid var(--copper);
+  padding: 12px 16px;
+  background: rgba(200,121,65,0.06);
+  margin: 16px 0;
+  font-size: 0.85rem; color: var(--text); font-weight: 500;
+  font-style: italic;
+}
+
+/* ── FORMULA ── */
+.formula {
+  display: flex; align-items: center; gap: 8px;
+  flex-wrap: wrap;
+  margin: 16px 0; padding: 14px 16px;
+  background: var(--surface-el);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.formula-step {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem; font-weight: 500;
+  color: var(--copper-lt);
+  padding: 4px 10px;
+  border: 1px solid rgba(200,121,65,0.3);
+  border-radius: 4px;
+}
+.formula-arrow {
+  color: var(--text-muted); font-size: 0.8rem;
+}
+.formula-neq {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem; color: var(--text-muted);
+  padding: 0 4px;
+}
+
+/* ── LIST ── */
+ul.doc-list { list-style: none; padding: 0; margin: 12px 0 16px; }
+ul.doc-list li {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 6px 0; border-bottom: 1px solid var(--border);
+  font-size: 0.83rem; color: var(--text-sub); line-height: 1.65;
+}
+ul.doc-list li:last-child { border-bottom: none; }
+ul.doc-list li::before {
+  content: '—'; color: var(--copper); flex-shrink: 0; margin-top: 1px;
+}
+ul.doc-list li strong { color: var(--text); font-weight: 500; }
+
+/* ── NUMBERED LIST ── */
+ol.doc-list { list-style: none; padding: 0; margin: 12px 0 16px; counter-reset: doc-counter; }
+ol.doc-list li {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+  font-size: 0.83rem; color: var(--text-sub); line-height: 1.65;
+  counter-increment: doc-counter;
+}
+ol.doc-list li:last-child { border-bottom: none; }
+ol.doc-list li::before {
+  content: counter(doc-counter, decimal-leading-zero);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; color: var(--copper);
+  flex-shrink: 0; margin-top: 2px; min-width: 24px;
+}
+ol.doc-list li strong { color: var(--text); font-weight: 500; }
+
+/* ── FLOW DIAGRAM ── */
+.flow-diagram {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  margin: 16px 0; padding: 16px;
+  background: var(--surface-el); border: 1px solid var(--border); border-radius: 6px;
+}
+.flow-node {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem; font-weight: 500;
+  color: var(--text); padding: 6px 14px;
+  border: 1px solid var(--border-strong); border-radius: 4px;
+  background: rgba(255,255,255,0.04);
+}
+.flow-node.highlight {
+  border-color: var(--copper);
+  color: var(--copper-lt);
+  background: rgba(200,121,65,0.08);
+}
+.flow-arrow-svg { color: var(--text-muted); font-size: 0.9rem; }
+
+/* ── TABLE ── */
+.doc-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.82rem; }
+.doc-table th {
+  background: var(--surface-el);
+  color: var(--copper); font-weight: 500;
+  padding: 10px 14px; text-align: left;
+  border-bottom: 1px solid var(--border-strong);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.doc-table td {
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
+  color: var(--text-sub); vertical-align: top;
+}
+.doc-table td strong { color: var(--text); }
+.doc-table tr:last-child td { border-bottom: none; }
+.doc-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* ── GRID CARDS ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin: 16px 0; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border); margin: 16px 0; }
+.grid-card {
+  background: var(--surface-el); padding: 16px;
+}
+.grid-card-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.12em;
+  color: var(--copper); text-transform: uppercase; margin-bottom: 6px;
+}
+.grid-card-title { font-size: 0.88rem; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+.grid-card-desc { font-size: 0.77rem; color: var(--text-sub); line-height: 1.6; }
+
+/* ── LAYERS DIAGRAM ── */
+.layers { display: flex; flex-direction: column; gap: 2px; margin: 16px 0; }
+.layer {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  background: var(--surface-el);
+}
+.layer-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; color: var(--copper); width: 20px; flex-shrink: 0;
+}
+.layer-title { font-size: 0.85rem; font-weight: 500; color: var(--text); min-width: 160px; }
+.layer-sub { font-size: 0.75rem; color: var(--text-sub); }
+.layer.highlight { border-color: var(--copper); background: rgba(200,121,65,0.05); }
+
+/* ── NEQ BADGE ── */
+.neq-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  flex-wrap: wrap; margin: 12px 0;
+}
+.neq-item {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem; font-weight: 500;
+  padding: 4px 10px; border: 1px solid var(--border-strong);
+  color: var(--text-sub);
+}
+.neq-sym { color: var(--text-muted); font-size: 0.85rem; }
+
+/* ── ALLOCATION TABLE ── */
+.alloc-bar { height: 6px; border-radius: 2px; margin-top: 4px; }
+.alloc-community { background: var(--copper); }
+.alloc-marketing { background: #5b8dee; }
+.alloc-investors { background: #48bb78; }
+.alloc-team { background: #ed8936; }
+.alloc-liquidity { background: #9f7aea; }
+
+/* ── VESTING TABLE ── */
+.vesting-timeline {
+  display: flex; gap: 2px; margin: 16px 0; align-items: stretch;
+}
+.vt-phase {
+  flex: 1; background: var(--surface-el);
+  border: 1px solid var(--border); padding: 12px 10px; text-align: center;
+}
+.vt-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; color: var(--copper); text-transform: uppercase;
+  letter-spacing: 0.1em; margin-bottom: 4px;
+}
+.vt-pct { font-size: 1rem; font-weight: 600; color: var(--text); }
+
+/* ── LIFECYCLE STEPS ── */
+.lifecycle-steps { display: flex; flex-direction: column; gap: 2px; margin: 16px 0; }
+.lc-step {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 16px; background: var(--surface-el);
+  border: 1px solid var(--border);
+}
+.lc-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; color: var(--copper);
+  background: rgba(200,121,65,0.12);
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.lc-title { font-size: 0.85rem; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+.lc-desc { font-size: 0.77rem; color: var(--text-sub); line-height: 1.6; }
+
+/* ── RISK LIST ── */
+.risk-list { display: flex; flex-direction: column; gap: 8px; margin: 16px 0; }
+.risk-item {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 12px 14px; background: var(--surface-el);
+  border: 1px solid var(--border); border-radius: 4px;
+}
+.risk-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--copper); flex-shrink: 0; margin-top: 6px; }
+.risk-label { font-size: 0.82rem; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+.risk-desc { font-size: 0.77rem; color: var(--text-sub); line-height: 1.6; }
+
+/* ── COMPLIANCE TABLE ── */
+.compliance-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--border); margin: 16px 0;
+}
+.cg-header {
+  background: var(--surface-el); padding: 10px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.1em;
+  color: var(--copper); text-transform: uppercase;
+}
+.cg-cell {
+  background: var(--surface-el); padding: 10px 14px;
+  font-size: 0.8rem; color: var(--text-sub);
+  border-top: 1px solid var(--border);
+}
+
+/* ── ROADMAP ── */
+.roadmap { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+.rm-phase { background: var(--surface-el); border: 1px solid var(--border); padding: 16px; }
+.rm-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.12em;
+  color: var(--copper); text-transform: uppercase; margin-bottom: 8px;
+}
+.rm-title { font-size: 0.9rem; font-weight: 500; color: var(--text); margin-bottom: 10px; }
+
+/* ── DISCLAIMER ── */
+.disclaimer-block {
+  background: var(--surface-el);
+  border: 1px solid var(--border);
+  border-radius: 6px; padding: 20px;
+  margin-bottom: 24px;
+}
+.disclaimer-block h3 {
+  font-size: 0.92rem; font-weight: 500; color: var(--text); margin-bottom: 10px;
+}
+
+/* ── NAV FOOTER ── */
+.chapter-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 48px; padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.nav-btn {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.8rem; color: var(--text-sub); cursor: pointer;
+  border: 1px solid var(--border); padding: 8px 16px;
+  background: transparent; transition: all 0.2s;
+  font-family: inherit;
+}
+.nav-btn:hover { color: var(--copper); border-color: var(--copper); }
+.nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ── KO HIDDEN ── */
+.ko { display: none; }
+body.lang-ko .ko { display: inline; }
+body.lang-ko .en { display: none; }
+body.lang-en .ko { display: none; }
+body.lang-en .en { display: inline; }
+
+/* p, li 번역 */
+.ko-block { display: none; }
+.en-block { display: block; }
+body.lang-ko .ko-block { display: block; }
+body.lang-ko .en-block { display: none; }
+
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0; padding: 24px 16px 60px; }
+  .grid-2, .grid-3, .roadmap { grid-template-columns: 1fr; }
+  .compliance-grid { grid-template-columns: 1fr; }
+  .vesting-timeline { flex-direction: column; }
+}
+</style>
+</head>
+<body class="lang-en">
+
+<!-- HEADER -->
+<header class="site-header">
+  <a class="logo" href="#">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <circle cx="11" cy="11" r="10" stroke="#c87941" stroke-width="1.5"/>
+      <path d="M7 11h8M11 7v8" stroke="#c87941" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    MPC
+    <span class="logo-badge">RWA Infrastructure</span>
+  </a>
+  <div class="header-center">
+    <span class="version-tag">Whitepaper · v1.7.0</span>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('en', this)">EN</button>
+    <button class="lang-btn" onclick="setLang('ko', this)">한국어</button>
+  </div>
+</header>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-section"><span class="en">Overview</span><span class="ko">개요</span></div>
+  <a class="sidebar-link active" onclick="showChapter('c1', this)">
+    <span class="sidebar-num">01</span>
+    <span class="en">Executive Summary</span><span class="ko">요약</span>
+  </a>
+  <div class="sidebar-section"><span class="en">Problem & Market</span><span class="ko">문제 & 시장</span></div>
+  <a class="sidebar-link" onclick="showChapter('c2', this)">
+    <span class="sidebar-num">02</span>
+    <span class="en">Industry Problem</span><span class="ko">업계 문제</span>
+  </a>
+  <a class="sidebar-link" onclick="showChapter('c3', this)">
+    <span class="sidebar-num">03</span>
+    <span class="en">Market Opportunity</span><span class="ko">시장 기회</span>
+  </a>
+  <div class="sidebar-section"><span class="en">Solution & Architecture</span><span class="ko">솔루션 & 아키텍처</span></div>
+  <a class="sidebar-link" onclick="showChapter('c4', this)">
+    <span class="sidebar-num">04</span>
+    <span class="en">MPC Solution</span><span class="ko">MPC 솔루션</span>
+  </a>
+  <a class="sidebar-link" onclick="showChapter('c5', this)">
+    <span class="sidebar-num">05</span>
+    <span class="en">Platform Architecture</span><span class="ko">플랫폼 아키텍처</span>
+  </a>
+  <a class="sidebar-link" onclick="showChapter('c6', this)">
+    <span class="sidebar-num">06</span>
+    <span class="en">Mining RWA Lifecycle</span><span class="ko">광산 RWA 라이프사이클</span>
+  </a>
+  <div class="sidebar-section"><span class="en">Token Economy</span><span class="ko">토큰 이코노미</span></div>
+  <a class="sidebar-link" onclick="showChapter('c7', this)">
+    <span class="sidebar-num">07</span>
+    <span class="en">Protocol Economy</span><span class="ko">프로토콜 이코노미</span>
+  </a>
+  <a class="sidebar-link" onclick="showChapter('c8', this)">
+    <span class="sidebar-num">08</span>
+    <span class="en">Tokenomics</span><span class="ko">토크노믹스</span>
+  </a>
+  <div class="sidebar-section"><span class="en">Ecosystem & Governance</span><span class="ko">생태계 & 거버넌스</span></div>
+  <a class="sidebar-link" onclick="showChapter('c9', this)">
+    <span class="sidebar-num">09</span>
+    <span class="en">MPC Ecosystem</span><span class="ko">MPC 생태계</span>
+  </a>
+  <a class="sidebar-link" onclick="showChapter('c10', this)">
+    <span class="sidebar-num">10</span>
+    <span class="en">Governance</span><span class="ko">거버넌스</span>
+  </a>
+  <div class="sidebar-section"><span class="en">Trust, Business & Risk</span><span class="ko">신뢰 & 비즈니스 & 리스크</span></div>
+  <a class="sidebar-link" onclick="showChapter('c11', this)">
+    <span class="sidebar-num">11</span>
+    <span class="en">Trust & Compliance</span><span class="ko">신뢰 & 컴플라이언스</span>
+  </a>
+  <a class="sidebar-link" onclick="showChapter('c12', this)">
+    <span class="sidebar-num">12</span>
+    <span class="en">Business Model</span><span class="ko">비즈니스 모델</span>
+  </a>
+  <a class="sidebar-link" onclick="showChapter('c13', this)">
+    <span class="sidebar-num">13</span>
+    <span class="en">Security & Risk</span><span class="ko">보안 & 리스크</span>
+  </a>
+  <div class="sidebar-section"><span class="en">Roadmap & Legal</span><span class="ko">로드맵 & 법적 고지</span></div>
+  <a class="sidebar-link" onclick="showChapter('c14', this)">
+    <span class="sidebar-num">14</span>
+    <span class="en">Roadmap & Vision</span><span class="ko">로드맵 & 비전</span>
+  </a>
+  <a class="sidebar-link" onclick="showChapter('c15', this)">
+    <span class="sidebar-num">15</span>
+    <span class="en">Disclaimer</span><span class="ko">면책 고지</span>
+  </a>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ══ §1 Executive Summary ══ -->
+<div class="chapter active" id="c1">
+  <div class="chapter-eyebrow">Overview · §1</div>
+  <h1 class="chapter-title">
+    <span class="en">Executive Summary</span>
+    <span class="ko">요약</span>
+  </h1>
+
+  <div class="section">
+    <h2 class="section-title">
+      <span class="en">1.1 The Infrastructure Gap in Mining RWA</span>
+      <span class="ko">1.1 광산 RWA의 인프라 공백</span>
+    </h2>
+    <div class="en-block">
+      <p>Mineral resources are core real-world assets underpinning energy, manufacturing, batteries, semiconductors and advanced industry.</p>
+      <p>Yet the exploration records, drilling data, test and assay results, technical reports and verification materials needed to evaluate a Mining Project are scattered across many different forms.</p>
+      <p>In that structure it is difficult to trace, in any consistent way, where data came from, who verified it, when it was verified, and how it has changed.</p>
+      <p>Blockchain can strengthen the integrity and traceability of data, but it cannot by itself verify the accuracy of a physical mine or of technical data.</p>
+      <p>Mining RWA therefore needs Infrastructure that goes beyond Tokenization — infrastructure that connects real-world data to professional Verification and keeps it as a traceable Digital Record.</p>
+    </div>
+    <div class="ko-block">
+      <p>광물 자원은 에너지, 제조업, 배터리, 반도체 및 첨단 산업을 뒷받침하는 핵심 실물 자산입니다.</p>
+      <p>그러나 광산 프로젝트(Mining Project)를 평가하는 데 필요한 탐사 기록, 시추 데이터, 시험·분석(Assay) 결과, 기술 보고서, 검증 자료는 다양한 형태로 분산되어 있습니다.</p>
+      <p>이러한 구조에서는 데이터의 출처, 검증 주체, 검증 시점, 변경 이력을 일관되게 추적하기 어렵습니다.</p>
+      <p>블록체인은 데이터의 무결성과 추적 가능성을 강화할 수 있지만, 실물 광산이나 기술 데이터의 정확성을 단독으로 검증할 수는 없습니다.</p>
+      <p>따라서 광산 RWA에는 토큰화(Tokenization)를 넘어선 인프라가 필요합니다. 실물 데이터를 전문적인 검증(Verification)에 연결하고, 이를 추적 가능한 디지털 기록(Digital Record)으로 유지하는 인프라입니다.</p>
+    </div>
+    <div class="callout">
+      <span class="en">Tokenization alone does not create trust.</span>
+      <span class="ko">토큰화만으로는 신뢰가 만들어지지 않습니다.</span>
+    </div>
+
+    <div class="layers">
+      <div class="layer"><span class="layer-num">1</span><span class="layer-title"><span class="en">Real-world Mining</span><span class="ko">실물 광산</span></span><span class="layer-sub"><span class="en">Exploration, drilling, production</span><span class="ko">탐사, 시추, 생산</span></span></div>
+      <div class="layer"><span class="layer-num">2</span><span class="layer-title"><span class="en">Mining Data</span><span class="ko">광산 데이터</span></span><span class="layer-sub"><span class="en">Reports, assays, technical records</span><span class="ko">보고서, 분석, 기술 기록</span></span></div>
+      <div class="layer"><span class="layer-num">3</span><span class="layer-title"><span class="en">Verification</span><span class="ko">검증</span></span><span class="layer-sub"><span class="en">Reviewed by qualified persons</span><span class="ko">적격 전문가 검토</span></span></div>
+      <div class="layer highlight"><span class="layer-num">✕</span><span class="layer-title"><span class="en">Trust Gap</span><span class="ko">신뢰 공백</span></span><span class="layer-sub"><span class="en">Provenance and verification status stop here</span><span class="ko">출처와 검증 상태가 여기서 단절됨</span></span></div>
+      <div class="layer"><span class="layer-num">5</span><span class="layer-title"><span class="en">Digital Asset Ecosystem</span><span class="ko">디지털 자산 생태계</span></span><span class="layer-sub"><span class="en">Tokens, markets, holders</span><span class="ko">토큰, 시장, 보유자</span></span></div>
+    </div>
+    <div class="callout">
+      <span class="en">MPC is built to bridge this gap.</span>
+      <span class="ko">MPC는 이 공백을 연결하기 위해 구축됩니다.</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">1.2 MPC Framework</h2>
+    <div class="en-block">
+      <p>MPC is a <strong>Mining RWA Infrastructure Platform</strong> connecting verifiable Mining Projects to the Digital Asset Ecosystem.</p>
+      <p>MPC links real Mining Data to professional Verification and extends it into structured Digital Records and Asset Infrastructure, providing a common Framework for managing them continuously.</p>
+    </div>
+    <div class="ko-block">
+      <p>MPC는 검증 가능한 광산 프로젝트를 디지털 자산 생태계에 연결하는 <strong>광산 RWA 인프라 플랫폼(Mining RWA Infrastructure Platform)</strong>입니다.</p>
+      <p>MPC는 실물 광산 데이터를 전문적인 검증에 연결하고, 이를 구조화된 디지털 기록 및 자산 인프라로 확장하여 지속적으로 관리할 수 있는 공통 프레임워크를 제공합니다.</p>
+    </div>
+    <div class="formula">
+      <span class="formula-step">VERIFY</span><span class="formula-arrow">→</span>
+      <span class="formula-step">STRUCTURE</span><span class="formula-arrow">→</span>
+      <span class="formula-step">TOKENIZE</span><span class="formula-arrow">→</span>
+      <span class="formula-step">MANAGE</span>
+    </div>
+    <div class="grid-2">
+      <div class="grid-card">
+        <div class="grid-card-label">1.2.1 Verify</div>
+        <div class="grid-card-title"><span class="en">Real-World Verification</span><span class="ko">실물 검증</span></div>
+        <div class="grid-card-desc"><span class="en">Mining Data is connected to the review and verification processes of CPs, technical experts and relevant professional institutions.</span><span class="ko">광산 데이터는 적격인(CP), 기술 전문가, 관련 전문 기관의 검토 및 검증 프로세스에 연결됩니다.</span></div>
+      </div>
+      <div class="grid-card">
+        <div class="grid-card-label">1.2.2 Structure</div>
+        <div class="grid-card-title"><span class="en">Traceable Data</span><span class="ko">추적 가능한 데이터</span></div>
+        <div class="grid-card-desc"><span class="en">Data Source, Verification Status, Hash, Timestamp and Version History are linked together.</span><span class="ko">데이터 출처, 검증 상태, 해시(Hash), 타임스탬프, 버전 이력이 연결됩니다.</span></div>
+      </div>
+      <div class="grid-card">
+        <div class="grid-card-label">1.2.3 Tokenize</div>
+        <div class="grid-card-title"><span class="en">Asset Infrastructure</span><span class="ko">자산 인프라</span></div>
+        <div class="grid-card-desc"><span class="en">The Legal / Asset Structure of each project is connected to Smart Contracts, the Registry and Digital Asset Infrastructure.</span><span class="ko">각 프로젝트의 법적/자산 구조가 스마트 컨트랙트, 레지스트리, 디지털 자산 인프라에 연결됩니다.</span></div>
+      </div>
+      <div class="grid-card">
+        <div class="grid-card-label">1.2.4 Manage</div>
+        <div class="grid-card-title"><span class="en">Continuous Lifecycle</span><span class="ko">지속적 라이프사이클</span></div>
+        <div class="grid-card-desc"><span class="en">New data, Re-Verification and status changes are continuously linked back to the existing Digital Record.</span><span class="ko">새로운 데이터, 재검증(Re-Verification), 상태 변경이 기존 디지털 기록에 지속적으로 연결됩니다.</span></div>
+      </div>
+    </div>
+    <div class="formula">
+      <span class="formula-step"><span class="en">Reference Project</span><span class="ko">레퍼런스 프로젝트</span></span>
+      <span class="formula-arrow">→</span>
+      <span class="formula-step"><span class="en">Proven Framework</span><span class="ko">검증된 프레임워크</span></span>
+      <span class="formula-arrow">→</span>
+      <span class="formula-step"><span class="en">Multi-Project Platform</span><span class="ko">멀티 프로젝트 플랫폼</span></span>
+      <span class="formula-arrow">→</span>
+      <span class="formula-step"><span class="en">Global Mining RWA Infrastructure</span><span class="ko">글로벌 광산 RWA 인프라</span></span>
+    </div>
+    <div class="callout">
+      <span class="en">Building the trust infrastructure for Mining RWA.</span>
+      <span class="ko">광산 RWA를 위한 신뢰 인프라를 구축합니다.</span>
+    </div>
+  </div>
+
+  <div class="chapter-nav">
+    <button class="nav-btn" disabled>← <span class="en">Previous</span><span class="ko">이전</span></button>
+    <button class="nav-btn" onclick="goNext('c1')"><span class="en">Next</span><span class="ko">다음</span> →</button>
+  </div>
+</div>
+
+<!-- ══ §2 Industry Problem ══ -->
+<div class="chapter" id="c2">
+  <div class="chapter-eyebrow">Problem & Market · §2</div>
+  <h1 class="chapter-title"><span class="en">Industry Problem</span><span class="ko">업계 문제</span></h1>
+
+  <div class="section">
+    <h2 class="section-title"><span class="en">2.1 Fragmented Mining Information</span><span class="ko">2.1 분산된 광산 정보</span></h2>
+    <div class="en-block"><p>A Mining Project is evaluated on specialist data generated at many stages — exploration, drilling, sampling, testing and assay, resource evaluation and technical reporting. That information is spread across multiple documents, institutions and systems, which makes it difficult to trace provenance, verification status and change history in any consistent way.</p></div>
+    <div class="ko-block"><p>광산 프로젝트는 탐사, 시추, 샘플링, 시험·분석, 자원 평가, 기술 보고 등 여러 단계에서 생성되는 전문 데이터를 기반으로 평가됩니다. 이 정보는 여러 문서, 기관, 시스템에 분산되어 있어 출처, 검증 상태, 변경 이력을 일관되게 추적하기 어렵습니다.</p></div>
+
+    <h3 class="section-sub"><span class="en">2.1.1 Fragmented Data</span><span class="ko">2.1.1 분산된 데이터</span></h3>
+    <div class="formula">
+      <span class="formula-step"><span class="en">Exploration</span><span class="ko">탐사</span></span>
+      <span class="formula-arrow">→</span>
+      <span class="formula-step"><span class="en">Drilling</span><span class="ko">시추</span></span>
+      <span class="formula-arrow">→</span>
+      <span class="formula-step"><span class="en">Sampling</span><span class="ko">샘플링</span></span>
+      <span class="formula-arrow">→</span>
+      <span class="formula-step"><span class="en">Lab Analysis</span><span class="ko">실험실 분석</span></span>
+      <span class="formula-arrow">→</span>
+      <span class="formula-step"><span class="en">Technical Reports</span><span class="ko">기술 보고서</span></span>
+    </div>
+    <div class="en-block"><p>In a fragmented data structure it is hard to connect a project's full history into a single system.</p></div>
+    <div class="ko-block"><p>분산된 데이터 구조에서는 프로젝트의 전체 이력을 하나의 시스템으로 연결하기 어렵습니다.</p></div>
+
+    <h3 class="section-sub"><span class="en">2.1.2 Verification Complexity</span><span class="ko">2.1.2 검증의 복잡성</span></h3>
+    <div class="en-block"><p>The reliability of Mining Data is tied not only to the data itself but to <strong>who</strong> reviewed <strong>what</strong>, <strong>when</strong>, and <strong>against which standard</strong>. A structure is therefore needed that tracks Data Provenance and Verification History alongside the Source Data.</p></div>
+    <div class="ko-block"><p>광산 데이터의 신뢰성은 데이터 자체뿐만 아니라 <strong>누가</strong> <strong>무엇을</strong>, <strong>언제</strong>, <strong>어떤 기준으로</strong> 검토했는지에 달려 있습니다. 따라서 원본 데이터와 함께 데이터 출처(Data Provenance)와 검증 이력(Verification History)을 추적하는 구조가 필요합니다.</p></div>
+    <div class="neq-badge">
+      <span class="neq-item">On-chain Data</span>
+      <span class="neq-sym">≠</span>
+      <span class="neq-item"><span class="en">Verified Real-World Data</span><span class="ko">검증된 실물 데이터</span></span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title"><span class="en">2.2 Information Asymmetry and Static Records</span><span class="ko">2.2 정보 비대칭과 정적 기록</span></h2>
+    <h3 class="section-sub"><span class="en">2.2.1 Information Asymmetry</span><span class="ko">2.2.1 정보 비대칭</span></h3>
+    <div class="en-block"><p>Mining Data requires specialist interpretation across geology, resource evaluation, mining engineering and laboratory analysis. The gap between specialist data and what market participants can understand makes it hard to establish trust in Mining RWA.</p><p>MPC does not replace expert judgement; it connects the provenance of data, the party that verified it, and its verification status.</p></div>
+    <div class="ko-block"><p>광산 데이터는 지질학, 자원 평가, 광산 공학, 실험실 분석 등 분야에 걸친 전문적 해석이 필요합니다. 전문 데이터와 시장 참여자가 이해할 수 있는 정보 사이의 간극이 광산 RWA에 대한 신뢰 형성을 어렵게 합니다.</p><p>MPC는 전문가의 판단을 대체하지 않습니다. 데이터의 출처, 검증 주체, 검증 상태를 연결합니다.</p></div>
+
+    <h3 class="section-sub"><span class="en">2.2.2 Static Records</span><span class="ko">2.2.2 정적 기록</span></h3>
+    <div class="en-block"><p>A Mining Project changes continuously as new drilling results, test and assay data, technical evaluations and development status arrive. If a Digital Asset remains connected only to the information available at the moment of issuance, an information gap can open up between the actual project and its Digital Record.</p></div>
+    <div class="ko-block"><p>광산 프로젝트는 새로운 시추 결과, 시험·분석 데이터, 기술 평가, 개발 상태가 유입되면서 지속적으로 변화합니다. 디지털 자산이 발행 시점의 정보에만 연결되어 있다면, 실제 프로젝트와 디지털 기록 사이에 정보 격차가 발생할 수 있습니다.</p></div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title"><span class="en">2.3 The Core Problem</span><span class="ko">2.3 핵심 문제</span></h2>
+    <div class="en-block"><p>Real asset → token is not sufficient on its own. The core task of Mining RWA is to keep the data and Verification Status of the real project continuously connected to the Mining RWA Lifecycle.</p></div>
+    <div class="ko-block"><p>실물 자산 → 토큰화만으로는 충분하지 않습니다. 광산 RWA의 핵심 과제는 실제 프로젝트의 데이터와 검증 상태(Verification Status)를 광산 RWA 라이프사이클에 지속적으로 연결된 상태로 유지하는 것입니다.</p></div>
+  </div>
+
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goPrev('c2')">← <span class="en">Previous</span><span class="ko">이전</span></button>
+    <button class="nav-btn" onclick="goNext('c2')"><span class="en">Next</span><span class="ko">다음</span> →</button>
+  </div>
+</div>
+
+<!-- ══ §3 Market Opportunity ══ -->
+<div class="chapter" id="c3">
+  <div class="chapter-eyebrow">Problem & Market · §3</div>
+  <h1 class="chapter-title"><span class="en">Market Opportunity</span><span class="ko">시장 기회</span></h1>
+  <div class="section">
+    <h2 class="section-title"><span class="en">3.1 Mining Assets Require Specialized RWA Infrastructure</span><span class="ko">3.1 광산 자산에는 전문화된 RWA 인프라가 필요합니다</span></h2>
+    <div class="en-block"><p>Mineral resources are not merely physical assets. They are assets whose project status is evaluated continuously through data and professional Verification. New information is generated across the entire Lifecycle of a Mining Project.</p></div>
+    <div class="ko-block"><p>광물 자원은 단순한 물리적 자산이 아닙니다. 데이터와 전문 검증을 통해 프로젝트 상태가 지속적으로 평가되는 자산입니다. 광산 프로젝트의 전체 라이프사이클에 걸쳐 새로운 정보가 생성됩니다.</p></div>
+    <div class="formula">
+      <span class="formula-step">ASSET</span>
+      <span class="formula-neq">+</span>
+      <span class="formula-step">DATA</span>
+      <span class="formula-neq">+</span>
+      <span class="formula-step">VERIFICATION</span>
+    </div>
+    <div class="en-block"><p>This strengthens <strong>Traceability</strong>, <strong>Data Integrity</strong> and <strong>Lifecycle Connectivity</strong>. The market opportunity MPC addresses is not an individual Asset Token but a common Infrastructure Layer that many Mining Projects can use repeatedly.</p></div>
+    <div class="ko-block"><p>이는 <strong>추적 가능성(Traceability)</strong>, <strong>데이터 무결성(Data Integrity)</strong>, <strong>라이프사이클 연결성(Lifecycle Connectivity)</strong>을 강화합니다. MPC가 겨냥하는 시장 기회는 개별 자산 토큰이 아니라 다수의 광산 프로젝트가 반복적으로 활용할 수 있는 공통 인프라 레이어(Infrastructure Layer)입니다.</p></div>
+  </div>
+  <div class="section">
+    <h2 class="section-title"><span class="en">3.2 From Project-Specific Solutions to Shared Infrastructure</span><span class="ko">3.2 프로젝트별 솔루션에서 공유 인프라로</span></h2>
+    <div class="en-block"><p>Building Verification, Data, Asset and Lifecycle systems separately for every project forces repeated construction and integration as the portfolio grows. MPC converts this into a common Infrastructure Framework that many Mining Projects can draw on.</p></div>
+    <div class="ko-block"><p>모든 프로젝트마다 검증, 데이터, 자산, 라이프사이클 시스템을 별도로 구축하면 포트폴리오가 성장함에 따라 반복적인 구축과 통합이 강제됩니다. MPC는 이를 다수의 광산 프로젝트가 활용할 수 있는 공통 인프라 프레임워크로 전환합니다.</p></div>
+  </div>
+  <div class="section">
+    <h2 class="section-title"><span class="en">3.3 Four Infrastructure Functions</span><span class="ko">3.3 4대 인프라 기능</span></h2>
+    <div class="grid-2">
+      <div class="grid-card">
+        <div class="grid-card-label">Verification</div>
+        <div class="grid-card-desc"><span class="en">Connects professional Verification to the Digital Record.</span><span class="ko">전문 검증을 디지털 기록에 연결합니다.</span></div>
+      </div>
+      <div class="grid-card">
+        <div class="grid-card-label">Data</div>
+        <div class="grid-card-desc"><span class="en">Structures Mining Data and manages its history.</span><span class="ko">광산 데이터를 구조화하고 이력을 관리합니다.</span></div>
+      </div>
+      <div class="grid-card">
+        <div class="grid-card-label">Asset</div>
+        <div class="grid-card-desc"><span class="en">Connects verified projects to Digital Assets.</span><span class="ko">검증된 프로젝트를 디지털 자산에 연결합니다.</span></div>
+      </div>
+      <div class="grid-card">
+        <div class="grid-card-label">Lifecycle</div>
+        <div class="grid-card-desc"><span class="en">Continuously links post-issuance data and Re-Verification records.</span><span class="ko">발행 후 데이터와 재검증 기록을 지속적으로 연결합니다.</span></div>
+      </div>
+    </div>
+    <div class="formula">
+      <span class="formula-step">PROJECT</span><span class="formula-arrow">→</span>
+      <span class="formula-step">PLATFORM</span><span class="formula-arrow">→</span>
+      <span class="formula-step">NETWORK</span><span class="formula-arrow">→</span>
+      <span class="formula-step">INFRASTRUCTURE</span>
+    </div>
+  </div>
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goPrev('c3')">← <span class="en">Previous</span><span class="ko">이전</span></button>
+    <button class="nav-btn" onclick="goNext('c3')"><span class="en">Next</span><span class="ko">다음</span> →</button>
+  </div>
+</div>
+
+<!-- ══ §4 MPC Solution ══ -->
+<div class="chapter" id="c4">
+  <div class="chapter-eyebrow">Solution & Architecture · §4</div>
+  <h1 class="chapter-title">MPC Solution</h1>
+  <div class="en-block"><p>MPC connects the Infrastructure Gap in Mining RWA through a single end-to-end Framework.</p></div>
+  <div class="ko-block"><p>MPC는 단일 엔드투엔드 프레임워크를 통해 광산 RWA의 인프라 공백을 연결합니다.</p></div>
+  <div class="formula">
+    <span class="formula-step">VERIFY</span><span class="formula-arrow">→</span>
+    <span class="formula-step">STRUCTURE</span><span class="formula-arrow">→</span>
+    <span class="formula-step">TOKENIZE</span><span class="formula-arrow">→</span>
+    <span class="formula-step">MANAGE</span>
+  </div>
+  <div class="section">
+    <h2 class="section-title"><span class="en">4.1 Verify — Real-World Verification</span><span class="ko">4.1 Verify — 실물 검증</span></h2>
+    <div class="en-block"><p>The MPC Framework begins not with the Blockchain but with the actual Mining Project and its Source Data. Mining Data is connected to the Professional Verification processes of CPs, technical experts and relevant professional institutions.</p><p>MPC does not replace the judgement of professional institutions. It connects the subject, the verifier, the date and the status of verification to the Digital Record.</p></div>
+    <div class="ko-block"><p>MPC 프레임워크는 블록체인이 아닌 실제 광산 프로젝트와 원본 데이터(Source Data)에서 시작합니다. 광산 데이터는 적격인(CP), 기술 전문가, 관련 전문 기관의 전문 검증 프로세스에 연결됩니다.</p><p>MPC는 전문 기관의 판단을 대체하지 않습니다. 검증 대상, 검증 주체, 검증 날짜, 검증 상태를 디지털 기록에 연결합니다.</p></div>
+  </div>
+  <div class="section">
+    <h2 class="section-title"><span class="en">4.2 Structure — Traceable Data Structure</span><span class="ko">4.2 Structure — 추적 가능한 데이터 구조</span></h2>
+    <div class="en-block"><p>Verified information is structured into a traceable Digital Record.</p></div>
+    <div class="ko-block"><p>검증된 정보는 추적 가능한 디지털 기록으로 구조화됩니다.</p></div>
+    <ul class="doc-list">
+      <li><strong>Source</strong> — <span class="en">original data and its provenance</span><span class="ko">원본 데이터 및 출처</span></li>
+      <li><strong>Verification</strong> — <span class="en">the verifying party and the status</span><span class="ko">검증 주체 및 상태</span></li>
+      <li><strong>Integrity</strong> — <span class="en">Hash and Timestamp</span><span class="ko">해시 및 타임스탬프</span></li>
+      <li><strong>Version</strong> — <span class="en">change and update history</span><span class="ko">변경 및 업데이트 이력</span></li>
+      <li><strong>Registry</strong> — <span class="en">links between Project, Verification and Asset</span><span class="ko">프로젝트, 검증, 자산 간 연결</span></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2 class="section-title"><span class="en">4.3 Tokenize — Asset Infrastructure</span><span class="ko">4.3 Tokenize — 자산 인프라</span></h2>
+    <div class="en-block"><p>A Mining Project that has been verified and structured can be connected to Digital Asset Infrastructure once the necessary Legal / Asset Structure is in place. MPC provides the Smart Contract and Registry Infrastructure. The underlying assets and rights structure of each Asset Token are defined by that project's own legal and contractual structure.</p></div>
+    <div class="ko-block"><p>검증되고 구조화된 광산 프로젝트는 필요한 법적/자산 구조(Legal / Asset Structure)가 갖춰지면 디지털 자산 인프라에 연결될 수 있습니다. MPC는 스마트 컨트랙트 및 레지스트리 인프라를 제공합니다. 각 자산 토큰(Asset Token)의 기초 자산과 권리 구조는 해당 프로젝트의 법적·계약적 구조에 의해 정의됩니다.</p></div>
+  </div>
+  <div class="section">
+    <h2 class="section-title"><span class="en">4.4 Manage — Continuous Lifecycle Management</span><span class="ko">4.4 Manage — 지속적 라이프사이클 관리</span></h2>
+    <div class="en-block"><p>When new data or a change in project status arises after an Asset Token has been issued, it can be connected to the existing Digital Record through the necessary review and Re-Verification. MPC extends Tokenization from a one-off issuance into one stage of the Mining RWA Lifecycle.</p></div>
+    <div class="ko-block"><p>자산 토큰 발행 후 새로운 데이터나 프로젝트 상태 변경이 발생하면, 필요한 검토와 재검증(Re-Verification)을 통해 기존 디지털 기록에 연결될 수 있습니다. MPC는 토큰화를 일회성 발행이 아닌 광산 RWA 라이프사이클의 한 단계로 확장합니다.</p></div>
+    <div class="formula">
+      <span class="formula-step"><span class="en">Real-World Data</span><span class="ko">실물 데이터</span></span><span class="formula-arrow">→</span>
+      <span class="formula-step"><span class="en">Verified Data</span><span class="ko">검증된 데이터</span></span><span class="formula-arrow">→</span>
+      <span class="formula-step"><span class="en">Digital Asset</span><span class="ko">디지털 자산</span></span><span class="formula-arrow">→</span>
+      <span class="formula-step"><span class="en">Continuous Record</span><span class="ko">지속적 기록</span></span>
+    </div>
+  </div>
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goPrev('c4')">← <span class="en">Previous</span><span class="ko">이전</span></button>
+    <button class="nav-btn" onclick="goNext('c4')"><span class="en">Next</span><span class="ko">다음</span> →</button>
+  </div>
+</div>
+
+<!-- ══ §5 Platform Architecture ══ -->
+<div class="chapter" id="c5">
+  <div class="chapter-eyebrow">Solution & Architecture · §5</div>
+  <h1 class="chapter-title"><span class="en">Platform Architecture</span><span class="ko">플랫폼 아키텍처</span></h1>
+  <div class="section">
+    <h2 class="section-title"><span class="en">5.1 Five-Layer Mining RWA Architecture</span><span class="ko">5.1 5계층 광산 RWA 아키텍처</span></h2>
+    <div class="en-block"><p>The MPC Platform is organised into five Layers so that real Mining Data can pass through Professional Verification, be structured, and connect to Digital Assets and Applications.</p></div>
+    <div class="ko-block"><p>MPC 플랫폼은 실물 광산 데이터가 전문 검증을 통과하고, 구조화되어 디지털 자산 및 애플리케이션에 연결될 수 있도록 5개 레이어로 구성됩니다.</p></div>
+    <div class="layers">
+      <div class="layer"><span class="layer-num">05</span><span class="layer-title">Application</span><span class="layer-sub">Explorer · Dashboard · API</span></div>
+      <div class="layer"><span class="layer-num">04</span><span class="layer-title"><span class="en">Asset Infrastructure</span><span class="ko">자산 인프라</span></span><span class="layer-sub">Registry · Smart Contract · Asset</span></div>
+      <div class="layer"><span class="layer-num">03</span><span class="layer-title">Data & Oracle</span><span class="layer-sub">Structure · Integrity · Oracle · API</span></div>
+      <div class="layer"><span class="layer-num">02</span><span class="layer-title">Verification</span><span class="layer-sub">CP · Experts · Labs · AI assist</span></div>
+      <div class="layer highlight"><span class="layer-num">01</span><span class="layer-title"><span class="en">Real-World</span><span class="ko">실물</span></span><span class="layer-sub">Exploration · Drilling · Sampling · Reports</span></div>
+    </div>
+    <div class="formula">
+      <span class="formula-step"><span class="en">Real World</span><span class="ko">실물</span></span><span class="formula-arrow">→</span>
+      <span class="formula-step">Verification</span><span class="formula-arrow">→</span>
+      <span class="formula-step">Data</span><span class="formula-arrow">→</span>
+      <span class="formula-step">Asset</span><span class="formula-arrow">→</span>
+      <span class="formula-step">Application</span>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title"><span class="en">5.2 Verification Architecture</span><span class="ko">5.2 검증 아키텍처</span></h2>
+    <div class="en-block"><p>The MPC Verification Layer is built around Professional Verification. AI is used as a supporting tool for data and document analysis. AI does not replace professional judgement; it supports review efficiency and data analysis.</p></div>
+    <div class="ko-block"><p>MPC 검증 레이어는 전문 검증을 중심으로 구축됩니다. AI는 데이터 및 문서 분석을 위한 보조 도구로 활용됩니다. AI는 전문가의 판단을 대체하지 않으며, 검토 효율성과 데이터 분석을 지원합니다.</p></div>
+    <ul class="doc-list">
+      <li><strong>Subject</strong> — <span class="en">what was verified</span><span class="ko">검증 대상</span></li>
+      <li><strong>Verifier</strong> — <span class="en">who verified it</span><span class="ko">검증 주체</span></li>
+      <li><strong>Date</strong> — <span class="en">when it was verified</span><span class="ko">검증 시점</span></li>
+      <li><strong>Status</strong> — <span class="en">the current verification status</span><span class="ko">현재 검증 상태</span></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2 class="section-title"><span class="en">5.3 Data and Registry Architecture</span><span class="ko">5.3 데이터 및 레지스트리 아키텍처</span></h2>
+    <div class="en-block"><p>MPC does not store all Mining Data directly on the Blockchain. It combines On-Chain and Off-Chain Infrastructure according to the nature of the data and its access requirements.</p></div>
+    <div class="ko-block"><p>MPC는 모든 광산 데이터를 블록체인에 직접 저장하지 않습니다. 데이터의 성격과 접근 요건에 따라 온체인(On-Chain)과 오프체인(Off-Chain) 인프라를 결합합니다.</p></div>
+    <div class="grid-2">
+      <div class="grid-card">
+        <div class="grid-card-label">Off-Chain</div>
+        <div class="grid-card-desc"><span class="en">Source documents · Technical reports · Large data files · Restricted data</span><span class="ko">원본 문서 · 기술 보고서 · 대용량 파일 · 제한 데이터</span></div>
+      </div>
+      <div class="grid-card">
+        <div class="grid-card-label">On-Chain</div>
+        <div class="grid-card-desc"><span class="en">Hash · Timestamp · Verification reference · Registry record</span><span class="ko">해시 · 타임스탬프 · 검증 참조 · 레지스트리 기록</span></div>
+      </div>
+    </div>
+    <div class="en-block"><p><strong>MPC Registry</strong> links three registries: Project Registry → Verification Registry → Asset Registry. This gives a Digital Asset traceability back to the real project and its verification information.</p></div>
+    <div class="ko-block"><p><strong>MPC 레지스트리</strong>는 3개의 레지스트리를 연결합니다: 프로젝트 레지스트리 → 검증 레지스트리 → 자산 레지스트리. 이를 통해 디지털 자산은 실제 프로젝트와 검증 정보까지 추적 가능합니다.</p></div>
+  </div>
+  <div class="section">
+    <h2 class="section-title"><span class="en">5.4 Asset and Application Architecture</span><span class="ko">5.4 자산 및 애플리케이션 아키텍처</span></h2>
+    <div class="en-block"><p>Before a verified and structured Mining Project can proceed to Asset Token issuance, a project-specific Legal / Asset Structure must be defined first. MPC provides Smart Contract, Registry, Data and Lifecycle Infrastructure. Doing so does not automatically make MPC the legal issuer of any Asset Token or a regulated Distribution Provider.</p></div>
+    <div class="ko-block"><p>검증되고 구조화된 광산 프로젝트가 자산 토큰 발행으로 나아가기 위해서는 먼저 프로젝트별 법적/자산 구조가 정의되어야 합니다. MPC는 스마트 컨트랙트, 레지스트리, 데이터, 라이프사이클 인프라를 제공합니다. 이것이 MPC를 자동으로 자산 토큰의 법적 발행인이나 규제 대상 유통 제공자로 만들지는 않습니다.</p></div>
+    <div class="formula">
+      <span class="formula-step"><span class="en">Mining Project</span><span class="ko">광산 프로젝트</span></span><span class="formula-arrow">→</span>
+      <span class="formula-step"><span class="en">Legal / Asset Structure</span><span class="ko">법적/자산 구조</span></span><span class="formula-arrow">→</span>
+      <span class="formula-step">Issuer / SPV</span><span class="formula-arrow">→</span>
+      <span class="formula-step"><span class="en">Regulatory Review</span><span class="ko">규제 검토</span></span><span class="formula-arrow">→</span>
+      <span class="formula-step"><span class="en">Asset Token</span><span class="ko">자산 토큰</span></span>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title"><span class="en">5.5 Asset Issuance Structure — Who Does What</span><span class="ko">5.5 자산 발행 구조 — 역할 구분</span></h2>
+    <table class="doc-table">
+      <tr><th><span class="en">Role</span><span class="ko">역할</span></th><th><span class="en">Responsibility</span><span class="ko">역할 내용</span></th></tr>
+      <tr><td><strong><span class="en">Mining Company / Project Sponsor</span><span class="ko">광산 기업 / 프로젝트 스폰서</span></strong></td><td><span class="en">Provides the project and source data</span><span class="ko">프로젝트 및 원본 데이터 제공</span></td></tr>
+      <tr><td><strong>MPC Platform</strong></td><td><span class="en">Technology, data and registry infrastructure</span><span class="ko">기술, 데이터, 레지스트리 인프라</span></td></tr>
+      <tr><td><strong><span class="en">Professional Verification Partner</span><span class="ko">전문 검증 파트너</span></strong></td><td><span class="en">CP · Experts · Labs — independent review</span><span class="ko">CP · 전문가 · 실험실 — 독립 검토</span></td></tr>
+      <tr><td><strong><span class="en">Legal Counsel</span><span class="ko">법률 자문</span></strong></td><td><span class="en">Asset structure, SPV, token classification, regulation review</span><span class="ko">자산 구조, SPV, 토큰 분류, 규제 검토</span></td></tr>
+      <tr><td><strong>Project-Specific Issuer / SPV</strong></td><td><span class="en">The legal issuer of the asset token</span><span class="ko">자산 토큰의 법적 발행인</span></td></tr>
+      <tr><td><strong><span class="en">Licensed / Regulated Partner</span><span class="ko">인가된 규제 파트너</span></strong></td><td><span class="en">KYC/AML, Offering, Investor Onboarding, Distribution</span><span class="ko">KYC/AML, 공모, 투자자 온보딩, 유통</span></td></tr>
+      <tr><td><strong>Investor</strong></td><td><span class="en">Participates under the Issuer's contracts and offering documents</span><span class="ko">발행인의 계약 및 공모 문서에 따라 참여</span></td></tr>
+    </table>
+  </div>
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goPrev('c5')">← <span class="en">Previous</span><span class="ko">이전</span></button>
+    <button class="nav-btn" onclick="goNext('c5')"><span class="en">Next</span><span class="ko">다음</span> →</button>
+  </div>
+</div>
+
+<!-- ══ §6 Mining RWA Lifecycle ══ -->
+<div class="chapter" id="c6">
+  <div class="chapter-eyebrow">Solution & Architecture · §6</div>
+  <h1 class="chapter-title">Mining RWA Lifecycle</h1>
+  <div class="section">
+    <h2 class="section-title"><span class="en">6.1 Customer Journey — From Mining Project to Asset Token</span><span class="ko">6.1 고객 여정 — 광산 프로젝트에서 자산 토큰까지</span></h2>
+    <div class="lifecycle-steps">
+      <div class="lc-step"><span class="lc-num">01</span><div><div class="lc-title">Application<span class="ko"> · 신청</span></div><div class="lc-desc"><span class="en">A Mining Company or Project Sponsor applies to onboard a Mining Project.</span><span class="ko">광산 기업 또는 프로젝트 스폰서가 광산 프로젝트 온보딩을 신청합니다.</span></div></div></div>
+      <div class="lc-step"><span class="lc-num">02</span><div><div class="lc-title">Initial Screening<span class="ko"> · 초기 심사</span></div><div class="lc-desc"><span class="en">MPC reviews the project's basic information, data availability and suitability for the Infrastructure. This screening does not constitute a final assurance by MPC of the legal or technical eligibility of the mine.</span><span class="ko">MPC는 프로젝트의 기본 정보, 데이터 가용성, 인프라 적합성을 검토합니다. 이 심사는 MPC의 광산 법적·기술적 적격성에 대한 최종 보증이 아닙니다.</span></div></div></div>
+      <div class="lc-step"><span class="lc-num">03</span><div><div class="lc-title">Data Onboarding<span class="ko"> · 데이터 온보딩</span></div><div class="lc-desc"><span class="en">The Project Sponsor submits Mining Data, technical documents and Source Data and connects them to the MPC Data Infrastructure.</span><span class="ko">프로젝트 스폰서가 광산 데이터, 기술 문서, 원본 데이터를 제출하고 MPC 데이터 인프라에 연결합니다.</span></div></div></div>
+      <div class="lc-step"><span class="lc-num">04</span><div><div class="lc-title">Professional Verification<span class="ko"> · 전문 검증</span></div><div class="lc-desc"><span class="en">CPs, technical experts or relevant professional institutions review the Mining Data and technical information.</span><span class="ko">적격인(CP), 기술 전문가, 관련 전문 기관이 광산 데이터 및 기술 정보를 검토합니다.</span></div></div></div>
+      <div class="lc-step"><span class="lc-num">05</span><div><div class="lc-title">Legal / Asset Structuring<span class="ko"> · 법적/자산 구조화</span></div><div class="lc-desc"><span class="en">Legal Counsel reviews the underlying assets, rights structure, contracts and applicable jurisdiction, and designs the project's Legal / Asset Structure.</span><span class="ko">법률 자문이 기초 자산, 권리 구조, 계약, 적용 법률을 검토하고 프로젝트의 법적/자산 구조를 설계합니다.</span></div></div></div>
+      <div class="lc-step"><span class="lc-num">06</span><div><div class="lc-title">Issuer / SPV Setup<span class="ko"> · 발행인 / SPV 설립</span></div><div class="lc-desc"><span class="en">Where required, a Project-Specific SPV or another eligible Issuer is established.</span><span class="ko">필요한 경우 프로젝트별 SPV 또는 다른 적격 발행인을 설립합니다.</span></div></div></div>
+      <div class="lc-step"><span class="lc-num">07</span><div><div class="lc-title">Regulatory Review<span class="ko"> · 규제 검토</span></div><div class="lc-desc"><span class="en">The Asset Token's legal classification, Offering Structure, Investor Eligibility and any required licences are reviewed.</span><span class="ko">자산 토큰의 법적 분류, 공모 구조, 투자자 적격성, 필요 인허가를 검토합니다.</span></div></div></div>
+      <div class="lc-step"><span class="lc-num">08</span><div><div class="lc-title">Smart Contract & Registry<span class="ko"> · 스마트 컨트랙트 & 레지스트리</span></div><div class="lc-desc"><span class="en">On the basis of the confirmed Asset Structure, MPC builds the Smart Contract, Registry and related technical Infrastructure.</span><span class="ko">확정된 자산 구조를 기반으로 MPC가 스마트 컨트랙트, 레지스트리, 관련 기술 인프라를 구축합니다.</span></div></div></div>
+      <div class="lc-step"><span class="lc-num">09</span><div><div class="lc-title">Investor Onboarding / Distribution<span class="ko"> · 투자자 온보딩 / 유통</span></div><div class="lc-desc"><span class="en">Where required, KYC/AML, Investor Eligibility and Distribution procedures are carried out through a Licensed / Regulated Partner.</span><span class="ko">필요한 경우 KYC/AML, 투자자 적격성, 유통 절차가 인가된 규제 파트너를 통해 수행됩니다.</span></div></div></div>
+      <div class="lc-step"><span class="lc-num">10</span><div><div class="lc-title">Asset Token Issuance<span class="ko"> · 자산 토큰 발행</span></div><div class="lc-desc"><span class="en">The legal Issuer issues the Asset Token for that project.</span><span class="ko">법적 발행인이 해당 프로젝트의 자산 토큰을 발행합니다.</span></div></div></div>
+      <div class="lc-step"><span class="lc-num">11</span><div><div class="lc-title">Lifecycle Management<span class="ko"> · 라이프사이클 관리</span></div><div class="lc-desc"><span class="en">After issuance, Mining Data, Verification Status and project changes are connected to the Digital Record.</span><span class="ko">발행 후 광산 데이터, 검증 상태, 프로젝트 변경 사항이 디지털 기록에 연결됩니다.</span></div></div></div>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title"><span class="en">6.2 From Onboarding to Issuance</span><span class="ko">6.2 온보딩에서 발행까지</span></h2>
+    <div class="formula">
+      <span class="formula-step">ONBOARD</span><span class="formula-arrow">→</span>
+      <span class="formula-step">VERIFY</span><span class="formula-arrow">→</span>
+      <span class="formula-step">STRUCTURE</span><span class="formula-arrow">→</span>
+      <span class="formula-step">TOKENIZE</span>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title"><span class="en">6.3 Continuous Lifecycle Management</span><span class="ko">6.3 지속적 라이프사이클 관리</span></h2>
+    <div class="en-block"><p>Even after Tokenization, a Mining Project may produce new drilling results, test and assay data, technical reports and changes in project status. MPC connects those changes to the existing Digital Record, providing a structure in which Verification History and the Asset Record can be tracked continuously.</p></div>
+    <div class="ko-block"><p>토큰화 이후에도 광산 프로젝트는 새로운 시추 결과, 시험·분석 데이터, 기술 보고서, 프로젝트 상태 변경을 지속적으로 생성합니다. MPC는 이러한 변경 사항을 기존 디지털 기록에 연결하여 검증 이력과 자산 기록을 지속적으로 추적할 수 있는 구조를 제공합니다.</p></div>
+    <div class="formula">
+      <span class="formula-step">MONITOR</span><span class="formula-arrow">→</span>
+      <span class="formula-step">UPDATE</span><span class="formula-arrow">→</span>
+      <span class="formula-step">RE-VERIFY</span>
+    </div>
+  </div>
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goPrev('c6')">← <span class="en">Previous</span><span class="ko">이전</span></button>
+    <button class="nav-btn" onclick="goNext('c6')"><span class="en">Next</span><span class="ko">다음</span> →</button>
+  </div>
+</div>
+
+<!-- ══ §7 Protocol Economy ══ -->
+<div class="chapter" id="c7">
+  <div class="chapter-eyebrow">Token Economy · §7</div>
+  <h1 class="chapter-title">MPC Protocol Economy</h1>
+  <div class="section">
+    <h2 class="section-title"><span class="en">7.1 Utility-Driven Protocol Economy</span><span class="ko">7.1 유틸리티 기반 프로토콜 이코노미</span></h2>
+    <div class="en-block"><p>The MPC Ecosystem is divided into three areas: <strong>Platform Business</strong>, <strong>Protocol Economy</strong> and <strong>Asset Economy</strong>. The three areas are connected within one Ecosystem, but their functions and economic rights remain distinct.</p></div>
+    <div class="ko-block"><p>MPC 생태계는 <strong>플랫폼 비즈니스(Platform Business)</strong>, <strong>프로토콜 이코노미(Protocol Economy)</strong>, <strong>자산 이코노미(Asset Economy)</strong>의 세 영역으로 구분됩니다. 세 영역은 하나의 생태계 안에서 연결되어 있지만, 기능과 경제적 권리는 명확히 구분됩니다.</p></div>
+    <div class="grid-3">
+      <div class="grid-card">
+        <div class="grid-card-label">Platform Business</div>
+        <div class="grid-card-desc"><span class="en">Infrastructure services — Verification, Data, Asset</span><span class="ko">인프라 서비스 — 검증, 데이터, 자산</span></div>
+      </div>
+      <div class="grid-card">
+        <div class="grid-card-label">Protocol Economy</div>
+        <div class="grid-card-desc"><span class="en">MPC Token utility — Protocol usage and ecosystem participation</span><span class="ko">MPC 토큰 유틸리티 — 프로토콜 이용 및 생태계 참여</span></div>
+      </div>
+      <div class="grid-card">
+        <div class="grid-card-label">Asset Economy</div>
+        <div class="grid-card-desc"><span class="en">Project-specific asset structure — Economic rights defined by each project's Legal / Asset Structure</span><span class="ko">프로젝트별 자산 구조 — 각 프로젝트의 법적/자산 구조에 의해 경제적 권리 정의</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">7.2 MPC Token</h2>
+    <div class="en-block"><p>The MPC Token is not an Asset Token representing a specific mine or mineral resource. It is a <strong>Utility Token</strong> supporting the functions of the MPC Protocol and participation in the ecosystem. Utility comes from protocol usage.</p></div>
+    <div class="ko-block"><p>MPC 토큰은 특정 광산이나 광물 자원을 나타내는 자산 토큰이 아닙니다. MPC 프로토콜의 기능을 지원하고 생태계 참여를 가능하게 하는 <strong>유틸리티 토큰(Utility Token)</strong>입니다. 유틸리티는 프로토콜 사용에서 발생합니다.</p></div>
+    <div class="neq-badge">
+      <span class="neq-item">Platform Business</span>
+      <span class="neq-sym">≠</span>
+      <span class="neq-item">Protocol Economy</span>
+      <span class="neq-sym">≠</span>
+      <span class="neq-item">Asset Economy</span>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title"><span class="en">7.3 Core Utility Framework</span><span class="ko">7.3 핵심 유틸리티 프레임워크</span></h2>
+    <ul class="doc-list">
+      <li><strong>7.3.1 Issuance Gate Bond</strong> — <span class="en">Used as the Issuance Gate Bond required in the process of issuing a new Mining Asset Token.</span><span class="ko">새로운 광산 자산 토큰 발행 과정에서 요구되는 발행 게이트 본드(Issuance Gate Bond)로 사용됩니다.</span></li>
+      <li><strong>7.3.2 Verification & Oracle</strong> — <span class="en">May be used as the Deposit for participating as a Verification Node or Data Oracle, with a Slashing Mechanism applicable to inaccurate or improper verification.</span><span class="ko">검증 노드(Verification Node) 또는 데이터 오라클(Data Oracle)로 참여하기 위한 예치금으로 사용될 수 있으며, 부정확하거나 부적절한 검증에는 슬래싱 메커니즘(Slashing Mechanism)이 적용됩니다.</span></li>
+      <li><strong>7.3.3 Staking & Access</strong> — <span class="en">MPC Staking may be linked to Early Access or Whitelist participation for new Mining Projects.</span><span class="ko">MPC 스테이킹은 새로운 광산 프로젝트에 대한 얼리 액세스(Early Access) 또는 화이트리스트(Whitelist) 참여와 연결될 수 있습니다.</span></li>
+      <li><strong>7.3.4 Protocol Fees</strong> — <span class="en">Used for Protocol Fees arising in the issuance and settlement of Asset Tokens, and may be linked to a Fee Discount structure when MPC is used.</span><span class="ko">자산 토큰의 발행 및 정산 시 발생하는 프로토콜 수수료로 사용되며, MPC 사용 시 수수료 할인 구조와 연결될 수 있습니다.</span></li>
+      <li><strong>7.3.5 Governance</strong> — <span class="en">May be used in the Governance of key Protocol Parameters such as Onboarding Review for new Mining Projects and the Protocol Fee Rate.</span><span class="ko">새로운 광산 프로젝트의 온보딩 검토 및 프로토콜 수수료율과 같은 핵심 프로토콜 파라미터의 거버넌스에 사용될 수 있습니다.</span></li>
+    </ul>
+  </div>
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goPrev('c7')">← <span class="en">Previous</span><span class="ko">이전</span></button>
+    <button class="nav-btn" onclick="goNext('c7')"><span class="en">Next</span><span class="ko">다음</span> →</button>
+  </div>
+</div>
+
+<!-- ══ §8 Tokenomics ══ -->
+<div class="chapter" id="c8">
+  <div class="chapter-eyebrow">Token Economy · §8</div>
+  <h1 class="chapter-title">Tokenomics</h1>
+  <div class="section">
+    <h2 class="section-title"><span class="en">8.1 Token Supply and Allocation</span><span class="ko">8.1 토큰 공급 및 배분</span></h2>
+    <div class="en-block"><p>MPC's Tokenomics is designed around a planned total supply of <strong>10,000,000,000 MPC</strong>, organised into five Allocation Categories. The figures below describe the design MPC intends to apply; they take effect on-chain only when the corresponding contracts are deployed.</p></div>
+    <div class="ko-block"><p>MPC의 토크노믹스는 계획된 총 발행량 <strong>100억 MPC</strong>를 기반으로 설계되었으며, 5개의 배분 카테고리로 구성됩니다. 아래 수치는 MPC가 적용하려는 설계이며, 해당 컨트랙트가 배포될 때만 온체인에서 효력이 발생합니다.</p></div>
+    <table class="doc-table">
+      <tr><th><span class="en">Item</span><span class="ko">항목</span></th><th><span class="en">Detail</span><span class="ko">내용</span></th></tr>
+      <tr><td><span class="en">Token Symbol</span><span class="ko">토큰 심볼</span></td><td><strong>MPC</strong></td></tr>
+      <tr><td><span class="en">Token Type</span><span class="ko">토큰 유형</span></td><td><span class="en">Utility Token</span><span class="ko">유틸리티 토큰</span></td></tr>
+      <tr><td><span class="en">Planned Total Supply</span><span class="ko">계획 총 발행량</span></td><td><strong>10,000,000,000 MPC</strong></td></tr>
+      <tr><td><span class="en">Chain of Record (planned)</span><span class="ko">기록 체인 (계획)</span></td><td><strong>BNB Chain</strong></td></tr>
+    </table>
+
+    <h3 class="section-sub"><span class="en">8.1.2 Token Allocation</span><span class="ko">8.1.2 토큰 배분</span></h3>
+    <table class="doc-table">
+      <tr><th><span class="en">Allocation</span><span class="ko">배분 항목</span></th><th><span class="en">Share</span><span class="ko">비율</span></th><th>Tokens</th></tr>
+      <tr><td><span class="en">Community Growth</span><span class="ko">커뮤니티 성장</span></td><td><strong>70%</strong></td><td>7,000,000,000</td></tr>
+      <tr><td><span class="en">Team & Advisors</span><span class="ko">팀 & 어드바이저</span></td><td>5%</td><td>500,000,000</td></tr>
+      <tr><td>Investors</td><td>10%</td><td>1,000,000,000</td></tr>
+      <tr><td><span class="en">Marketing & Exchange Listing</span><span class="ko">마케팅 & 거래소 상장</span></td><td>10%</td><td>1,000,000,000</td></tr>
+      <tr><td>Liquidity</td><td>5%</td><td>500,000,000</td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>100%</strong></td><td><strong>10,000,000,000</strong></td></tr>
+    </table>
+  </div>
+  <div class="section">
+    <h2 class="section-title"><span class="en">8.2 Vesting and Release Schedule</span><span class="ko">8.2 베스팅 및 출시 일정</span></h2>
+    <table class="doc-table">
+      <tr><th><span class="en">Allocation</span><span class="ko">배분</span></th><th>TGE</th><th>Cliff</th><th>Linear Vesting</th></tr>
+      <tr><td><span class="en">Community</span><span class="ko">커뮤니티</span></td><td>5% of bucket</td><td>None</td><td>36M</td></tr>
+      <tr><td><span class="en">Team & Advisors</span><span class="ko">팀 & 어드바이저</span></td><td>0%</td><td>6M</td><td>24M</td></tr>
+      <tr><td>Investors</td><td>0%</td><td>12M</td><td>24M</td></tr>
+      <tr><td><span class="en">Marketing & Listing</span><span class="ko">마케팅 & 상장</span></td><td>50% of bucket</td><td>None</td><td>24M</td></tr>
+      <tr><td>Liquidity</td><td>100%</td><td>None</td><td>TGE</td></tr>
+    </table>
+    <div class="vesting-timeline">
+      <div class="vt-phase"><div class="vt-label">TGE</div><div class="vt-pct">13.5%</div></div>
+      <div class="vt-phase"><div class="vt-label">M12</div><div class="vt-pct">39.4%</div></div>
+      <div class="vt-phase"><div class="vt-label">M24</div><div class="vt-pct">71.6%</div></div>
+      <div class="vt-phase"><div class="vt-label">M36</div><div class="vt-pct">100%</div></div>
+    </div>
+    <div class="callout"><span class="en">Disclosure: The Allocation and Vesting above are MPC's current Tokenomics design, not a completed distribution. They become binding on-chain only when the Vesting Contract is deployed, and the design may change until then.</span><span class="ko">공시: 위 배분 및 베스팅은 MPC의 현재 토크노믹스 설계이며, 완료된 배분이 아닙니다. 베스팅 컨트랙트가 배포될 때만 온체인에서 구속력을 가지며, 그 전까지 설계는 변경될 수 있습니다.</span></div>
+  </div>
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goPrev('c8')">← <span class="en">Previous</span><span class="ko">이전</span></button>
+    <button class="nav-btn" onclick="goNext('c8')"><span class="en">Next</span><span class="ko">다음</span> →</button>
+  </div>
+</div>
+
+<!-- ══ §9 MPC Ecosystem ══ -->
+<div class="chapter" id="c9">
+  <div class="chapter-eyebrow">Ecosystem & Governance · §9</div>
+  <h1 class="chapter-title">MPC Ecosystem</h1>
+  <div class="section">
+    <h2 class="section-title"><span class="en">9.1 A Connected Mining RWA Network</span><span class="ko">9.1 연결된 광산 RWA 네트워크</span></h2>
+    <div class="en-block"><p>The MPC Ecosystem connects Mining Companies, Verification Partners, enterprises and institutions, Developers, Web3 Users and Infrastructure Partners through a common <strong>Mining RWA Infrastructure</strong>. Each participant plays a different role across Project Sponsorship, Professional Verification, Legal Structuring, Regulated Services, Infrastructure and Ecosystem Participation.</p></div>
+    <div class="ko-block"><p>MPC 생태계는 광산 기업, 검증 파트너, 기업 및 기관, 개발자, Web3 사용자, 인프라 파트너를 공통 <strong>광산 RWA 인프라</strong>를 통해 연결합니다. 각 참여자는 프로젝트 스폰서십, 전문 검증, 법적 구조화, 규제 서비스, 인프라, 생태계 참여에 걸쳐 다양한 역할을 수행합니다.</p></div>
+    <ul class="doc-list">
+      <li><strong><span class="en">Mining Companies</span><span class="ko">광산 기업</span></strong> — <span class="en">Project and Mining Data</span><span class="ko">프로젝트 및 광산 데이터</span></li>
+      <li><strong><span class="en">Verification Partners</span><span class="ko">검증 파트너</span></strong> — <span class="en">Professional Verification</span><span class="ko">전문 검증</span></li>
+      <li><strong><span class="en">Enterprises & Institutions</span><span class="ko">기업 & 기관</span></strong> — <span class="en">Data and Enterprise Infrastructure</span><span class="ko">데이터 및 기업 인프라</span></li>
+      <li><strong>Developers</strong> — <span class="en">API and Infrastructure Integration</span><span class="ko">API 및 인프라 통합</span></li>
+      <li><strong>Web3 Users</strong> — <span class="en">Protocol and Ecosystem Participation</span><span class="ko">프로토콜 및 생태계 참여</span></li>
+      <li><strong><span class="en">Infrastructure Partners</span><span class="ko">인프라 파트너</span></strong> — Blockchain · Oracle · Security</li>
+    </ul>
+  </div>
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goPrev('c9')">← <span class="en">Previous</span><span class="ko">이전</span></button>
+    <button class="nav-btn" onclick="goNext('c9')"><span class="en">Next</span><span class="ko">다음</span> →</button>
+  </div>
+</div>
+
+<!-- ══ §10 Governance ══ -->
+<div class="chapter" id="c10">
+  <div class="chapter-eyebrow">Ecosystem & Governance · §10</div>
+  <h1 class="chapter-title">Governance</h1>
+  <div class="section">
+    <h2 class="section-title"><span class="en">10.1 Protocol Governance Framework</span><span class="ko">10.1 프로토콜 거버넌스 프레임워크</span></h2>
+    <div class="en-block"><p>MPC Governance is a participatory decision-making Framework that expands in stages as the Protocol and Ecosystem develop. The MPC Token may be used in Protocol-related decisions under the Governance Framework.</p></div>
+    <div class="ko-block"><p>MPC 거버넌스는 프로토콜과 생태계가 발전함에 따라 단계적으로 확장되는 참여형 의사결정 프레임워크입니다. MPC 토큰은 거버넌스 프레임워크에 따라 프로토콜 관련 결정에 사용될 수 있습니다.</p></div>
+    <ul class="doc-list">
+      <li><strong><span class="en">Protocol Parameters</span><span class="ko">프로토콜 파라미터</span></strong> — <span class="en">key parameters such as the Protocol Fee Rate</span><span class="ko">프로토콜 수수료율 등 핵심 파라미터</span></li>
+      <li><strong><span class="en">Project Onboarding</span><span class="ko">프로젝트 온보딩</span></strong> — <span class="en">Protocol Onboarding of new Mining Projects</span><span class="ko">새로운 광산 프로젝트의 프로토콜 온보딩</span></li>
+      <li><strong><span class="en">Ecosystem Proposals</span><span class="ko">생태계 제안</span></strong> — <span class="en">Ecosystem expansion and new functionality</span><span class="ko">생태계 확장 및 새로운 기능</span></li>
+      <li><strong><span class="en">Protocol Upgrades</span><span class="ko">프로토콜 업그레이드</span></strong> — <span class="en">Protocol and Infrastructure improvements</span><span class="ko">프로토콜 및 인프라 개선</span></li>
+      <li><strong><span class="en">Service Framework</span><span class="ko">서비스 프레임워크</span></strong> — <span class="en">policy relating to Platform Services</span><span class="ko">플랫폼 서비스 관련 정책</span></li>
+    </ul>
+    <div class="formula">
+      <span class="formula-step"><span class="en">Propose</span><span class="ko">제안</span></span><span class="formula-arrow">→</span>
+      <span class="formula-step"><span class="en">Review</span><span class="ko">검토</span></span><span class="formula-arrow">→</span>
+      <span class="formula-step"><span class="en">Vote</span><span class="ko">투표</span></span><span class="formula-arrow">→</span>
+      <span class="formula-step"><span class="en">Implement</span><span class="ko">실행</span></span><span class="formula-arrow">→</span>
+      <span class="formula-step"><span class="en">Disclose</span><span class="ko">공시</span></span>
+    </div>
+    <div class="en-block"><p>Matters requiring technical, security, legal or Professional Verification input are not replaced by Governance Voting alone.</p></div>
+    <div class="ko-block"><p>기술, 보안, 법적, 전문 검증 입력이 필요한 사안은 거버넌스 투표만으로 대체되지 않습니다.</p></div>
+  </div>
+  <div class="section">
+    <h2 class="section-title"><span class="en">10.2 Platform vs. Asset Governance</span><span class="ko">10.2 플랫폼 거버넌스 vs. 자산 거버넌스</span></h2>
+    <div class="neq-badge">
+      <span class="neq-item"><span class="en">Platform Governance</span><span class="ko">플랫폼 거버넌스</span></span>
+      <span class="neq-sym">≠</span>
+      <span class="neq-item"><span class="en">Asset Governance</span><span class="ko">자산 거버넌스</span></span>
+    </div>
+    <div class="en-block"><p>The asset rights, SPV decision-making and contractual rights of each Mining RWA are defined separately by that project's legal and contractual structure.</p></div>
+    <div class="ko-block"><p>각 광산 RWA의 자산 권리, SPV 의사결정, 계약적 권리는 해당 프로젝트의 법적·계약적 구조에 의해 별도로 정의됩니다.</p></div>
+  </div>
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goPrev('c10')">← <span class="en">Previous</span><span class="ko">이전</span></button>
+    <button class="nav-btn" onclick="goNext('c10')"><span class="en">Next</span><span class="ko">다음</span> →</button>
+  </div>
+</div>
+
+<!-- ══ §11 Trust & Compliance ══ -->
+<div class="chapter" id="c11">
+  <div class="chapter-eyebrow">Trust, Business & Risk · §11</div>
+  <h1 class="chapter-title">Trust & Compliance</h1>
+  <div class="section">
+    <h2 class="section-title"><span class="en">11.1 Multi-Layer Trust Framework</span><span class="ko">11.1 다계층 신뢰 프레임워크</span></h2>
+    <div class="en-block"><p>Trust in Mining RWA is not created by the Blockchain alone. MPC works towards a Multi-Layer Trust Framework connecting Verification, Data Integrity, Security, Compliance and Governance.</p></div>
+    <div class="ko-block"><p>광산 RWA에 대한 신뢰는 블록체인만으로 만들어지지 않습니다. MPC는 검증, 데이터 무결성, 보안, 컴플라이언스, 거버넌스를 연결하는 다계층 신뢰 프레임워크(Multi-Layer Trust Framework)를 구축합니다.</p></div>
+    <div class="layers">
+      <div class="layer"><span class="layer-num">06</span><span class="layer-title">Governance</span><span class="layer-sub"><span class="en">Protocol policy and decision-making Framework</span><span class="ko">프로토콜 정책 및 의사결정 프레임워크</span></span></div>
+      <div class="layer"><span class="layer-num">05</span><span class="layer-title">Compliance</span><span class="layer-sub"><span class="en">Controls according to the service, participant and jurisdiction</span><span class="ko">서비스, 참여자, 관할권에 따른 통제</span></span></div>
+      <div class="layer"><span class="layer-num">04</span><span class="layer-title">Security</span><span class="layer-sub"><span class="en">Smart Contract, Access Control and System Security</span><span class="ko">스마트 컨트랙트, 접근 통제, 시스템 보안</span></span></div>
+      <div class="layer"><span class="layer-num">03</span><span class="layer-title">Data Integrity</span><span class="layer-sub"><span class="en">Source, Hash, Timestamp and Version</span><span class="ko">출처, 해시, 타임스탬프, 버전</span></span></div>
+      <div class="layer"><span class="layer-num">02</span><span class="layer-title">Verification</span><span class="layer-sub"><span class="en">Connects Professional Verification to Mining Data</span><span class="ko">전문 검증을 광산 데이터에 연결</span></span></div>
+      <div class="layer highlight"><span class="layer-num">01</span><span class="layer-title"><span class="en">Real-World Asset</span><span class="ko">실물 자산</span></span><span class="layer-sub"><span class="en">Trust is built from the real asset upward</span><span class="ko">신뢰는 실물 자산에서 위로 구축됩니다</span></span></div>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title"><span class="en">11.2 Risk-Based Compliance Framework</span><span class="ko">11.2 리스크 기반 컴플라이언스 프레임워크</span></h2>
+    <div class="formula">
+      <span class="formula-step">IDENTIFY</span><span class="formula-arrow">→</span>
+      <span class="formula-step">ASSESS</span><span class="formula-arrow">→</span>
+      <span class="formula-step">CONTROL</span><span class="formula-arrow">→</span>
+      <span class="formula-step">MONITOR</span><span class="formula-arrow">→</span>
+      <span class="formula-step">UPDATE</span>
+    </div>
+    <ul class="doc-list">
+      <li><strong>KYC / KYB</strong> — <span class="en">individual and corporate identification</span><span class="ko">개인 및 법인 신원 확인</span></li>
+      <li><strong>AML</strong> — <span class="en">anti-money laundering</span><span class="ko">자금세탁 방지</span></li>
+      <li><strong>Sanctions Screening</strong> — <span class="en">sanctions list checks</span><span class="ko">제재 목록 확인</span></li>
+      <li><strong>Access Control</strong> — <span class="en">service access management</span><span class="ko">서비스 접근 관리</span></li>
+      <li><strong>Regulatory Review</strong> — <span class="en">legal and regulatory review</span><span class="ko">법적·규제 검토</span></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2 class="section-title"><span class="en">11.3 Platform vs. Asset-Level Compliance</span><span class="ko">11.3 플랫폼 레벨 vs. 자산 레벨 컴플라이언스</span></h2>
+    <div class="compliance-grid">
+      <div class="cg-header"><span class="en">Platform-Level</span><span class="ko">플랫폼 레벨</span></div>
+      <div class="cg-header"><span class="en">Project / Asset-Level</span><span class="ko">프로젝트 / 자산 레벨</span></div>
+      <div class="cg-cell"><span class="en">MPC Platform Services</span><span class="ko">MPC 플랫폼 서비스</span></div><div class="cg-cell"><span class="en">Project-Specific Issuer / SPV</span><span class="ko">프로젝트별 발행인 / SPV</span></div>
+      <div class="cg-cell"><span class="en">Platform Access</span><span class="ko">플랫폼 접근</span></div><div class="cg-cell"><span class="en">Asset Structure</span><span class="ko">자산 구조</span></div>
+      <div class="cg-cell"><span class="en">Protocol Controls</span><span class="ko">프로토콜 통제</span></div><div class="cg-cell"><span class="en">Token Classification</span><span class="ko">토큰 분류</span></div>
+      <div class="cg-cell"><span class="en">System Security</span><span class="ko">시스템 보안</span></div><div class="cg-cell"><span class="en">Investor Eligibility</span><span class="ko">투자자 적격성</span></div>
+    </div>
+    <div class="neq-badge">
+      <span class="neq-item">ONE PLATFORM</span>
+      <span class="neq-sym">≠</span>
+      <span class="neq-item"><span class="en">ONE LEGAL STRUCTURE</span><span class="ko">하나의 법적 구조</span></span>
+    </div>
+  </div>
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goPrev('c11')">← <span class="en">Previous</span><span class="ko">이전</span></button>
+    <button class="nav-btn" onclick="goNext('c11')"><span class="en">Next</span><span class="ko">다음</span> →</button>
+  </div>
+</div>
+
+<!-- ══ §12 Business Model ══ -->
+<div class="chapter" id="c12">
+  <div class="chapter-eyebrow">Trust, Business & Risk · §12</div>
+  <h1 class="chapter-title">Business Model</h1>
+  <div class="section">
+    <h2 class="section-title"><span class="en">12.1 Infrastructure-Driven Business Model</span><span class="ko">12.1 인프라 기반 비즈니스 모델</span></h2>
+    <div class="en-block"><p>MPC's Business Model centres on providing the <strong>Infrastructure Services</strong> needed to build and operate Mining RWA to Mining Companies, Project Sponsors, Project-Specific Issuers / SPVs, enterprises and institutions. MPC applies the same Infrastructure Framework across many Mining Projects, expanding from Project-Level Service to Multi-Project Infrastructure.</p></div>
+    <div class="ko-block"><p>MPC의 비즈니스 모델은 광산 기업, 프로젝트 스폰서, 프로젝트별 발행인/SPV, 기업 및 기관에 광산 RWA를 구축·운영하는 데 필요한 <strong>인프라 서비스(Infrastructure Services)</strong>를 제공하는 것을 중심으로 합니다. MPC는 동일한 인프라 프레임워크를 다수의 광산 프로젝트에 적용하여 프로젝트 레벨 서비스에서 멀티 프로젝트 인프라로 확장합니다.</p></div>
+    <ul class="doc-list">
+      <li><strong>Project Onboarding</strong> — <span class="en">project registration and initial Infrastructure setup</span><span class="ko">프로젝트 등록 및 초기 인프라 설정</span></li>
+      <li><strong>Verification Infrastructure</strong> — <span class="en">Professional Verification Workflow and the related technical Infrastructure</span><span class="ko">전문 검증 워크플로우 및 관련 기술 인프라</span></li>
+      <li><strong>Data & Registry</strong> — <span class="en">Mining Data, Verification Record and Asset Registry Infrastructure</span><span class="ko">광산 데이터, 검증 기록, 자산 레지스트리 인프라</span></li>
+      <li><strong>Asset Issuance Infrastructure</strong> — <span class="en">technical Infrastructure for Smart Contract, Registry and Asset Token issuance</span><span class="ko">스마트 컨트랙트, 레지스트리, 자산 토큰 발행을 위한 기술 인프라</span></li>
+      <li><strong>Lifecycle Management</strong> — <span class="en">continuous management of Mining Data, Verification Status and Asset Record after issuance</span><span class="ko">발행 후 광산 데이터, 검증 상태, 자산 기록의 지속적 관리</span></li>
+      <li><strong>Enterprise / API Solutions</strong> — <span class="en">Dashboard, API and integration services for enterprises, institutions and external applications</span><span class="ko">기업, 기관, 외부 애플리케이션을 위한 대시보드, API, 통합 서비스</span></li>
+    </ul>
+    <div class="neq-badge">
+      <span class="neq-item">PLATFORM REVENUE</span>
+      <span class="neq-sym">≠</span>
+      <span class="neq-item">TOKEN HOLDER RIGHTS</span>
+    </div>
+  </div>
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goPrev('c12')">← <span class="en">Previous</span><span class="ko">이전</span></button>
+    <button class="nav-btn" onclick="goNext('c12')"><span class="en">Next</span><span class="ko">다음</span> →</button>
+  </div>
+</div>
+
+<!-- ══ §13 Security & Risk ══ -->
+<div class="chapter" id="c13">
+  <div class="chapter-eyebrow">Trust, Business & Risk · §13</div>
+  <h1 class="chapter-title">Security & Risk Management</h1>
+  <div class="section">
+    <h2 class="section-title"><span class="en">13.1 Multi-Layer Risk Framework</span><span class="ko">13.1 다계층 리스크 프레임워크</span></h2>
+    <div class="en-block"><p>Because Mining RWA connects a real Mining Project to Digital Infrastructure, it can carry compound risk across asset, verification, data, technology, operations and regulation. MPC works towards a Framework that identifies, assesses and manages the principal risks on a continuing basis.</p></div>
+    <div class="ko-block"><p>광산 RWA는 실물 광산 프로젝트와 디지털 인프라를 연결하기 때문에 자산, 검증, 데이터, 기술, 운영, 규제에 걸친 복합 리스크를 수반할 수 있습니다. MPC는 핵심 리스크를 지속적으로 식별, 평가, 관리하는 프레임워크를 구축합니다.</p></div>
+    <div class="risk-list">
+      <div class="risk-item"><div class="risk-dot"></div><div><div class="risk-label">Asset Risk <span class="ko">· 자산 리스크</span></div><div class="risk-desc"><span class="en">Exploration, resource evaluation, development and production, and changes in project status</span><span class="ko">탐사, 자원 평가, 개발, 생산 및 프로젝트 상태 변화</span></div></div></div>
+      <div class="risk-item"><div class="risk-dot"></div><div><div class="risk-label">Verification Risk <span class="ko">· 검증 리스크</span></div><div class="risk-desc"><span class="en">Verification error, incomplete or outdated information</span><span class="ko">검증 오류, 불완전하거나 오래된 정보</span></div></div></div>
+      <div class="risk-item"><div class="risk-dot"></div><div><div class="risk-label">Data & Oracle Risk</div><div class="risk-desc"><span class="en">Data error, Data Integrity and dependence on external data sources</span><span class="ko">데이터 오류, 데이터 무결성, 외부 데이터 소스 의존성</span></div></div></div>
+      <div class="risk-item"><div class="risk-dot"></div><div><div class="risk-label">Smart Contract Risk</div><div class="risk-desc"><span class="en">Smart Contract error and technical vulnerability</span><span class="ko">스마트 컨트랙트 오류 및 기술적 취약점</span></div></div></div>
+      <div class="risk-item"><div class="risk-dot"></div><div><div class="risk-label">Cybersecurity Risk <span class="ko">· 사이버보안 리스크</span></div><div class="risk-desc"><span class="en">System Security, Access Control and Key Management</span><span class="ko">시스템 보안, 접근 통제, 키 관리</span></div></div></div>
+      <div class="risk-item"><div class="risk-dot"></div><div><div class="risk-label">Operational Risk <span class="ko">· 운영 리스크</span></div><div class="risk-desc"><span class="en">Operating processes and dependence on external service providers</span><span class="ko">운영 프로세스 및 외부 서비스 제공자 의존성</span></div></div></div>
+      <div class="risk-item"><div class="risk-dot"></div><div><div class="risk-label">Compliance & Regulatory Risk <span class="ko">· 컴플라이언스 & 규제 리스크</span></div><div class="risk-desc"><span class="en">Asset Token Classification, Issuer Requirements, Investor Eligibility, Offering / Distribution Licensing, and legal and regulatory change by jurisdiction</span><span class="ko">자산 토큰 분류, 발행인 요건, 투자자 적격성, 공모/유통 인허가, 관할권별 법적·규제 변경</span></div></div></div>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title"><span class="en">13.2 Risk Management Cycle</span><span class="ko">13.2 리스크 관리 사이클</span></h2>
+    <div class="formula">
+      <span class="formula-step">IDENTIFY</span><span class="formula-arrow">→</span>
+      <span class="formula-step">ASSESS</span><span class="formula-arrow">→</span>
+      <span class="formula-step">MITIGATE</span><span class="formula-arrow">→</span>
+      <span class="formula-step">MONITOR</span><span class="formula-arrow">→</span>
+      <span class="formula-step">RESPOND</span>
+    </div>
+    <div class="callout">
+      <span class="en">Blockchain does not remove real-world risk.</span>
+      <span class="ko">블록체인은 실물 세계의 리스크를 제거하지 않습니다.</span>
+    </div>
+  </div>
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goPrev('c13')">← <span class="en">Previous</span><span class="ko">이전</span></button>
+    <button class="nav-btn" onclick="goNext('c13')"><span class="en">Next</span><span class="ko">다음</span> →</button>
+  </div>
+</div>
+
+<!-- ══ §14 Roadmap & Vision ══ -->
+<div class="chapter" id="c14">
+  <div class="chapter-eyebrow">Roadmap & Legal · §14</div>
+  <h1 class="chapter-title">Roadmap & Vision</h1>
+  <div class="section">
+    <h2 class="section-title"><span class="en">14.1 From Reference Deployment to Global Mining RWA Infrastructure</span><span class="ko">14.1 레퍼런스 배포에서 글로벌 광산 RWA 인프라로</span></h2>
+    <div class="en-block"><p>The MPC Roadmap runs through building Infrastructure, designing the Asset & Legal Structure, applying a Reference Project, and expanding to Multi-Project.</p></div>
+    <div class="ko-block"><p>MPC 로드맵은 인프라 구축, 자산 및 법적 구조 설계, 레퍼런스 프로젝트 적용, 멀티 프로젝트로의 확장 순서로 진행됩니다.</p></div>
+    <div class="roadmap">
+      <div class="rm-phase">
+        <div class="rm-label">BUILD <span class="ko">· 구축</span></div>
+        <div class="rm-title">Verification Infrastructure <span class="ko">· 검증 인프라</span></div>
+        <ul class="doc-list">
+          <li><span class="en">Independent CP Verification</span><span class="ko">독립적 CP 검증</span></li>
+          <li><span class="en">AI Verification PoC</span><span class="ko">AI 검증 PoC</span></li>
+          <li><span class="en">Oracle Architecture Design</span><span class="ko">오라클 아키텍처 설계</span></li>
+          <li><span class="en">Verification Infrastructure Development</span><span class="ko">검증 인프라 개발</span></li>
+        </ul>
+      </div>
+      <div class="rm-phase">
+        <div class="rm-label">STRUCTURE <span class="ko">· 구조화</span></div>
+        <div class="rm-title">Asset & Legal Structure <span class="ko">· 자산 & 법적 구조</span></div>
+        <ul class="doc-list">
+          <li><span class="en">SPV Structure Design</span><span class="ko">SPV 구조 설계</span></li>
+          <li><span class="en">Legal Opinion Acquisition</span><span class="ko">법률 의견서 취득</span></li>
+          <li><span class="en">Trading Platform Partnerships</span><span class="ko">거래 플랫폼 파트너십</span></li>
+          <li><span class="en">Technology Stack Review</span><span class="ko">기술 스택 검토</span></li>
+        </ul>
+      </div>
+      <div class="rm-phase" style="border: 1px solid var(--copper);">
+        <div class="rm-label">DEPLOY <span class="ko">· 배포</span></div>
+        <div class="rm-title">Reference Deployment <span class="ko">· 레퍼런스 배포</span></div>
+        <ul class="doc-list">
+          <li><strong>Tsagaan Tolgoi Strategic Mineral Project</strong></li>
+          <li><span class="en">Regulatory Consultation</span><span class="ko">규제 협의</span></li>
+          <li><span class="en">First Mineral RWA Issuance</span><span class="ko">첫 번째 광물 RWA 발행</span></li>
+        </ul>
+      </div>
+      <div class="rm-phase">
+        <div class="rm-label">SCALE <span class="ko">· 확장</span></div>
+        <div class="rm-title">Multi-Project Infrastructure <span class="ko">· 멀티 프로젝트 인프라</span></div>
+        <ul class="doc-list">
+          <li><span class="en">Additional Mining Projects</span><span class="ko">추가 광산 프로젝트</span></li>
+          <li><span class="en">Standardized Mineral RWA Issuance Framework</span><span class="ko">표준화된 광물 RWA 발행 프레임워크</span></li>
+          <li><span class="en">Global Liquidity Expansion</span><span class="ko">글로벌 유동성 확장</span></li>
+          <li><span class="en">Global Mining RWA Infrastructure</span><span class="ko">글로벌 광산 RWA 인프라</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">14.2 Vision</h2>
+    <div class="en-block"><p>MPC's long-term goal is not the tokenization of a single mine but the extension of a proven Framework across many Mining Projects to build a common Mining RWA Infrastructure.</p></div>
+    <div class="ko-block"><p>MPC의 장기 목표는 단일 광산의 토큰화가 아닌, 검증된 프레임워크를 다수의 광산 프로젝트에 확장하여 공통 광산 RWA 인프라를 구축하는 것입니다.</p></div>
+    <div class="formula">
+      <span class="formula-step">VERIFY</span><span class="formula-arrow">·</span>
+      <span class="formula-step">STANDARDIZE</span><span class="formula-arrow">·</span>
+      <span class="formula-step">CONNECT</span><span class="formula-arrow">·</span>
+      <span class="formula-step">SCALE</span>
+    </div>
+    <div class="callout">
+      <span class="en">Building the trust infrastructure for Mining RWA.</span>
+      <span class="ko">광산 RWA를 위한 신뢰 인프라를 구축합니다.</span>
+    </div>
+  </div>
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goPrev('c14')">← <span class="en">Previous</span><span class="ko">이전</span></button>
+    <button class="nav-btn" onclick="goNext('c14')"><span class="en">Next</span><span class="ko">다음</span> →</button>
+  </div>
+</div>
+
+<!-- ══ §15 Disclaimer ══ -->
+<div class="chapter" id="c15">
+  <div class="chapter-eyebrow">Roadmap & Legal · §15</div>
+  <h1 class="chapter-title">Disclaimer <span class="ko">· 면책 고지</span></h1>
+
+  <div class="disclaimer-block">
+    <h3>15.1 <span class="en">Important Notice and Risk Disclosure</span><span class="ko">중요 고지 및 리스크 공시</span></h3>
+    <div class="en-block"><p>This whitepaper is intended to provide general information about MPC's Platform, technical structure, Token Utility, Mining RWA Framework and future development direction. It is not a prospectus or a securities registration statement, nor a solicitation to buy, sell or hold any financial product or Digital Asset, and it does not constitute investment, legal, tax, financial or other professional advice.</p></div>
+    <div class="ko-block"><p>본 백서는 MPC의 플랫폼, 기술 구조, 토큰 유틸리티, 광산 RWA 프레임워크 및 향후 개발 방향에 대한 일반적인 정보를 제공하기 위한 것입니다. 본 백서는 투자설명서 또는 증권 등록 신고서가 아니며, 금융 상품 또는 디지털 자산의 매수, 매도, 보유를 권유하는 것이 아닙니다. 또한 투자, 법적, 세무, 재무 또는 기타 전문적 조언을 구성하지 않습니다.</p></div>
+  </div>
+
+  <div class="disclaimer-block">
+    <h3>15.2 <span class="en">MPC Token and Asset Token</span><span class="ko">MPC 토큰 및 자산 토큰</span></h3>
+    <div class="en-block"><p>The MPC Token is designed as a Utility Token supporting the functions of the MPC Platform and Protocol and participation in the ecosystem. Holding the MPC Token does not by itself confer ownership of any specific mine, mineral resource, Mining Company, SPV or other real-world asset, nor any right to the revenue of a specific Mining Project.</p></div>
+    <div class="ko-block"><p>MPC 토큰은 MPC 플랫폼 및 프로토콜의 기능을 지원하고 생태계 참여를 가능하게 하는 유틸리티 토큰으로 설계되었습니다. MPC 토큰 보유는 특정 광산, 광물 자원, 광산 기업, SPV 또는 기타 실물 자산에 대한 소유권, 또는 특정 광산 프로젝트의 수익에 대한 권리를 자동으로 부여하지 않습니다.</p></div>
+    <div class="neq-badge">
+      <span class="neq-item">MPC TOKEN</span>
+      <span class="neq-sym">≠</span>
+      <span class="neq-item">MINING ASSET</span>
+      <span class="neq-sym">≠</span>
+      <span class="neq-item">ASSET TOKEN</span>
+    </div>
+  </div>
+
+  <div class="disclaimer-block">
+    <h3>15.3 <span class="en">Asset Issuance and Regulatory Responsibility</span><span class="ko">자산 발행 및 규제 책임</span></h3>
+    <div class="en-block"><p>The MPC Platform provides Technology, Data, Registry, Smart Contract and Lifecycle Infrastructure for building and operating Mining RWA. The fact that the MPC Platform provides technical Infrastructure does not by itself make MPC the legal issuer of an individual Asset Token or a regulated Distribution Provider.</p></div>
+    <div class="ko-block"><p>MPC 플랫폼은 광산 RWA를 구축·운영하기 위한 기술, 데이터, 레지스트리, 스마트 컨트랙트, 라이프사이클 인프라를 제공합니다. MPC 플랫폼이 기술 인프라를 제공한다는 사실 자체가 MPC를 개별 자산 토큰의 법적 발행인이나 규제 대상 유통 제공자로 만들지 않습니다.</p></div>
+  </div>
+
+  <div class="disclaimer-block">
+    <h3>15.4 <span class="en">Mining RWA and Verification Risk</span><span class="ko">광산 RWA 및 검증 리스크</span></h3>
+    <div class="en-block"><p>A Mining Project may carry various risks and uncertainties including exploration, resource evaluation, development, production, operations, market, environmental, permitting and regulatory change. MPC's Verification and Blockchain Infrastructure are means of strengthening the Data Integrity and Traceability of information. They do not guarantee the value, output, revenue, liquidity or commercial success of any specific project.</p></div>
+    <div class="ko-block"><p>광산 프로젝트는 탐사, 자원 평가, 개발, 생산, 운영, 시장, 환경, 인허가, 규제 변경을 포함한 다양한 리스크와 불확실성을 수반할 수 있습니다. MPC의 검증 및 블록체인 인프라는 정보의 데이터 무결성과 추적 가능성을 강화하는 수단입니다. 이는 특정 프로젝트의 가치, 산출량, 수익, 유동성, 상업적 성공을 보증하지 않습니다.</p></div>
+    <div class="neq-badge">
+      <span class="neq-item">VERIFICATION</span>
+      <span class="neq-sym">≠</span>
+      <span class="neq-item">GUARANTEE</span>
+    </div>
+  </div>
+
+  <div class="disclaimer-block">
+    <h3>15.5 <span class="en">Technology and Regulatory Risk</span><span class="ko">기술 및 규제 리스크</span></h3>
+    <div class="en-block"><p>Blockchain and Digital Asset Infrastructure carry technical risks relating to Smart Contracts, cybersecurity, Oracles, networks and data. Laws and regulations concerning Digital Assets and RWA may change by jurisdiction and over time.</p></div>
+    <div class="ko-block"><p>블록체인 및 디지털 자산 인프라는 스마트 컨트랙트, 사이버보안, 오라클, 네트워크, 데이터와 관련된 기술적 리스크를 수반합니다. 디지털 자산 및 RWA에 관한 법률과 규정은 관할권과 시간에 따라 변경될 수 있습니다.</p></div>
+  </div>
+
+  <div class="disclaimer-block">
+    <h3>15.6 <span class="en">Forward-Looking Statements</span><span class="ko">미래 지향적 진술</span></h3>
+    <div class="en-block"><p>The roadmap, technical development, services, partnerships and future plans in this whitepaper are based on the plans and assumptions at the time of writing. Actual scope, timing and outcomes may change according to technical, business, market, legal or regulatory factors.</p></div>
+    <div class="ko-block"><p>본 백서의 로드맵, 기술 개발, 서비스, 파트너십 및 향후 계획은 작성 시점의 계획과 가정에 기반합니다. 실제 범위, 일정, 결과는 기술, 비즈니스, 시장, 법적, 규제 요인에 따라 변경될 수 있습니다.</p></div>
+    <div class="neq-badge">
+      <span class="neq-item">TOKENIZATION</span>
+      <span class="neq-sym">≠</span>
+      <span class="neq-item">RISK ELIMINATION</span>
+    </div>
+  </div>
+
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goPrev('c15')">← <span class="en">Previous</span><span class="ko">이전</span></button>
+    <button class="nav-btn" disabled><span class="en">End of Whitepaper</span><span class="ko">백서 끝</span></button>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+const chapters = ['c1','c2','c3','c4','c5','c6','c7','c8','c9','c10','c11','c12','c13','c14','c15'];
+
+function showChapter(id, linkEl) {
+  document.querySelectorAll('.chapter').forEach(c => c.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+  if (linkEl) linkEl.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function goPrev(currentId) {
+  const idx = chapters.indexOf(currentId);
+  if (idx > 0) {
+    const prevId = chapters[idx - 1];
+    const link = document.querySelector(`[onclick="showChapter('${prevId}', this)"]`);
+    showChapter(prevId, link);
+  }
+}
+
+function goNext(currentId) {
+  const idx = chapters.indexOf(currentId);
+  if (idx < chapters.length - 1) {
+    const nextId = chapters[idx + 1];
+    const link = document.querySelector(`[onclick="showChapter('${nextId}', this)"]`);
+    showChapter(nextId, link);
+  }
+}
+
+function setLang(lang, btn) {
+  document.body.className = 'lang-' + lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

@@ -1,316 +1,374 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192x192.png">
-<link rel="apple-touch-icon" sizes="180x180" href="../icons/icon-180x180.png">
-<link rel="manifest" href="../manifest.json">
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="SuperSaver Kit">
-<meta name="theme-color" content="#1e1e72">
-<title>AssetSchool — MPC 토큰 가이드</title>
-<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MPC 가이드 — AssetSchool</title>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root {
-  --indigo-deep:#1e1e72; --indigo:#2d2d9f; --indigo-lt:#f0f0ff; --indigo-bg:#f4f4ff;
-  --mint:#00938a; --mint-lt:#e0f5f4; --mint-dk:#006b63;
-  --gold:#FFD700; --gold-muted:#c9a84c; --gold-lt:#fdf3dc;
-  --red:#d93025; --gray:#5a6a7a; --gray-lt:#f4f7f9;
-  --border:#e0e0f4; --text-sub:#8888bb;
-  --mpc:#0f6e56; --mpc-lt:#e6f4f1;
+:root{
+  --mpc:#c87941; --mpc-lt:#fff3ea; --mpc-dk:#a0601e;
+  --indigo:#2d2d9f; --indigo-deep:#1e1e72; --indigo-lt:#eef0ff;
+  --gold-muted:#8a6a1a; --gold-lt:#fdf6e3; --gold:#c9a84c;
+  --bg:#f7f8fc; --card:#ffffff;
+  --border:#e4e7ef; --gray:#6b7280; --gray-lt:#f3f4f8;
+  --text:#1a1a2e; --text-sub:#4a5568;
+  --mint:#0f6e56; --mint-lt:#e6f9f5;
+  --bnb:#f0b90b; --bnb-lt:#fffbeb;
 }
-*{ box-sizing:border-box; margin:0; padding:0; }
-body{ font-family:'Pretendard',sans-serif; background:var(--indigo-bg); color:var(--indigo-deep); line-height:1.7; padding-bottom:40px; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.7;min-height:100vh;}
 
-/* ── 헤더 ── */
-.hero{ background:linear-gradient(160deg,#0a1a12 0%,#0f6e56 55%,#0a1a12 100%); color:white; padding:40px 20px 28px; text-align:center; }
-.hero-badge{ display:inline-block; background:rgba(255,215,0,0.2); color:var(--gold); border:1px solid rgba(255,215,0,0.35); font-size:0.65rem; font-weight:700; padding:4px 12px; border-radius:20px; margin-bottom:14px; letter-spacing:0.1em; }
-.hero-title{ font-size:1.6rem; font-weight:900; line-height:1.2; letter-spacing:-0.03em; margin-bottom:8px; }
-.hero-title em{ color:var(--gold); font-style:normal; }
-.hero-sub{ font-size:0.82rem; color:rgba(255,255,255,0.7); line-height:1.6; margin-bottom:10px; }
-.hero-notice{ display:inline-block; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:8px; padding:6px 14px; font-size:0.7rem; color:rgba(255,255,255,0.6); }
+/* ── HERO ── */
+.hero{background:linear-gradient(155deg,#0d1b3e 0%,#1e1e72 55%,#2d2d9f 100%);padding:44px 20px 32px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 30%, rgba(200,121,65,0.18) 0%, transparent 60%);pointer-events:none;}
+.hero-back{position:absolute;top:14px;left:14px;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.13);color:rgba(255,255,255,0.88);text-decoration:none;font-size:0.72rem;font-weight:700;padding:5px 12px 5px 8px;border-radius:20px;border:1px solid rgba(255,255,255,0.22);backdrop-filter:blur(4px);z-index:10;}
+.hero-badge{display:inline-block;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--mpc);background:rgba(200,121,65,0.15);border:1px solid rgba(200,121,65,0.3);padding:4px 12px;border-radius:20px;margin-bottom:12px;}
+.hero-title{font-size:clamp(1.5rem,5vw,2.2rem);font-weight:900;color:#fff;line-height:1.15;margin-bottom:10px;}
+.hero-title em{color:var(--mpc);font-style:normal;}
+.hero-sub{font-size:0.82rem;color:rgba(255,255,255,0.65);line-height:1.65;margin-bottom:14px;}
+.hero-buttons{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px;}
+.hero-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:10px;font-size:0.78rem;font-weight:700;text-decoration:none;font-family:inherit;cursor:pointer;border:none;transition:all 0.15s;}
+.hero-btn-primary{background:var(--mpc);color:white;}
+.hero-btn-primary:hover{background:var(--mpc-dk);}
+.hero-btn-outline{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.9);border:1px solid rgba(255,255,255,0.25);}
+.hero-btn-outline:hover{background:rgba(255,255,255,0.2);}
+.hero-notice{display:block;font-size:0.63rem;color:rgba(255,255,255,0.38);margin-top:10px;}
+.version-tag{display:inline-block;font-size:0.6rem;letter-spacing:0.1em;background:rgba(200,121,65,0.2);color:var(--mpc);padding:2px 8px;border-radius:8px;margin-bottom:8px;font-weight:700;}
 
-/* ── 단계 탭 ── */
-.stage-chips-wrap{ background:white; border-bottom:1px solid var(--border); }
-.stage-chips{ display:flex; gap:6px; padding:12px 16px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
-.stage-chips::-webkit-scrollbar{ display:none; }
-.stage-chip{ flex-shrink:0; padding:7px 16px; border-radius:20px; border:1.5px solid var(--border); background:white; color:var(--text-sub); font-size:0.75rem; font-weight:700; cursor:pointer; font-family:'Pretendard',sans-serif; transition:all 0.15s; white-space:nowrap; }
-.stage-chip.active{ background:var(--mpc); color:white; border-color:var(--mpc); }
-.stage-chip:hover:not(.active){ background:var(--mpc-lt); color:var(--mpc); border-color:var(--mpc); }
-.tab-panel{ display:none !important; }
-.tab-panel.active{ display:block !important; }
+/* ── TABS ── */
+.stage-chips-wrap{background:white;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;}
+.stage-chips{display:flex;gap:6px;padding:10px 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.stage-chips::-webkit-scrollbar{display:none;}
+.stage-chip{flex-shrink:0;padding:7px 16px;border-radius:20px;border:1.5px solid var(--border);background:white;color:var(--text-sub);font-size:0.74rem;font-weight:700;cursor:pointer;font-family:'Pretendard',sans-serif;transition:all 0.15s;white-space:nowrap;}
+.stage-chip.active{background:var(--mpc);color:white;border-color:var(--mpc);}
+.stage-chip:hover:not(.active){background:var(--mpc-lt);color:var(--mpc);border-color:var(--mpc);}
 
-/* ── 컨테이너 ── */
-.container{ max-width:720px; margin:0 auto; padding:20px 16px; }
+/* ── TAB PANELS ── */
+.tab-panel{display:none;padding:20px 16px 40px;}
+.tab-panel.active{display:block;}
 
-/* ── 섹션 카드 ── */
-.section{ background:white; border-radius:16px; padding:18px; margin-bottom:14px; border:1px solid var(--border); box-shadow:0 2px 10px rgba(30,30,114,0.05); }
-.section-header{ display:flex; align-items:center; gap:12px; margin-bottom:14px; }
-.section-num{ width:32px; height:32px; border-radius:50%; background:var(--mpc); color:white; font-size:0.8rem; font-weight:900; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.section-num.indigo{ background:var(--indigo); }
-.section-num.gold{ background:var(--gold-muted); }
-.section-title{ font-size:1.0rem; font-weight:800; color:var(--indigo-deep); letter-spacing:-0.02em; line-height:1.3; }
-.section-title span{ color:var(--mpc); }
-.section-body{ font-size:0.85rem; color:var(--gray); line-height:1.8; }
-.section-body p{ margin-bottom:10px; }
-.section-body p:last-child{ margin-bottom:0; }
+/* ── SECTIONS ── */
+.section{background:var(--card);border-radius:16px;padding:18px 16px;margin-bottom:12px;border:1px solid var(--border);}
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.section-num{width:30px;height:30px;border-radius:50%;background:var(--mpc);color:white;font-size:0.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.section-num.indigo{background:var(--indigo);}
+.section-num.mint{background:var(--mint);}
+.section-num.gold{background:var(--gold-muted);}
+.section-title{font-size:0.95rem;font-weight:800;color:var(--indigo-deep);}
+.section-title span{font-weight:400;color:var(--gray);}
+p{font-size:0.83rem;color:var(--text-sub);line-height:1.75;margin-bottom:10px;}
+p:last-child{margin-bottom:0;}
+p strong{color:var(--indigo-deep);font-weight:700;}
 
-/* ── 하이라이트 박스 ── */
-.highlight-box{ background:var(--mpc-lt); border-left:4px solid var(--mpc); border-radius:0 10px 10px 0; padding:14px 16px; margin:14px 0; font-size:0.83rem; color:var(--indigo-deep); line-height:1.7; }
-.highlight-box.indigo{ background:var(--indigo-lt); border-color:var(--indigo); }
-.highlight-box.gold{ background:var(--gold-lt); border-color:var(--gold-muted); color:#7a5c00; }
-.highlight-box.red{ background:#fff0f0; border-color:var(--red); color:#8b0000; }
-.highlight-box strong{ display:block; font-size:0.8rem; font-weight:800; margin-bottom:4px; }
+/* ── CALLOUT ── */
+.callout{background:var(--mpc-lt);border-left:3px solid var(--mpc);border-radius:0 10px 10px 0;padding:10px 14px;margin:12px 0;font-size:0.8rem;color:var(--mpc-dk);font-weight:600;line-height:1.6;}
+.callout-mint{background:var(--mint-lt);border-left-color:var(--mint);color:#0a4a38;}
+.callout-indigo{background:var(--indigo-lt);border-left-color:var(--indigo);color:var(--indigo-deep);}
+.callout-bnb{background:var(--bnb-lt);border-left-color:var(--bnb);color:#7a5c00;}
 
-/* ── 비교 테이블 ── */
-.compare-table-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:12px; margin:14px 0; }
-.compare-table{ width:100%; border-collapse:collapse; font-size:0.82rem; }
-.compare-table th{ background:linear-gradient(135deg,#0a1a12,#0f6e56); color:white; padding:10px 12px; text-align:center; font-weight:700; font-size:0.78rem; }
-.compare-table th:first-child{ border-radius:12px 0 0 0; text-align:left; }
-.compare-table th:last-child{ border-radius:0 12px 0 0; }
-.compare-table td{ padding:10px 12px; border-bottom:1px solid var(--border); font-size:0.81rem; vertical-align:top; word-break:keep-all; }
-.compare-table td:first-child{ font-weight:700; color:var(--indigo-deep); background:var(--gray-lt); }
-.compare-table tr:last-child td{ border-bottom:none; }
+/* ── FLOW ── */
+.flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:12px 0;padding:12px 14px;background:var(--gray-lt);border-radius:10px;}
+.flow-step{font-size:0.72rem;font-weight:800;padding:5px 12px;border-radius:8px;background:var(--indigo);color:white;white-space:nowrap;}
+.flow-step.mpc{background:var(--mpc);}
+.flow-step.mint{background:var(--mint);}
+.flow-step.gold{background:var(--gold-muted);}
+.flow-step.bnb{background:var(--bnb);color:#333;}
+.flow-arrow{color:var(--gray);font-size:0.85rem;flex-shrink:0;}
 
-/* ── 레이어 카드 ── */
-.layer-grid{ display:flex; flex-direction:column; gap:10px; margin:14px 0; }
-.layer-card{ border-radius:12px; padding:14px 16px; border:1.5px solid var(--border); display:flex; gap:14px; align-items:flex-start; }
-.layer-card.l1{ border-color:#0f6e56; background:#f0faf8; }
-.layer-card.l2{ border-color:var(--indigo); background:var(--indigo-lt); }
-.layer-card.l3{ border-color:var(--gold-muted); background:var(--gold-lt); }
-.layer-card.l4{ border-color:#8b4513; background:#fff8f0; }
-.layer-badge{ flex-shrink:0; font-size:0.65rem; font-weight:900; padding:3px 8px; border-radius:6px; margin-top:2px; white-space:nowrap; }
-.layer-badge.l1{ background:#0f6e56; color:white; }
-.layer-badge.l2{ background:var(--indigo); color:white; }
-.layer-badge.l3{ background:var(--gold-muted); color:white; }
-.layer-badge.l4{ background:#8b4513; color:white; }
-.layer-title{ font-size:0.88rem; font-weight:800; color:var(--indigo-deep); margin-bottom:4px; }
-.layer-desc{ font-size:0.78rem; color:var(--gray); line-height:1.6; }
-.layer-tags{ display:flex; gap:5px; flex-wrap:wrap; margin-top:7px; }
-.layer-tag{ font-size:0.62rem; font-weight:700; padding:2px 7px; border-radius:8px; background:rgba(255,255,255,0.7); color:var(--indigo-deep); border:1px solid var(--border); }
+/* ── NEQ ── */
+.neq{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0;}
+.neq-item{font-size:0.72rem;font-weight:700;padding:5px 12px;border:1.5px solid var(--border);border-radius:8px;color:var(--indigo-deep);background:var(--gray-lt);}
+.neq-sym{font-size:1rem;color:var(--gray);font-weight:700;}
 
-/* ── 온체인 정보 카드 ── */
-.onchain-card{ background:linear-gradient(135deg,#0a1a12,#0f6e56); border-radius:14px; padding:18px; margin:14px 0; }
-.onchain-row{ display:flex; justify-content:space-between; align-items:flex-start; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.1); gap:10px; }
-.onchain-row:last-child{ border-bottom:none; padding-bottom:0; }
-.onchain-label{ font-size:0.72rem; color:rgba(255,255,255,0.55); font-weight:600; flex-shrink:0; }
-.onchain-value{ font-size:0.82rem; font-weight:700; color:white; text-align:right; word-break:break-all; }
-.onchain-value.gold{ color:var(--gold); font-size:0.95rem; }
-.contract-link{ display:block; margin-top:10px; text-align:center; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); border-radius:8px; padding:8px; font-size:0.75rem; font-weight:700; color:white; text-decoration:none; }
+/* ── LAYERS ── */
+.layer-grid{display:flex;flex-direction:column;gap:8px;margin:12px 0;}
+.layer-card{border-radius:12px;padding:12px 14px;border:1.5px solid var(--border);display:flex;gap:12px;align-items:flex-start;}
+.layer-card.l1{border-color:var(--mpc);background:var(--mpc-lt);}
+.layer-card.l2{border-color:var(--indigo);background:var(--indigo-lt);}
+.layer-card.l3{border-color:var(--mint);background:var(--mint-lt);}
+.layer-card.l4{border-color:var(--gold-muted);background:var(--gold-lt);}
+.layer-card.l5{border-color:var(--bnb);background:var(--bnb-lt);}
+.layer-badge{flex-shrink:0;font-size:0.62rem;font-weight:900;padding:3px 8px;border-radius:6px;margin-top:2px;white-space:nowrap;}
+.layer-badge.l1{background:var(--mpc);color:white;}
+.layer-badge.l2{background:var(--indigo);color:white;}
+.layer-badge.l3{background:var(--mint);color:white;}
+.layer-badge.l4{background:var(--gold-muted);color:white;}
+.layer-badge.l5{background:var(--bnb);color:#333;}
+.layer-title{font-size:0.86rem;font-weight:800;color:var(--indigo-deep);margin-bottom:3px;}
+.layer-desc{font-size:0.76rem;color:var(--gray);line-height:1.6;}
+.layer-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;}
+.layer-tag{font-size:0.62rem;font-weight:700;padding:2px 7px;border-radius:8px;background:rgba(255,255,255,0.8);color:var(--indigo-deep);border:1px solid var(--border);}
 
-/* ── 리스크 카드 ── */
-.risk-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 0; }
-@media(max-width:400px){ .risk-grid{ grid-template-columns:1fr; } }
-.risk-card{ border-radius:12px; padding:14px; border:1.5px solid var(--border); }
-.risk-card-title{ font-size:0.8rem; font-weight:800; color:var(--indigo-deep); margin-bottom:4px; display:flex; align-items:center; gap:6px; }
-.risk-card-desc{ font-size:0.72rem; color:var(--gray); line-height:1.6; margin-bottom:6px; }
-.risk-status{ display:inline-block; font-size:0.62rem; font-weight:700; padding:2px 8px; border-radius:10px; }
-.status-design{ background:#fff3e0; color:#e65100; }
-.status-progress{ background:var(--mpc-lt); color:var(--mpc); }
-.status-planned{ background:var(--indigo-lt); color:var(--indigo); }
+/* ── GRID CARDS ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:12px 0;}
+@media(max-width:420px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+.grid-card{border-radius:12px;padding:14px;border:1.5px solid var(--border);background:var(--gray-lt);}
+.grid-card-label{font-size:0.62rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--mpc);margin-bottom:5px;}
+.grid-card-label.indigo{color:var(--indigo);}
+.grid-card-label.mint{color:var(--mint);}
+.grid-card-title{font-size:0.86rem;font-weight:800;color:var(--indigo-deep);margin-bottom:5px;}
+.grid-card-desc{font-size:0.76rem;color:var(--gray);line-height:1.6;}
 
-/* ── 체크리스트 ── */
-.check-list{ margin:14px 0; }
-.check-item{ display:flex; align-items:flex-start; gap:10px; padding:9px 0; border-bottom:1px solid var(--border); font-size:0.83rem; }
-.check-item:last-child{ border-bottom:none; }
-.check-icon{ font-size:1.0rem; flex-shrink:0; margin-top:1px; }
+/* ── TABLE ── */
+.doc-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:0.8rem;border-radius:10px;overflow:hidden;border:1px solid var(--border);}
+.doc-table th{background:var(--indigo-deep);color:white;padding:9px 12px;text-align:left;font-weight:700;font-size:0.72rem;}
+.doc-table td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text-sub);vertical-align:top;}
+.doc-table td strong{color:var(--indigo-deep);}
+.doc-table tr:last-child td{border-bottom:none;}
+.doc-table tr:hover td{background:var(--gray-lt);}
 
-/* ── 준비현황 ── */
-.readiness-list{ margin:14px 0; }
-.readiness-item{ display:flex; align-items:flex-start; gap:12px; padding:11px 0; border-bottom:1px solid var(--border); }
-.readiness-item:last-child{ border-bottom:none; }
-.readiness-badge{ flex-shrink:0; font-size:0.62rem; font-weight:700; padding:3px 9px; border-radius:10px; margin-top:2px; white-space:nowrap; }
-.badge-confirmed{ background:#e8f5e9; color:#2e7d32; }
-.badge-progress{ background:var(--mpc-lt); color:var(--mpc); }
-.badge-planned{ background:var(--indigo-lt); color:var(--indigo); }
-.badge-single{ background:var(--gold-lt); color:var(--gold-muted); }
-.readiness-title{ font-size:0.85rem; font-weight:800; color:var(--indigo-deep); margin-bottom:3px; }
-.readiness-desc{ font-size:0.78rem; color:var(--gray); line-height:1.6; }
+/* ── ONCHAIN CARD ── */
+.onchain-card{background:linear-gradient(135deg,#0d1b3e,#1e1e72);border-radius:14px;padding:18px;margin:14px 0;}
+.onchain-row{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);gap:10px;}
+.onchain-row:last-child{border-bottom:none;padding-bottom:0;}
+.onchain-label{font-size:0.7rem;color:rgba(255,255,255,0.5);font-weight:600;flex-shrink:0;}
+.onchain-value{font-size:0.82rem;font-weight:700;color:white;text-align:right;word-break:break-all;}
+.onchain-value.gold{color:var(--gold);font-size:0.95rem;}
+.onchain-value.bnb{color:var(--bnb);}
 
-/* ── 단계 이동 버튼 ── */
-.stage-nav{ display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding-top:16px; border-top:1px solid var(--border); }
-.btn-stage{ padding:9px 18px; border-radius:10px; border:none; font-family:'Pretendard',sans-serif; font-size:0.8rem; font-weight:700; cursor:pointer; }
-.btn-prev{ background:var(--gray-lt); color:var(--gray); }
-.btn-next{ background:var(--mpc); color:white; }
+/* ── VESTING TABLE ── */
+.vesting-bar{display:flex;border-radius:8px;overflow:hidden;height:24px;margin:8px 0;}
+.vb-comm{background:var(--mpc);flex:70;}
+.vb-mkt{background:#5b8dee;flex:10;}
+.vb-inv{background:#48bb78;flex:10;}
+.vb-team{background:#ed8936;flex:5;}
+.vb-liq{background:#9f7aea;flex:5;}
+.vesting-legend{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;}
+.vl-item{display:flex;align-items:center;gap:5px;font-size:0.7rem;color:var(--gray);}
+.vl-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
 
-/* ── 탭바 ── */
+/* ── LIFECYCLE ── */
+.lifecycle-steps{display:flex;flex-direction:column;gap:6px;margin:12px 0;}
+.lc-step{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;background:var(--gray-lt);border-radius:10px;border:1px solid var(--border);}
+.lc-num{width:26px;height:26px;border-radius:50%;background:var(--mpc);color:white;font-size:0.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.lc-title{font-size:0.83rem;font-weight:700;color:var(--indigo-deep);margin-bottom:2px;}
+.lc-desc{font-size:0.75rem;color:var(--gray);line-height:1.6;}
 
-@supports (padding-bottom:env(safe-area-inset-bottom)){}
+/* ── RISK LIST ── */
+.risk-list{display:flex;flex-direction:column;gap:8px;margin:12px 0;}
+.risk-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:var(--gray-lt);border-radius:10px;border:1px solid var(--border);}
+.risk-dot{width:7px;height:7px;border-radius:50%;background:var(--mpc);flex-shrink:0;margin-top:6px;}
+.risk-label{font-size:0.82rem;font-weight:700;color:var(--indigo-deep);margin-bottom:2px;}
+.risk-desc{font-size:0.75rem;color:var(--gray);line-height:1.6;}
 
+/* ── ROADMAP ── */
+.roadmap-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;}
+@media(max-width:420px){.roadmap-grid{grid-template-columns:1fr;}}
+.rm-card{border-radius:12px;padding:14px;border:1.5px solid var(--border);background:var(--gray-lt);}
+.rm-card.active-phase{border-color:var(--mpc);background:var(--mpc-lt);}
+.rm-label{font-size:0.62rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--mpc);margin-bottom:6px;}
+.rm-title{font-size:0.88rem;font-weight:800;color:var(--indigo-deep);margin-bottom:8px;}
+.rm-items{list-style:none;padding:0;}
+.rm-items li{font-size:0.75rem;color:var(--gray);padding:3px 0;border-bottom:1px solid var(--border);display:flex;gap:6px;}
+.rm-items li:last-child{border-bottom:none;}
+.rm-items li::before{content:'—';color:var(--mpc);flex-shrink:0;}
 
+/* ── CHECK LIST ── */
+.check-list{margin:12px 0;}
+.check-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:0.82rem;}
+.check-item:last-child{border-bottom:none;}
+.check-icon{font-size:1rem;flex-shrink:0;margin-top:1px;}
 
+/* ── STAGE NAV ── */
+.stage-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px;padding-top:16px;border-top:1px solid var(--border);}
+.btn-stage{padding:9px 18px;border-radius:10px;border:none;font-family:'Pretendard',sans-serif;font-size:0.8rem;font-weight:700;cursor:pointer;}
+.btn-prev{background:var(--gray-lt);color:var(--gray);}
+.btn-next{background:var(--mpc);color:white;}
+
+/* ── WHITE PAPER BADGE ── */
+.wp-badge{display:inline-flex;align-items:center;gap:5px;font-size:0.65rem;font-weight:700;background:var(--indigo-lt);color:var(--indigo);border:1px solid var(--indigo);padding:3px 10px;border-radius:10px;margin-bottom:10px;}
+.update-banner{background:linear-gradient(90deg,var(--mpc-lt),var(--bnb-lt));border:1.5px solid var(--mpc);border-radius:12px;padding:12px 14px;margin-bottom:14px;}
+.update-banner-title{font-size:0.78rem;font-weight:800;color:var(--mpc-dk);margin-bottom:4px;}
+.update-banner-desc{font-size:0.73rem;color:var(--text-sub);line-height:1.6;}
+
+/* ── UTIL LIST ── */
+ul.u-list{list-style:none;padding:0;margin:10px 0;}
+ul.u-list li{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--border);font-size:0.82rem;color:var(--text-sub);line-height:1.65;}
+ul.u-list li:last-child{border-bottom:none;}
+ul.u-list li::before{content:'—';color:var(--mpc);flex-shrink:0;margin-top:1px;}
+ul.u-list li strong{color:var(--indigo-deep);font-weight:700;}
 </style>
 </head>
 <body>
 
-<div class="hero" style="position:relative;">
-<a href="../index.html" style="
-  position:absolute;top:14px;left:14px;
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(255,255,255,0.15);
-  color:rgba(255,255,255,0.9);
-  text-decoration:none;
-  font-size:0.72rem;font-weight:700;
-  padding:5px 12px 5px 8px;
-  border-radius:20px;
-  border:1px solid rgba(255,255,255,0.25);
-  backdrop-filter:blur(4px);
-  transition:background 0.15s;
-  font-family:inherit;
-  z-index:10;
-" onmouseover="this.style.background='rgba(255,255,255,0.25)'"
-   onmouseout="this.style.background='rgba(255,255,255,0.15)'">
-  &#8592; 홈
-</a>
+<!-- HERO -->
+<div class="hero">
+  <a class="hero-back" href="../index.html">← 홈</a>
+  <div class="version-tag">백서 v1.7.0 기준</div>
   <div class="hero-badge">⛏️ 광산 RWA 발행 인프라</div>
   <h1 class="hero-title">Mineral Project Coin <em>(MPC)</em></h1>
-  <p class="hero-sub">몽골 광산 자원을 글로벌 자본 시장의 언어로 번역하는<br>기관급 온체인 RWA 발행 인프라 · 공식 백서 기준</p>
+  <p class="hero-sub">몽골 광산 자원을 글로벌 자본 시장의 언어로 번역하는<br>기관급 온체인 RWA 발행 인프라 · 공식 백서 v1.7.0 기준</p>
+  <div class="hero-buttons">
+    <a class="hero-btn hero-btn-outline" href="mpc_whitepaper_full.html" target="_blank">📄 백서 원본 (EN/KO)</a>
+    <a class="hero-btn hero-btn-primary" href="https://globalmpc.tech" target="_blank">🌐 공식 사이트</a>
+  </div>
   <span class="hero-notice">※ 본 내용은 투자 권유가 아닌 학습 목적입니다</span>
 </div>
 
+<!-- TAB BAR -->
 <div class="stage-chips-wrap">
   <div class="stage-chips">
-    <button class="stage-chip active" onclick="showTab('s1',this)">1단계 · 개요</button>
-    <button class="stage-chip"        onclick="showTab('s2',this)">2단계 · 인프라</button>
-    <button class="stage-chip"        onclick="showTab('s3',this)">3단계 · 온체인</button>
-    <button class="stage-chip"        onclick="showTab('s4',this)">4단계 · 거버넌스</button>
-    <button class="stage-chip"        onclick="showTab('s5',this)">5단계 · 현황</button>
+    <button class="stage-chip active" onclick="showTab('s1',this)">1 · 개요 & 구조</button>
+    <button class="stage-chip"        onclick="showTab('s2',this)">2 · 4계층 프레임워크</button>
+    <button class="stage-chip"        onclick="showTab('s3',this)">3 · 토큰 이코노미</button>
+    <button class="stage-chip"        onclick="showTab('s4',this)">4 · 라이프사이클</button>
+    <button class="stage-chip"        onclick="showTab('s5',this)">5 · 생태계 & 거버넌스</button>
+    <button class="stage-chip"        onclick="showTab('s6',this)">6 · 로드맵 & 현황</button>
   </div>
 </div>
 
-<!-- ════════════════════
-     1단계: 개요
-════════════════════ -->
+<!-- ═══════════════════════════════════════════
+     TAB 1 · 개요 & 구조
+═══════════════════════════════════════════ -->
 <div class="tab-panel active" id="tab-s1">
-<div class="container">
+
+  <div class="update-banner">
+    <div class="update-banner-title">📋 백서 v1.7.0 — 핵심 변경사항</div>
+    <div class="update-banner-desc">체인 <strong>BNB Chain으로 확정</strong> · §6 Mining RWA Lifecycle 신규 챕터 추가 · 차간톨고이가 Deploy 단계 레퍼런스 프로젝트로 공식 명시 · SPV·법적 발행인 구조 구체화</div>
+  </div>
 
   <div class="section">
     <div class="section-header">
       <div class="section-num">1</div>
-      <div class="section-title">MPC란 <span>무엇인가?</span></div>
+      <div class="section-title">MPC란 무엇인가</div>
     </div>
-    <div class="section-body">
-      <p>MPC(Mineral Project Coin)는 몽골의 실물 광산 자산을 블록체인 위에서 글로벌 자본 시장과 연결하는 <strong>기관급 RWA 발행 인프라</strong>입니다.</p>
-      <p>단순한 암호화폐 토큰이 아닙니다. 광산 자산의 탐사·구조화·토큰화·유통까지 전 과정을 하나의 표준 레일 위에서 운영하는 인프라입니다.</p>
+    <p>MPC(Mineral Project Coin)는 <strong>광산 RWA 인프라 플랫폼(Mining RWA Infrastructure Platform)</strong>입니다. 특정 광산 하나를 토큰화하는 것이 목적이 아니라, 다수의 광산 프로젝트가 공통으로 사용할 수 있는 <strong>검증·데이터·자산·라이프사이클 인프라</strong>를 제공합니다.</p>
+    <div class="callout">💡 핵심: MPC는 토큰 한 종류가 아니라 플랫폼(인프라)입니다. MPC 토큰은 이 플랫폼 안에서 쓰이는 유틸리티 토큰입니다.</div>
+
+    <div class="grid-3">
+      <div class="grid-card">
+        <div class="grid-card-label">🏗️ MPC 플랫폼</div>
+        <div class="grid-card-title">광산 RWA 인프라</div>
+        <div class="grid-card-desc">카카오 같은 개념. 검증·데이터·자산·라이프사이클 인프라 전체.</div>
+      </div>
+      <div class="grid-card">
+        <div class="grid-card-label indigo">🪙 MPC 토큰</div>
+        <div class="grid-card-title">플랫폼 유틸리티</div>
+        <div class="grid-card-desc">플랫폼 이용권. 수수료·발행 게이트·스테이킹·거버넌스에 사용.</div>
+      </div>
+      <div class="grid-card">
+        <div class="grid-card-label mint">💎 자산 토큰</div>
+        <div class="grid-card-title">광산별 수익권</div>
+        <div class="grid-card-desc">차간톨고이 등 개별 광산 전용으로 별도 발행. MPC 토큰과 다른 개념.</div>
+      </div>
     </div>
-    <div class="highlight-box gold">
-      <strong>💡 핵심 미션</strong>
-      몽골 광산 자원을 글로벌 자본 시장의 언어로 번역한다. 잠들어 있던 광산 자산이 컴플라이언스를 갖춘 온체인 증권으로 전환되어 기관 투자자와 연결됩니다.
+    <div class="neq">
+      <span class="neq-item">MPC 토큰</span>
+      <span class="neq-sym">≠</span>
+      <span class="neq-item">광산 자산</span>
+      <span class="neq-sym">≠</span>
+      <span class="neq-item">자산 토큰</span>
     </div>
   </div>
 
   <div class="section">
     <div class="section-header">
       <div class="section-num">2</div>
-      <div class="section-title">기존 가이드와 <span>달라진 점</span></div>
+      <div class="section-title">왜 광산 RWA에 전용 인프라가 필요한가</div>
     </div>
-    <div class="section-body">
-      <p>2026년 공식 백서 발행으로 기존에 "가능성"으로 분석되던 내용들이 확정되었습니다.</p>
-    </div>
-    <div class="compare-table-wrap">
-      <table class="compare-table">
-        <thead>
-          <tr><th>항목</th><th>기존 (추정)</th><th>백서 확정</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>총 발행량</td><td>3억 MPC</td><td><strong>100억 MPC</strong></td></tr>
-          <tr><td>토큰 표준</td><td>ERC-20 → STO 전환 가능성</td><td><strong>ERC-3643 설계 확정</strong></td></tr>
-          <tr><td>발행 법인</td><td>미확인</td><td><strong>Bolor Geo Co., Ltd</strong></td></tr>
-          <tr><td>블록체인</td><td>Polygon</td><td><strong>Polygon PoS 확정</strong></td></tr>
-          <tr><td>인프라 구조</td><td>미언급</td><td><strong>4개 레이어 표준 스택</strong></td></tr>
-          <tr><td>현재 단계</td><td>불명확</td><td><strong>설계·구축 단계 명시</strong></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="highlight-box">
-      <strong>📌 중요한 변화</strong>
-      기존 가이드의 핵심 주제였던 "ERC-20에서 ERC-3643으로의 전환 가능성 분석"은 백서에서 이미 ERC-3643 기반으로 설계 확정되어 분석 자체가 의미 없어졌습니다. 프록시 패턴 분석 내용은 삭제됩니다.
-    </div>
-
-    <div class="stage-nav">
-      <span></span>
-      <button class="btn-stage btn-next" onclick="showTab('s2',document.querySelectorAll('.stage-chip')[1])">2단계로 →</button>
-    </div>
-  </div>
-
-</div>
-</div>
-
-<!-- ════════════════════
-     2단계: 인프라
-════════════════════ -->
-<div class="tab-panel" id="tab-s2">
-<div class="container">
-
-  <div class="section">
-    <div class="section-header">
-      <div class="section-num">1</div>
-      <div class="section-title">단일 레일 <span>파이프라인</span></div>
-    </div>
-    <div class="section-body">
-      <p>MPC는 광산 자산이 자본 시장으로 연결되는 전 과정을 끊김 없는 <strong>단일 파이프라인</strong>으로 운영합니다.</p>
-    </div>
-    <div class="highlight-box gold">
-      <strong>🔄 자원 → 구조화 → 토큰화 → 자본 시장</strong>
-      몽골 광산 자산은 이 4단계 레이어를 거쳐 글로벌 기관 자본과 연결됩니다.
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-header">
-      <div class="section-num">2</div>
-      <div class="section-title">4개 레이어 <span>풀스택 인프라</span></div>
-    </div>
+    <p>광산 프로젝트는 탐사, 시추, 샘플링, 분석, 자원 평가, 기술 보고의 각 단계에서 전문 데이터가 생성됩니다. 이 데이터는 여러 기관·문서·시스템에 분산되어 있어 출처, 검증 상태, 변경 이력을 일관되게 추적하기 어렵습니다.</p>
     <div class="layer-grid">
       <div class="layer-card l1">
-        <div>
-          <div><span class="layer-badge l1">L1 · 오프체인</span></div>
-          <div class="layer-title" style="margin-top:8px;">자원 레이어</div>
-          <div class="layer-desc">광산 탐사·실사, 오프테이크 구조 설계, 채굴·운송·판매 파트너십을 구축하는 최하단 실물 레이어.</div>
-          <div class="layer-tags">
-            <span class="layer-tag">탐사 & 실사</span>
-            <span class="layer-tag">오프테이크 구조화</span>
-            <span class="layer-tag">운영 파트너</span>
-          </div>
-        </div>
+        <div class="layer-badge l1">문제</div>
+        <div><div class="layer-title">분산된 데이터</div><div class="layer-desc">탐사→시추→샘플링→실험실→기술보고서가 서로 다른 시스템에 흩어져 있습니다.</div></div>
       </div>
       <div class="layer-card l2">
-        <div>
-          <div><span class="layer-badge l2">L2 · 구조화</span></div>
-          <div class="layer-title" style="margin-top:8px;">구조화 레이어</div>
-          <div class="layer-desc">자산 구조화, 수익·리스크 프로파일 설계, 현지 법률·규제 정합성 확보. 투자자가 이해할 수 있는 언어로 변환.</div>
-          <div class="layer-tags">
-            <span class="layer-tag">캐시플로우 모델링</span>
-            <span class="layer-tag">리스크 워터폴</span>
-            <span class="layer-tag">현지 컴플라이언스</span>
-          </div>
-        </div>
+        <div class="layer-badge l2">문제</div>
+        <div><div class="layer-title">검증 복잡성</div><div class="layer-desc">누가, 무엇을, 언제, 어떤 기준으로 검토했는지 추적하는 구조가 없습니다.<br><small style="color:var(--gray);">온체인 데이터 ≠ 검증된 실물 데이터</small></div></div>
       </div>
       <div class="layer-card l3">
-        <div>
-          <div><span class="layer-badge l3">L3 · 온체인</span></div>
-          <div class="layer-title" style="margin-top:8px;">토큰화 레이어</div>
-          <div class="layer-desc">블록체인 기반 RWA 토큰 발행·관리, 온체인 레지스트리, 감사 가능한 스마트 컨트랙트 운영.</div>
-          <div class="layer-tags">
-            <span class="layer-tag">RWA 발행</span>
-            <span class="layer-tag">온체인 레지스트리</span>
-            <span class="layer-tag">오라클 리포팅</span>
-          </div>
-        </div>
+        <div class="layer-badge l3">문제</div>
+        <div><div class="layer-title">정적 기록</div><div class="layer-desc">광산은 끊임없이 변화하는데, 발행 시점 정보에만 연결된 디지털 자산은 정보 격차가 생깁니다.</div></div>
       </div>
-      <div class="layer-card l4">
-        <div>
-          <div><span class="layer-badge l4">L4 · 유통</span></div>
-          <div class="layer-title" style="margin-top:8px;">자본 시장 레이어</div>
-          <div class="layer-desc">거래소·OTC·기관 네트워크, 커스터디 파트너, 세컨더리 유동성 전략으로 글로벌 자본과 연결.</div>
-          <div class="layer-tags">
-            <span class="layer-tag">커스터디 네트워크</span>
-            <span class="layer-tag">OTC & 거래소</span>
-            <span class="layer-tag">세컨더리 유동성</span>
-          </div>
-        </div>
+    </div>
+    <div class="callout callout-mint">✅ MPC의 해법: 실물 데이터 → 전문 검증 → 구조화된 디지털 기록 → 지속적 라이프사이클 관리를 하나의 프레임워크로 연결합니다.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-title">MPC 핵심 프레임워크</div>
+    </div>
+    <div class="flow">
+      <span class="flow-step mpc">VERIFY</span><span class="flow-arrow">→</span>
+      <span class="flow-step">STRUCTURE</span><span class="flow-arrow">→</span>
+      <span class="flow-step mint">TOKENIZE</span><span class="flow-arrow">→</span>
+      <span class="flow-step gold">MANAGE</span>
+    </div>
+    <div class="grid-2">
+      <div class="grid-card">
+        <div class="grid-card-label">Verify</div>
+        <div class="grid-card-title">실물 검증</div>
+        <div class="grid-card-desc">광산 데이터를 CP(적격인)·기술 전문가·전문 기관의 검증 프로세스에 연결. MPC는 전문가의 판단을 대체하지 않고, 검증 주체·날짜·상태를 디지털 기록에 연결합니다.</div>
+      </div>
+      <div class="grid-card">
+        <div class="grid-card-label">Structure</div>
+        <div class="grid-card-title">추적 가능한 데이터</div>
+        <div class="grid-card-desc">출처(Source) · 검증 상태 · 해시(Hash) · 타임스탬프 · 버전 이력을 하나의 디지털 기록으로 구조화합니다.</div>
+      </div>
+      <div class="grid-card">
+        <div class="grid-card-label mint">Tokenize</div>
+        <div class="grid-card-title">자산 인프라</div>
+        <div class="grid-card-desc">검증·구조화된 프로젝트를 법적/자산 구조가 갖춰진 후 스마트 컨트랙트·레지스트리·디지털 자산 인프라에 연결합니다.</div>
+      </div>
+      <div class="grid-card">
+        <div class="grid-card-label gold">Manage</div>
+        <div class="grid-card-title">지속적 라이프사이클</div>
+        <div class="grid-card-desc">발행 후 새로운 데이터·재검증(Re-Verification)·상태 변경을 기존 디지털 기록에 지속적으로 연결합니다.</div>
+      </div>
+    </div>
+    <div class="callout callout-indigo">토큰화만으로는 신뢰가 만들어지지 않습니다. MPC는 레퍼런스 프로젝트(차간톨고이) → 검증된 프레임워크 → 멀티 프로젝트 플랫폼 → 글로벌 광산 RWA 인프라 순서로 확장합니다.</div>
+  </div>
+
+  <div class="stage-nav">
+    <button class="btn-stage btn-prev" disabled>← 이전</button>
+    <button class="btn-stage btn-next" onclick="showTab('s2',document.querySelectorAll('.stage-chip')[1])">2단계로 →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     TAB 2 · 4계층 프레임워크
+═══════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-s2">
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-title">5계층 아키텍처</div>
+    </div>
+    <p>MPC 플랫폼은 실물 광산 데이터가 전문 검증을 통과하고, 구조화되어 디지털 자산 및 애플리케이션에 연결될 수 있도록 5개 레이어로 구성됩니다.</p>
+    <div class="layer-grid">
+      <div class="layer-card l1"><div class="layer-badge l1">L5</div><div><div class="layer-title">Application</div><div class="layer-desc">Explorer · Dashboard · API · 외부 통합</div></div></div>
+      <div class="layer-card l2"><div class="layer-badge l2">L4</div><div><div class="layer-title">Asset Infrastructure (자산 인프라)</div><div class="layer-desc">Registry · Smart Contract · Asset Token 발행</div></div></div>
+      <div class="layer-card l3"><div class="layer-badge l3">L3</div><div><div class="layer-title">Data & Oracle</div><div class="layer-desc">데이터 구조화 · 무결성 관리 · Oracle · API</div></div></div>
+      <div class="layer-card l4"><div class="layer-badge l4">L2</div><div><div class="layer-title">Verification (검증)</div><div class="layer-desc">CP · 기술 전문가 · 실험실 · AI 보조 분석</div></div></div>
+      <div class="layer-card l5"><div class="layer-badge l5">L1</div><div><div class="layer-title">Real-World (실물)</div><div class="layer-desc">탐사 · 시추 · 샘플링 · 기술 보고서 → 광산 프로젝트 원본 데이터</div></div></div>
+    </div>
+    <div class="flow">
+      <span class="flow-step l5 bnb" style="background:var(--bnb);color:#333;">실물</span><span class="flow-arrow">→</span>
+      <span class="flow-step gold">검증</span><span class="flow-arrow">→</span>
+      <span class="flow-step">데이터</span><span class="flow-arrow">→</span>
+      <span class="flow-step mint">자산</span><span class="flow-arrow">→</span>
+      <span class="flow-step mpc">애플리케이션</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-title">검증 아키텍처 — AI는 보조, 전문가가 핵심</div>
+    </div>
+    <p>MPC 검증 레이어는 전문 검증(Professional Verification)을 중심으로 구축됩니다. AI는 데이터 및 문서 분석을 위한 <strong>보조 도구</strong>이며, 전문가의 판단을 대체하지 않습니다.</p>
+    <div class="grid-2">
+      <div class="grid-card">
+        <div class="grid-card-label">검증 기록 4요소</div>
+        <div class="grid-card-desc">① 검증 대상(Subject)<br>② 검증 주체(Verifier)<br>③ 검증 날짜(Date)<br>④ 검증 상태(Status)</div>
+      </div>
+      <div class="grid-card">
+        <div class="grid-card-label">데이터 구조 5요소</div>
+        <div class="grid-card-desc">① 출처(Source)<br>② 검증 상태(Verification)<br>③ 해시(Integrity)<br>④ 버전 이력(Version)<br>⑤ 레지스트리 연결(Registry)</div>
       </div>
     </div>
   </div>
@@ -318,249 +376,338 @@ body{ font-family:'Pretendard',sans-serif; background:var(--indigo-bg); color:va
   <div class="section">
     <div class="section-header">
       <div class="section-num">3</div>
-      <div class="section-title">Polygon <span>블록체인 기반</span></div>
+      <div class="section-title">MPC 레지스트리 — 3중 연결 구조</div>
     </div>
-    <div class="section-body">
-      <p>MPC는 Polygon PoS 체인 위에 RWA 발행 표준 레이어를 구축합니다. 체인 자체의 확장성·보안성을 흡수하면서 광산 자산 특화 구조를 제공합니다.</p>
+    <p>MPC 레지스트리는 3개의 레지스트리를 연결하여 디지털 자산이 실제 프로젝트와 검증 정보까지 추적 가능하게 합니다.</p>
+    <div class="flow">
+      <span class="flow-step">프로젝트 레지스트리</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step mint">검증 레지스트리</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step mpc">자산 레지스트리</span>
     </div>
-    <div class="compare-table-wrap">
-      <table class="compare-table">
-        <thead>
-          <tr><th>특성</th><th>내용</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>확장성</td><td>AggLayer를 통한 멀티체인 확장, 낮은 트랜잭션 비용</td></tr>
-          <tr><td>보안</td><td>스테이킹 기반 밸리데이터, EVM 호환 보안 모델</td></tr>
-          <tr><td>생태계</td><td>기관 RWA 발행자·커스터디·유동성 파트너 인프라</td></tr>
-          <tr><td>회복탄력성</td><td>장기 운영 전제 거버넌스와 업그레이드 경로</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="highlight-box">
-      <strong>📌 기술 스택 (잠정 확정)</strong>
-      ERC-3643 · Polygon PoS · UMA · Tokeny 기반 기술 스택 잠정 확정. 자본시장법 시행령 확정 후 최종 동결될 예정입니다.
-    </div>
-
-    <div class="stage-nav">
-      <button class="btn-stage btn-prev" onclick="showTab('s1',document.querySelectorAll('.stage-chip')[0])">← 1단계</button>
-      <button class="btn-stage btn-next" onclick="showTab('s3',document.querySelectorAll('.stage-chip')[2])">3단계로 →</button>
-    </div>
+    <div class="callout">📌 온체인에는 해시·타임스탬프·검증 참조·레지스트리 기록이 저장되고, 원본 문서·기술 보고서·대용량 파일은 오프체인에 보관됩니다. 두 레이어를 결합하여 투명성과 효율성을 동시에 확보합니다.</div>
   </div>
-
-</div>
-</div>
-
-<!-- ════════════════════
-     3단계: 온체인
-════════════════════ -->
-<div class="tab-panel" id="tab-s3">
-<div class="container">
 
   <div class="section">
     <div class="section-header">
-      <div class="section-num">1</div>
-      <div class="section-title">온체인 <span>발행 정보</span></div>
+      <div class="section-num">4</div>
+      <div class="section-title">자산 발행 구조 — 역할 분리</div>
     </div>
-    <div class="section-body">
-      <p>MPC 토큰은 Polygon PoS 체인에서 발행됩니다. 핵심 발행 정보는 온체인에 기록되어 누구나 독립적으로 검증할 수 있습니다.</p>
+    <p>MPC 플랫폼이 기술 인프라를 제공한다고 해서 MPC가 자동으로 자산 토큰의 <strong>법적 발행인</strong>이 되는 것이 아닙니다. 역할이 명확히 분리됩니다.</p>
+    <div class="doc-table">
+      <table>
+        <tr><th>역할</th><th>책임 내용</th></tr>
+        <tr><td><strong>광산 기업 / 프로젝트 스폰서</strong></td><td>프로젝트 및 원본 데이터 제공</td></tr>
+        <tr><td><strong>MPC 플랫폼</strong></td><td>기술·데이터·레지스트리 인프라</td></tr>
+        <tr><td><strong>전문 검증 파트너</strong></td><td>CP·전문가·실험실 — 독립 검토</td></tr>
+        <tr><td><strong>법률 자문</strong></td><td>자산 구조, SPV, 토큰 분류, 규제 검토</td></tr>
+        <tr><td><strong>프로젝트별 SPV / 발행인</strong></td><td>자산 토큰의 법적 발행인</td></tr>
+        <tr><td><strong>인가된 규제 파트너</strong></td><td>KYC/AML, 공모, 투자자 온보딩, 유통</td></tr>
+      </table>
     </div>
+    <div class="neq">
+      <span class="neq-item">ONE PLATFORM</span>
+      <span class="neq-sym">≠</span>
+      <span class="neq-item">하나의 법적 구조</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div class="section-title">BNB Chain 기반 — v1.7.0 확정</div>
+    </div>
+    <div class="callout callout-bnb">⚠️ 백서 v1.7.0에서 체인이 <strong>BNB Chain(BNB Smart Chain)</strong>으로 확정되었습니다. 이전 버전의 Polygon PoS 표기는 더 이상 유효하지 않습니다.</div>
     <div class="onchain-card">
-      <div class="onchain-row">
-        <span class="onchain-label">발행 법인</span>
-        <span class="onchain-value">Bolor Geo Co., Ltd</span>
+      <div class="onchain-row"><span class="onchain-label">프로젝트 법인</span><span class="onchain-value">Bolor Geo MPC Corp.</span></div>
+      <div class="onchain-row"><span class="onchain-label">토큰 심볼</span><span class="onchain-value gold">MPC</span></div>
+      <div class="onchain-row"><span class="onchain-label">토큰 유형</span><span class="onchain-value">Utility Token (유틸리티 토큰)</span></div>
+      <div class="onchain-row"><span class="onchain-label">기록 체인 (계획)</span><span class="onchain-value bnb">BNB Smart Chain (BSC)</span></div>
+      <div class="onchain-row"><span class="onchain-label">계획 총 발행량</span><span class="onchain-value gold">10,000,000,000 MPC</span></div>
+      <div class="onchain-row"><span class="onchain-label">토큰 컨트랙트</span><span class="onchain-value" style="color:rgba(255,255,255,0.5);">Coming soon</span></div>
+    </div>
+    <p style="font-size:0.72rem;color:var(--gray);">※ 위 정보는 백서 설계 기준이며 컨트랙트 배포 전까지 변경될 수 있습니다.</p>
+  </div>
+
+  <div class="stage-nav">
+    <button class="btn-stage btn-prev" onclick="showTab('s1',document.querySelectorAll('.stage-chip')[0])">← 1단계</button>
+    <button class="btn-stage btn-next" onclick="showTab('s3',document.querySelectorAll('.stage-chip')[2])">3단계로 →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     TAB 3 · 토큰 이코노미
+═══════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-s3">
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-title">3대 생태계 영역</div>
+    </div>
+    <p>MPC 생태계는 세 영역으로 구분됩니다. 세 영역은 하나의 생태계 안에서 연결되어 있지만, 기능과 경제적 권리는 명확히 구분됩니다.</p>
+    <div class="grid-3">
+      <div class="grid-card">
+        <div class="grid-card-label">Platform Business</div>
+        <div class="grid-card-title">인프라 서비스</div>
+        <div class="grid-card-desc">검증·데이터·자산 인프라 서비스 영역</div>
       </div>
-      <div class="onchain-row">
-        <span class="onchain-label">법인 소재</span>
-        <span class="onchain-value">몽골</span>
+      <div class="grid-card">
+        <div class="grid-card-label indigo">Protocol Economy</div>
+        <div class="grid-card-title">MPC 토큰 유틸리티</div>
+        <div class="grid-card-desc">프로토콜 이용 및 생태계 참여 영역</div>
       </div>
-      <div class="onchain-row">
-        <span class="onchain-label">네트워크</span>
-        <span class="onchain-value">Polygon PoS</span>
+      <div class="grid-card">
+        <div class="grid-card-label mint">Asset Economy</div>
+        <div class="grid-card-title">자산별 경제 구조</div>
+        <div class="grid-card-desc">각 프로젝트의 법적/자산 구조에 의해 경제적 권리가 독립적으로 정의되는 영역</div>
       </div>
-      <div class="onchain-row">
-        <span class="onchain-label">토큰 표준</span>
-        <span class="onchain-value">ERC-3643 (설계 확정)</span>
-      </div>
-      <div class="onchain-row">
-        <span class="onchain-label">총 발행량</span>
-        <span class="onchain-value gold">100억 MPC</span>
-      </div>
-      <div class="onchain-row">
-        <span class="onchain-label">컨트랙트</span>
-        <span class="onchain-value" style="font-size:0.7rem;">0x2d854416d2749b1f0eb8a4b2ab9027989f2ba262</span>
-      </div>
-      <a class="contract-link" href="https://polygonscan.com/token/0x2d854416d2749b1f0eb8a4b2ab9027989f2ba262" target="_blank">
-        🔍 Polygonscan에서 직접 확인 →
-      </a>
+    </div>
+    <div class="neq">
+      <span class="neq-item">Platform Business</span>
+      <span class="neq-sym">≠</span>
+      <span class="neq-item">Protocol Economy</span>
+      <span class="neq-sym">≠</span>
+      <span class="neq-item">Asset Economy</span>
     </div>
   </div>
 
   <div class="section">
     <div class="section-header">
       <div class="section-num">2</div>
-      <div class="section-title">ERC-3643이란 <span>무엇인가?</span></div>
+      <div class="section-title">MPC 토큰 5대 유틸리티</div>
     </div>
-    <div class="section-body">
-      <p>ERC-3643은 증권형 토큰(STO)을 위한 블록체인 표준입니다. 일반 ERC-20과 달리 KYC(신원확인)·컴플라이언스 기능이 내장되어 있습니다.</p>
-    </div>
-    <div class="compare-table-wrap">
-      <table class="compare-table">
-        <thead>
-          <tr><th>구분</th><th>ERC-20 (일반)</th><th>ERC-3643 (MPC)</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>KYC 검증</td><td>없음</td><td>전송 시 자동 검증</td></tr>
-          <tr><td>컴플라이언스</td><td>없음</td><td>규제 조건 내장</td></tr>
-          <tr><td>투자자 보호</td><td>없음</td><td>화이트리스트 기반</td></tr>
-          <tr><td>기관 적합성</td><td>낮음</td><td>기관급 표준</td></tr>
-          <tr><td>규제 준수</td><td>어려움</td><td>설계 단계 포함</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="highlight-box">
-      <strong>📌 기존 가이드와의 차이</strong>
-      기존 가이드에서는 "ERC-20에서 ERC-3643으로 전환 가능성"을 분석했습니다. 백서에서 ERC-3643 기반 설계가 확정됨에 따라 해당 분석 내용은 더 이상 유효하지 않습니다.
-    </div>
-
-    <div class="stage-nav">
-      <button class="btn-stage btn-prev" onclick="showTab('s2',document.querySelectorAll('.stage-chip')[1])">← 2단계</button>
-      <button class="btn-stage btn-next" onclick="showTab('s4',document.querySelectorAll('.stage-chip')[3])">4단계로 →</button>
-    </div>
+    <p>MPC 토큰은 특정 광산이나 광물 자원을 나타내는 자산 토큰이 아닙니다. <strong>유틸리티 토큰</strong>입니다. 플랫폼을 사용하는 데 필요한 이용권입니다.</p>
+    <ul class="u-list">
+      <li><strong>① 발행 게이트 본드 (Issuance Gate Bond)</strong> — 새로운 광산 자산 토큰 발행 과정에서 MPC 토큰을 예치해야 합니다.</li>
+      <li><strong>② 검증 & 오라클 (Verification & Oracle)</strong> — 검증 노드 또는 데이터 오라클로 참여 시 MPC 예치. 부정확한 검증에는 슬래싱(Slashing) 적용.</li>
+      <li><strong>③ 스테이킹 & 액세스 (Staking & Access)</strong> — MPC 스테이킹으로 새 프로젝트 얼리 액세스·화이트리스트 참여 가능.</li>
+      <li><strong>④ 프로토콜 수수료 (Protocol Fees)</strong> — 자산 토큰 발행·정산 수수료로 MPC 사용. 사용 시 수수료 할인 구조 연결.</li>
+      <li><strong>⑤ 거버넌스 (Governance)</strong> — 프로토콜 수수료율, 새 프로젝트 온보딩 검토 등 핵심 파라미터 거버넌스 참여.</li>
+    </ul>
+    <div class="callout callout-indigo">💡 정리: 플랫폼에 광산 프로젝트가 많이 온보딩될수록 → MPC 토큰 수요 증가 → 가치 상승. 고속도로 통행권과 같은 구조입니다.</div>
   </div>
 
-</div>
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-title">토크노믹스 — 배분 및 베스팅</div>
+    </div>
+    <div class="doc-table">
+      <table>
+        <tr><th>배분 항목</th><th>비율</th><th>수량</th><th>TGE</th><th>Cliff</th><th>Vesting</th></tr>
+        <tr><td><strong>커뮤니티 성장</strong></td><td>70%</td><td>7,000,000,000</td><td>5%</td><td>없음</td><td>36M 선형</td></tr>
+        <tr><td><strong>마케팅 & 상장</strong></td><td>10%</td><td>1,000,000,000</td><td>50%</td><td>없음</td><td>24M 선형</td></tr>
+        <tr><td><strong>투자자</strong></td><td>10%</td><td>1,000,000,000</td><td>0%</td><td>12M</td><td>24M 선형</td></tr>
+        <tr><td><strong>팀 & 어드바이저</strong></td><td>5%</td><td>500,000,000</td><td>0%</td><td>6M</td><td>24M 선형</td></tr>
+        <tr><td><strong>유동성</strong></td><td>5%</td><td>500,000,000</td><td>100%</td><td>없음</td><td>TGE 즉시</td></tr>
+      </table>
+    </div>
+    <div class="vesting-bar"><div class="vb-comm"></div><div class="vb-mkt"></div><div class="vb-inv"></div><div class="vb-team"></div><div class="vb-liq"></div></div>
+    <div class="vesting-legend">
+      <div class="vl-item"><div class="vl-dot" style="background:var(--mpc)"></div>커뮤니티 70%</div>
+      <div class="vl-item"><div class="vl-dot" style="background:#5b8dee"></div>마케팅 10%</div>
+      <div class="vl-item"><div class="vl-dot" style="background:#48bb78"></div>투자자 10%</div>
+      <div class="vl-item"><div class="vl-dot" style="background:#ed8936"></div>팀 5%</div>
+      <div class="vl-item"><div class="vl-dot" style="background:#9f7aea"></div>유동성 5%</div>
+    </div>
+    <div class="flow" style="margin-top:10px;">
+      <span class="flow-step mpc">TGE 13.5%</span><span class="flow-arrow">→</span>
+      <span class="flow-step">M12 39.4%</span><span class="flow-arrow">→</span>
+      <span class="flow-step">M24 71.6%</span><span class="flow-arrow">→</span>
+      <span class="flow-step mint">M36 100%</span>
+    </div>
+    <div class="callout">⚠️ 위 배분 및 베스팅은 MPC의 현재 설계이며, 베스팅 컨트랙트 배포 전까지 변경될 수 있습니다.</div>
+  </div>
+
+  <div class="stage-nav">
+    <button class="btn-stage btn-prev" onclick="showTab('s2',document.querySelectorAll('.stage-chip')[1])">← 2단계</button>
+    <button class="btn-stage btn-next" onclick="showTab('s4',document.querySelectorAll('.stage-chip')[3])">4단계로 →</button>
+  </div>
 </div>
 
-<!-- ════════════════════
-     4단계: 거버넌스
-════════════════════ -->
+<!-- ═══════════════════════════════════════════
+     TAB 4 · Mining RWA Lifecycle
+═══════════════════════════════════════════ -->
 <div class="tab-panel" id="tab-s4">
-<div class="container">
+
+  <div class="update-banner">
+    <div class="update-banner-title">📌 백서 v1.7.0 신규 챕터 — §6 Mining RWA Lifecycle</div>
+    <div class="update-banner-desc">광산 프로젝트가 자산 토큰으로 발행되기까지의 11단계 프로세스가 공식 명시됐습니다.</div>
+  </div>
 
   <div class="section">
     <div class="section-header">
       <div class="section-num">1</div>
-      <div class="section-title">거버넌스 <span>구조</span></div>
+      <div class="section-title">광산 프로젝트 → 자산 토큰 11단계</div>
     </div>
-    <div class="section-body">
-      <p>MPC는 성장만이 아니라 거버넌스를 위해 설계됩니다. 4개의 독립적인 거버넌스 축으로 운영됩니다.</p>
-    </div>
-    <div class="compare-table-wrap">
-      <table class="compare-table">
-        <thead>
-          <tr><th>거버넌스 축</th><th>역할</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>투자 위원회</td><td>발행 안건의 독립 심사 및 승인</td></tr>
-          <tr><td>운영 파트너</td><td>광산 운영·오프테이크·물류 파트너십 거버넌스</td></tr>
-          <tr><td>법률 & 컴플라이언스</td><td>현지·국제 규제, KYC/AML, 토큰 발행 구조 검토</td></tr>
-          <tr><td>리포팅 라인</td><td>분기 운영 보고 및 온체인 데이터 공시</td></tr>
-        </tbody>
-      </table>
+    <div class="lifecycle-steps">
+      <div class="lc-step"><span class="lc-num">01</span><div><div class="lc-title">신청 (Application)</div><div class="lc-desc">광산 기업 또는 프로젝트 스폰서가 광산 프로젝트 온보딩을 신청합니다.</div></div></div>
+      <div class="lc-step"><span class="lc-num">02</span><div><div class="lc-title">초기 심사 (Initial Screening)</div><div class="lc-desc">MPC가 프로젝트 기본 정보, 데이터 가용성, 인프라 적합성을 검토합니다. 이 심사는 법적·기술적 최종 보증이 아닙니다.</div></div></div>
+      <div class="lc-step"><span class="lc-num">03</span><div><div class="lc-title">데이터 온보딩 (Data Onboarding)</div><div class="lc-desc">광산 데이터, 기술 문서, 원본 데이터를 제출하고 MPC 데이터 인프라에 연결합니다.</div></div></div>
+      <div class="lc-step"><span class="lc-num">04</span><div><div class="lc-title">전문 검증 (Professional Verification)</div><div class="lc-desc">CP, 기술 전문가, 전문 기관이 광산 데이터 및 기술 정보를 독립적으로 검토합니다.</div></div></div>
+      <div class="lc-step"><span class="lc-num">05</span><div><div class="lc-title">법적/자산 구조화 (Legal / Asset Structuring)</div><div class="lc-desc">법률 자문이 기초 자산, 권리 구조, 계약, 적용 법률을 검토하고 법적/자산 구조를 설계합니다.</div></div></div>
+      <div class="lc-step"><span class="lc-num">06</span><div><div class="lc-title">발행인 / SPV 설립 (Issuer / SPV Setup)</div><div class="lc-desc">필요한 경우 프로젝트별 SPV(특수목적법인) 또는 적격 발행인을 설립합니다.</div></div></div>
+      <div class="lc-step"><span class="lc-num">07</span><div><div class="lc-title">규제 검토 (Regulatory Review)</div><div class="lc-desc">자산 토큰의 법적 분류, 공모 구조, 투자자 적격성, 필요 인허가를 검토합니다.</div></div></div>
+      <div class="lc-step"><span class="lc-num">08</span><div><div class="lc-title">스마트 컨트랙트 & 레지스트리</div><div class="lc-desc">확정된 자산 구조를 기반으로 MPC가 스마트 컨트랙트, 레지스트리, 기술 인프라를 구축합니다.</div></div></div>
+      <div class="lc-step"><span class="lc-num">09</span><div><div class="lc-title">투자자 온보딩 / 유통</div><div class="lc-desc">필요한 경우 KYC/AML, 투자자 적격성, 유통 절차가 인가된 규제 파트너를 통해 수행됩니다.</div></div></div>
+      <div class="lc-step" style="border-color:var(--mpc);background:var(--mpc-lt);"><span class="lc-num">10</span><div><div class="lc-title" style="color:var(--mpc-dk);">자산 토큰 발행 (Asset Token Issuance)</div><div class="lc-desc">법적 발행인(SPV 등)이 해당 프로젝트의 자산 토큰을 발행합니다.</div></div></div>
+      <div class="lc-step"><span class="lc-num">11</span><div><div class="lc-title">라이프사이클 관리 (Lifecycle Management)</div><div class="lc-desc">발행 후 광산 데이터, 검증 상태, 프로젝트 변경 사항이 디지털 기록에 지속적으로 연결됩니다.</div></div></div>
     </div>
   </div>
 
   <div class="section">
     <div class="section-header">
       <div class="section-num">2</div>
-      <div class="section-title">리스크 <span>프레임워크</span></div>
+      <div class="section-title">차간톨고이와 MPC의 연결고리</div>
     </div>
-    <div class="section-body">
-      <p>백서는 4가지 리스크를 명시하고 각 관리 방식을 공개합니다. 현재 모두 설계·구축 단계입니다.</p>
+    <p>백서 §14 로드맵의 <strong>DEPLOY 단계</strong>에 차간톨고이(Tsagaan Tolgoi)가 <strong>레퍼런스 프로젝트</strong>로 공식 명시되어 있습니다.</p>
+    <div class="flow">
+      <span class="flow-step">BUILD<br><small>검증 인프라</small></span><span class="flow-arrow">→</span>
+      <span class="flow-step">STRUCTURE<br><small>법적 구조</small></span><span class="flow-arrow">→</span>
+      <span class="flow-step mpc">DEPLOY<br><small>차간톨고이 ★</small></span><span class="flow-arrow">→</span>
+      <span class="flow-step mint">SCALE<br><small>멀티 프로젝트</small></span>
     </div>
-    <div class="risk-grid">
-      <div class="risk-card">
-        <div class="risk-card-title">⛏️ 자원 리스크</div>
-        <div class="risk-card-desc">독립 매장량 평가·기술 자문. CP 계약·리저브 검증 예정.</div>
-        <span class="risk-status status-design">설계 · 예정</span>
-      </div>
-      <div class="risk-card">
-        <div class="risk-card-title">⚙️ 운영 리스크</div>
-        <div class="risk-card-desc">오프테이크·운송·정제 파트너의 SLA 기반 운영 통제.</div>
-        <span class="risk-status status-design">설계 · 구축</span>
-      </div>
-      <div class="risk-card">
-        <div class="risk-card-title">📊 시장 리스크</div>
-        <div class="risk-card-desc">원자재 헤지 정책과 발행 구조 내 가격 변동 흡수 메커니즘.</div>
-        <span class="risk-status status-design">헤지 · 설계</span>
-      </div>
-      <div class="risk-card">
-        <div class="risk-card-title">⚖️ 규제 리스크</div>
-        <div class="risk-card-desc">현지·국제 법률 자문단, KYC/AML 표준 사전 적용.</div>
-        <span class="risk-status status-progress">준수 · 설계</span>
-      </div>
-    </div>
-
-    <div class="highlight-box red">
-      <strong>⚠️ 백서 직접 인용 — 정직성 고지</strong>
-      백서는 "검증되지 않은 것을 검증된 것으로 말하지 않는 것이 본 인프라의 차별점"이라고 명시합니다. 현재 모든 리스크 관리 체계는 설계·구축 단계이며 실재하는 해자가 아닙니다.
-    </div>
-
-    <div class="stage-nav">
-      <button class="btn-stage btn-prev" onclick="showTab('s3',document.querySelectorAll('.stage-chip')[2])">← 3단계</button>
-      <button class="btn-stage btn-next" onclick="showTab('s5',document.querySelectorAll('.stage-chip')[4])">5단계로 →</button>
-    </div>
+    <div class="callout callout-mint">★ 현재 위치: 차간톨고이는 4단계(전문 검증 — SGS·ALS 분석)를 마무리하고 있습니다. JORC 보고서 완성 → 법적 구조화(5단계) → SPV 설립(6단계) → 자산 토큰 발행(10단계) 순서로 진행됩니다.</div>
+    <p>즉, <strong>차간톨고이 탐사가 성공적으로 마무리되어 JORC 보고서가 나오는 시점</strong>이 자산 토큰 발행 절차 시작의 트리거입니다. 그것이 MPC 플랫폼의 첫 번째 실증이 됩니다.</p>
   </div>
 
-</div>
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-title">발행 후 지속적 라이프사이클</div>
+    </div>
+    <p>토큰화 이후에도 광산은 새로운 시추 결과, 분석 데이터, 기술 보고서, 프로젝트 상태 변경을 지속적으로 생성합니다. MPC는 이를 기존 디지털 기록에 지속적으로 연결합니다.</p>
+    <div class="flow">
+      <span class="flow-step">MONITOR</span><span class="flow-arrow">→</span>
+      <span class="flow-step">UPDATE</span><span class="flow-arrow">→</span>
+      <span class="flow-step mpc">RE-VERIFY</span>
+    </div>
+    <div class="callout">📌 광구 하나에서 광체가 여럿 나올 수 있습니다. 차간톨고이(6,481ha, 여의도 약 22배)는 1호 광체 탐사가 마무리되어 가고 있으며, 이후 2호·3호 광체 탐사가 이어질 수 있습니다. 각 광체마다 자산 토큰이 별도로 발행되는 구조입니다.</div>
+  </div>
+
+  <div class="stage-nav">
+    <button class="btn-stage btn-prev" onclick="showTab('s3',document.querySelectorAll('.stage-chip')[2])">← 3단계</button>
+    <button class="btn-stage btn-next" onclick="showTab('s5',document.querySelectorAll('.stage-chip')[4])">5단계로 →</button>
+  </div>
 </div>
 
-<!-- ════════════════════
-     5단계: 현황
-════════════════════ -->
+<!-- ═══════════════════════════════════════════
+     TAB 5 · 생태계 & 거버넌스
+═══════════════════════════════════════════ -->
 <div class="tab-panel" id="tab-s5">
-<div class="container">
 
   <div class="section">
     <div class="section-header">
       <div class="section-num">1</div>
-      <div class="section-title">발행 준비 <span>현황</span></div>
+      <div class="section-title">MPC 생태계 6대 참여자</div>
     </div>
-    <div class="section-body">
-      <p>백서 기준 2026년 현재 MPC의 준비 단계입니다. 각 항목의 현재 상태를 명확히 표시합니다.</p>
+    <ul class="u-list">
+      <li><strong>광산 기업 (Mining Companies)</strong> — 프로젝트 및 광산 데이터 제공</li>
+      <li><strong>검증 파트너 (Verification Partners)</strong> — CP·전문가·실험실 독립 검토</li>
+      <li><strong>기업 & 기관 (Enterprises & Institutions)</strong> — 데이터 및 기업 인프라</li>
+      <li><strong>개발자 (Developers)</strong> — API 및 인프라 통합</li>
+      <li><strong>Web3 사용자</strong> — 프로토콜 및 생태계 참여</li>
+      <li><strong>인프라 파트너 (Infrastructure Partners)</strong> — Blockchain · Oracle · Security</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-title">거버넌스 — 플랫폼 거버넌스 vs. 자산 거버넌스</div>
     </div>
-    <div class="readiness-list">
-      <div class="readiness-item">
-        <span class="readiness-badge badge-confirmed">잠정 확정</span>
-        <div>
-          <div class="readiness-title">기술 스택</div>
-          <div class="readiness-desc">ERC-3643 · Polygon · UMA · Tokeny 기반 잠정 확정. 자본시장법 시행령 확정 후 최종 동결.</div>
-        </div>
+    <p>MPC 거버넌스는 프로토콜과 생태계가 발전함에 따라 단계적으로 확장됩니다. MPC 토큰이 거버넌스에 사용될 수 있습니다.</p>
+    <div class="grid-2">
+      <div class="grid-card">
+        <div class="grid-card-label">플랫폼 / 프로토콜 거버넌스</div>
+        <div class="grid-card-desc">• 프로토콜 수수료율<br>• 새 프로젝트 온보딩 검토<br>• 생태계 제안<br>• 프로토콜 업그레이드</div>
       </div>
-      <div class="readiness-item">
-        <span class="readiness-badge badge-progress">협의 중</span>
-        <div>
-          <div class="readiness-title">운영 파트너</div>
-          <div class="readiness-desc">MSE(몽골증권거래소) 제도 연계 논의 중. 오프테이크·운영감사(SGS·BV) 파트너십 협의 중.</div>
-        </div>
+      <div class="grid-card">
+        <div class="grid-card-label mint">자산 거버넌스 (별도)</div>
+        <div class="grid-card-desc">• 자산 권리<br>• SPV 의사결정<br>• 계약적 권리<br>• 프로젝트 결정</div>
       </div>
-      <div class="readiness-item">
-        <span class="readiness-badge badge-planned">예정</span>
-        <div>
-          <div class="readiness-title">법률 & 컴플라이언스</div>
-          <div class="readiness-desc">법률 의견서 등 추후 발주 예정.</div>
-        </div>
+    </div>
+    <div class="neq">
+      <span class="neq-item">플랫폼 거버넌스</span>
+      <span class="neq-sym">≠</span>
+      <span class="neq-item">자산 거버넌스</span>
+    </div>
+    <p>각 광산 RWA의 자산 권리, SPV 의사결정, 계약적 권리는 해당 프로젝트의 법적·계약적 구조에 의해 <strong>별도로</strong> 정의됩니다.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-title">6계층 신뢰 프레임워크</div>
+    </div>
+    <p>광산 RWA에 대한 신뢰는 블록체인만으로 만들어지지 않습니다. MPC는 아래에서 위로 쌓아올리는 다계층 신뢰 구조를 구축합니다.</p>
+    <div class="layer-grid">
+      <div class="layer-card l1"><div class="layer-badge l1">L6</div><div><div class="layer-title">거버넌스</div><div class="layer-desc">프로토콜 정책 및 의사결정 프레임워크</div></div></div>
+      <div class="layer-card l2"><div class="layer-badge l2">L5</div><div><div class="layer-title">컴플라이언스</div><div class="layer-desc">서비스, 참여자, 관할권에 따른 통제 (KYC/AML·제재·규제)</div></div></div>
+      <div class="layer-card l3"><div class="layer-badge l3">L4</div><div><div class="layer-title">보안 (Security)</div><div class="layer-desc">스마트 컨트랙트 · 접근 통제 · 시스템 보안</div></div></div>
+      <div class="layer-card l4"><div class="layer-badge l4">L3</div><div><div class="layer-title">데이터 무결성</div><div class="layer-desc">출처 · 해시 · 타임스탬프 · 버전 관리</div></div></div>
+      <div class="layer-card l5"><div class="layer-badge l5">L2</div><div><div class="layer-title">검증 (Verification)</div><div class="layer-desc">전문 검증을 광산 데이터에 연결</div></div></div>
+      <div class="layer-card l1"><div class="layer-badge l1">L1</div><div><div class="layer-title">실물 자산 (Real-World Asset)</div><div class="layer-desc">신뢰는 실물 자산에서 위로 구축됩니다 — 블록체인은 도구일 뿐</div></div></div>
+    </div>
+  </div>
+
+  <div class="stage-nav">
+    <button class="btn-stage btn-prev" onclick="showTab('s4',document.querySelectorAll('.stage-chip')[3])">← 4단계</button>
+    <button class="btn-stage btn-next" onclick="showTab('s6',document.querySelectorAll('.stage-chip')[5])">6단계로 →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     TAB 6 · 로드맵 & 현황
+═══════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-s6">
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-title">MPC 공식 로드맵 (백서 §14)</div>
+    </div>
+    <div class="roadmap-grid">
+      <div class="rm-card">
+        <div class="rm-label">BUILD · 구축</div>
+        <div class="rm-title">Verification Infrastructure</div>
+        <ul class="rm-items">
+          <li>독립적 CP 검증</li>
+          <li>AI 검증 PoC</li>
+          <li>Oracle 아키텍처 설계</li>
+          <li>검증 인프라 개발</li>
+        </ul>
       </div>
-      <div class="readiness-item">
-        <span class="readiness-badge badge-single">1호 단일</span>
-        <div>
-          <div class="readiness-title">초기 파이프라인</div>
-          <div class="readiness-desc">1호 레퍼런스 케이스 단일 (차간 톨고이 전략광물). 2호 딜 검토 중.</div>
-        </div>
+      <div class="rm-card">
+        <div class="rm-label">STRUCTURE · 구조화</div>
+        <div class="rm-title">Asset & Legal Structure</div>
+        <ul class="rm-items">
+          <li>SPV 구조 설계</li>
+          <li>법률 의견서 취득</li>
+          <li>거래 플랫폼 파트너십</li>
+          <li>기술 스택 검토</li>
+        </ul>
       </div>
-      <div class="readiness-item">
-        <span class="readiness-badge badge-progress">진행 중</span>
-        <div>
-          <div class="readiness-title">커스터디 & 유동성</div>
-          <div class="readiness-desc">기관 커스터디 및 유동성 파트너와의 계약 협의 단계.</div>
-        </div>
+      <div class="rm-card active-phase">
+        <div class="rm-label">DEPLOY · 배포 ★ 현재 진행 중</div>
+        <div class="rm-title">Reference Deployment</div>
+        <ul class="rm-items">
+          <li><strong>차간톨고이 전략광물 프로젝트</strong></li>
+          <li>규제 협의</li>
+          <li>첫 번째 광물 RWA 발행</li>
+        </ul>
       </div>
-      <div class="readiness-item">
-        <span class="readiness-badge badge-planned">예정</span>
-        <div>
-          <div class="readiness-title">공개 레퍼런스</div>
-          <div class="readiness-desc">공식 보도 및 파트너십 발표 예정.</div>
-        </div>
+      <div class="rm-card">
+        <div class="rm-label">SCALE · 확장</div>
+        <div class="rm-title">Multi-Project Infrastructure</div>
+        <ul class="rm-items">
+          <li>추가 광산 프로젝트 온보딩</li>
+          <li>표준화된 RWA 발행 프레임워크</li>
+          <li>글로벌 유동성 확장</li>
+          <li>글로벌 광산 RWA 인프라</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -568,105 +715,56 @@ body{ font-family:'Pretendard',sans-serif; background:var(--indigo-bg); color:va
   <div class="section">
     <div class="section-header">
       <div class="section-num">2</div>
-      <div class="section-title">투자 논거 <span>4가지</span></div>
-    </div>
-    <div class="section-body">
-      <p>백서가 제시하는 MPC의 투자 논거입니다. 백서는 기회와 리스크를 동시에 제시합니다.</p>
+      <div class="section-title">발행 준비 현황 (백서 Readiness 기준)</div>
     </div>
     <div class="check-list">
-      <div class="check-item">
-        <span class="check-icon">I</span>
-        <div>
-          <strong>구조적 화이트스페이스</strong><br>
-          <span style="font-size:0.78rem;color:var(--gray);">합법적으로 토큰화된 광산 RWA의 글로벌 선례가 희소합니다. 단, 선례 부재는 기회인 동시에 리스크(ESG·좌초자산·기관 기피)이며 양면을 함께 고지합니다.</span>
-        </div>
-      </div>
-      <div class="check-item">
-        <span class="check-icon">II</span>
-        <div>
-          <strong>검증 = 해자, 그러나 설계 단계</strong><br>
-          <span style="font-size:0.78rem;color:var(--gray);">JORC 물리·제도 검증과 CCTV/AI 디지털 검증의 이중 레이어를 설계합니다. 현재 실재하는 해자가 아닙니다.</span>
-        </div>
-      </div>
-      <div class="check-item">
-        <span class="check-icon">III</span>
-        <div>
-          <strong>오케스트레이션 인프라</strong><br>
-          <span style="font-size:0.78rem;color:var(--gray);">CP·감사·법무를 MOU/on-demand로 연결·발주·표준화하는 인프라 역량. 다수 딜을 처리할 수 있는 설계입니다.</span>
-        </div>
-      </div>
-      <div class="check-item">
-        <span class="check-icon">IV</span>
-        <div>
-          <strong>정직성 자체가 신뢰 자본</strong><br>
-          <span style="font-size:0.78rem;color:var(--gray);">결격을 숨기지 않고 현황 고지(Investor Notice)로 전면 공시합니다. 검증되지 않은 것을 검증된 것처럼 말하지 않는 것이 차별점입니다.</span>
-        </div>
-      </div>
+      <div class="check-item"><span class="check-icon">🟡</span><div><strong>기술 스택 (Technology Stack)</strong><br><small style="color:var(--gray);">잠정 확정: ERC-3643 · BNB Chain · UMA · Tokeny. 자본시장법 시행령 확정 후 최종 동결 예정.</small></div></div>
+      <div class="check-item"><span class="check-icon">🔄</span><div><strong>운영 파트너 (Operating Partners)</strong><br><small style="color:var(--gray);">MSE 규제 협의 진행 중 / 오프테이크·운영 감사(SGS·BV) 파트너십 협상 진행 중.</small></div></div>
+      <div class="check-item"><span class="check-icon">📋</span><div><strong>법적 & 컴플라이언스</strong><br><small style="color:var(--gray);">법률 의견서 및 관련 문서 추후 위탁 예정.</small></div></div>
+      <div class="check-item"><span class="check-icon">1️⃣</span><div><strong>초기 파이프라인</strong><br><small style="color:var(--gray);">첫 번째 레퍼런스 케이스는 차간톨고이 단일 프로젝트. 두 번째 프로젝트 검토 중.</small></div></div>
+      <div class="check-item"><span class="check-icon">🔄</span><div><strong>유동성 (Liquidity)</strong><br><small style="color:var(--gray);">유동성 파트너와 계약 협상 단계.</small></div></div>
+      <div class="check-item"><span class="check-icon">📋</span><div><strong>공식 자료 (Public References)</strong><br><small style="color:var(--gray);">공식 보도 자료 및 파트너십 발표 예정.</small></div></div>
     </div>
   </div>
 
   <div class="section">
     <div class="section-header">
-      <div class="section-num indigo">✓</div>
-      <div class="section-title">전체 <span>핵심 정리</span></div>
+      <div class="section-num">3</div>
+      <div class="section-title">MPC 비전</div>
     </div>
-    <div class="check-list">
-      <div class="check-item"><span class="check-icon">✅</span><span>MPC는 단일 토큰이 아닌 <strong>광산 RWA 발행 인프라</strong></span></div>
-      <div class="check-item"><span class="check-icon">✅</span><span>총 발행량 <strong>100억 MPC</strong> · Polygon PoS · ERC-3643 확정</span></div>
-      <div class="check-item"><span class="check-icon">✅</span><span>발행 법인: <strong>Bolor Geo Co., Ltd</strong> (몽골)</span></div>
-      <div class="check-item"><span class="check-icon">✅</span><span>4개 레이어: 자원 → 구조화 → 토큰화 → 자본 시장</span></div>
-      <div class="check-item"><span class="check-icon">✅</span><span>현재 단계: <strong>설계·구축 단계</strong> (실재하는 해자 아님)</span></div>
-      <div class="check-item"><span class="check-icon">✅</span><span>1호 레퍼런스: 차간 톨고이 전략광물 단일</span></div>
+    <p>MPC의 장기 목표는 단일 광산의 토큰화가 아닙니다. <strong>검증된 프레임워크를 다수의 광산 프로젝트에 확장하여 공통 광산 RWA 인프라를 구축</strong>하는 것입니다.</p>
+    <div class="flow">
+      <span class="flow-step">VERIFY</span>
+      <span class="flow-arrow">·</span>
+      <span class="flow-step mint">STANDARDIZE</span>
+      <span class="flow-arrow">·</span>
+      <span class="flow-step">CONNECT</span>
+      <span class="flow-arrow">·</span>
+      <span class="flow-step mpc">SCALE</span>
     </div>
+    <div class="callout callout-mint">Building the trust infrastructure for Mining RWA.<br>광산 RWA를 위한 신뢰 인프라를 구축합니다.</div>
 
-    <div class="highlight-box gold">
-      <strong>🔗 공식 백서 및 온체인 검증</strong>
-      globalmpc.club/kr 에서 공식 백서 전문을 확인하세요. Polygonscan에서 컨트랙트를 직접 검증할 수 있습니다.
-    </div>
-
-    <div class="stage-nav">
-      <button class="btn-stage btn-prev" onclick="showTab('s4',document.querySelectorAll('.stage-chip')[3])">← 4단계</button>
-      <span style="font-size:0.75rem;color:var(--text-sub);">학습 완료 ✓</span>
+    <div class="risk-list" style="margin-top:16px;">
+      <div class="risk-item"><div class="risk-dot"></div><div><div class="risk-label">VERIFICATION ≠ GUARANTEE</div><div class="risk-desc">MPC의 검증 및 블록체인 인프라는 정보의 무결성·추적 가능성을 강화하는 수단입니다. 특정 프로젝트의 가치, 수익, 유동성, 상업적 성공을 보증하지 않습니다.</div></div></div>
+      <div class="risk-item"><div class="risk-dot"></div><div><div class="risk-label">TOKENIZATION ≠ RISK ELIMINATION</div><div class="risk-desc">광산 프로젝트는 탐사·개발·시장·환경·규제 변경 등 다양한 리스크를 수반합니다. 블록체인은 실물 세계의 리스크를 제거하지 않습니다.</div></div></div>
+      <div class="risk-item"><div class="risk-dot"></div><div><div class="risk-label">MPC TOKEN ≠ MINING ASSET ≠ ASSET TOKEN</div><div class="risk-desc">MPC 토큰 보유는 특정 광산 소유권이나 광산 프로젝트 수익에 대한 권리를 자동으로 부여하지 않습니다.</div></div></div>
     </div>
   </div>
 
+  <div class="stage-nav">
+    <button class="btn-stage btn-prev" onclick="showTab('s5',document.querySelectorAll('.stage-chip')[4])">← 5단계</button>
+    <button class="btn-stage btn-next" disabled>끝 ✓</button>
+  </div>
 </div>
-</div>
-
-<!-- 탭바 -->
-
 
 <script>
-function showTab(panelId, btn) {
-  document.querySelectorAll('.tab-panel').forEach(function(p){
-    p.classList.remove('active');
-    p.style.display = 'none';
-  });
-  document.querySelectorAll('.stage-chip').forEach(function(c){ c.classList.remove('active'); });
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.stage-chip').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
   if (btn) btn.classList.add('active');
-  var el = document.getElementById('tab-' + panelId);
-  if (el) { el.classList.add('active'); el.style.display = 'block'; }
-  window.scrollTo({top: 0, behavior: 'smooth'});
+  window.scrollTo(0, 0);
 }
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.tab-panel').forEach(function(p, i) {
-    p.style.display = i === 0 ? 'block' : 'none';
-  });
-});
-</script>
-<script>
-(function(){
-  var nav=null;
-  function fixNav(){
-    if(!nav) return;
-    nav.style.position='fixed';
-    nav.style.bottom='0px';
-  }
-  ['scroll','touchmove','touchend'].forEach(function(e){
-    window.addEventListener(e,fixNav,{passive:true});
-  });
-  document.addEventListener('DOMContentLoaded',fixNav);
-})();
 </script>
 </body>
 </html>
